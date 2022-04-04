@@ -1,0 +1,71 @@
+{
+    "name": "max/max",
+    "license": "Apache-2.0",
+    "type": "project",
+    "description": "A lightweight, high-performance PHP framework based on swoole.",
+    "homepage": "https://github.com/topyao/max-swoole",
+    "minimum-stability": "dev",
+    "prefer-stable": true,
+    "keywords": [
+        "maxphp",
+        "flexible",
+        "php framework"
+    ],
+    "authors": [
+        {
+            "name": "chengyao",
+            "email": "987861463@qq.com",
+            "homepage": "https://www.1kmb.com"
+        }
+    ],
+    "autoload": {
+        "psr-4": {
+            "App\\": "app/"
+        },
+        "files": [
+            "app/helpers.php"
+        ]
+    },
+    "config": {
+        "optimize-autoloader": true,
+        "preferred-install": "dist"
+    },
+    "require": {
+        "php": "^8.0",
+        "ext-swoole": "^4.8",
+        "max/console": "2.x-dev",
+        "max/log": "2.x-dev",
+        "max/config": "2.x-dev",
+        "max/cache": "2.x-dev",
+        "max/database": "2.x-dev",
+        "max/view": "2.x-dev",
+        "max/validator": "2.x-dev",
+        "max/session": "2.x-dev",
+        "max/queue": "2.x-dev",
+        "max/foundation": "2.x-dev",
+        "max/server": "2.x-dev",
+        "max/env": "2.x-dev",
+        "max/utils": "2.x-dev",
+        "max/swagger": "*",
+        "swoole/ide-helper": "^4.8"
+    },
+    "require-dev": {
+        "phpunit/phpunit": "^9.5",
+        "symfony/var-dumper": "*"
+    },
+    "scripts": {
+        "post-autoload-dump": [
+            "rm -rf runtime/proxy",
+            "@php max vendor:publish"
+        ],
+        "post-root-package-install": [
+            "@php -r \"file_exists('.env') || copy('.example.env', '.env');\""
+        ],
+        "start": [
+            "php max server -a start"
+        ],
+        "stop": [
+            "php max server -a stop"
+        ]
+    }
+}
