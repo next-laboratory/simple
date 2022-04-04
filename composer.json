@@ -45,7 +45,7 @@
         "max/foundation": "2.x-dev",
         "max/server": "2.x-dev",
         "max/env": "dev-master",
-        "max/utils": "2.x-dev",
+        "max/utils": "dev-master",
         "max/swagger": "dev-master",
         "swoole/ide-helper": "^4.8"
     },
