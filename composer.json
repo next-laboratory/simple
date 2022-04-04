@@ -32,7 +32,7 @@
     },
     "require": {
         "php": "^8.0",
-        "ext-swoole": "^4.8",
+        "ext-swoole": ">=4.6",
         "max/console": "2.x-dev",
         "max/log": "2.x-dev",
         "max/config": "2.x-dev",
@@ -44,9 +44,9 @@
         "max/queue": "2.x-dev",
         "max/foundation": "2.x-dev",
         "max/server": "2.x-dev",
-        "max/env": "2.x-dev",
+        "max/env": "dev-master",
         "max/utils": "2.x-dev",
-        "max/swagger": "*",
+        "max/swagger": "dev-master",
         "swoole/ide-helper": "^4.8"
     },
     "require-dev": {
