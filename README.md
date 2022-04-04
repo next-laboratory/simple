@@ -1,12 +1,12 @@
 <p align="center">
-<img src="https://raw.githubusercontent.com/topyao/max-swoole/master/public/favicon.ico" width="120" alt="Max">
+<img src="https://raw.githubusercontent.com/topyao/max/master/public/favicon.ico" width="120" alt="Max">
 </p>
 
 <p align="center">轻量 • 简单 • 快速</p>
 
 <p align="center">
-<a href="https://github.com/topyao/max-swoole/issues"><img src="https://img.shields.io/github/issues/topyao/max-swoole" alt=""></a>
-<a href="https://github.com/topyao/max-swoole"><img src="https://img.shields.io/github/stars/topyao/max-swoole" alt=""></a>
+<a href="https://github.com/topyao/max/issues"><img src="https://img.shields.io/github/issues/topyao/max" alt=""></a>
+<a href="https://github.com/topyao/max"><img src="https://img.shields.io/github/stars/topyao/max" alt=""></a>
 <img src="https://img.shields.io/badge/php-%3E%3D8.0-brightgreen">
 <img src="https://img.shields.io/badge/license-apache%202-blue">
 </p>
@@ -27,7 +27,7 @@
 
 ## 贡献一览
 
-[![Contributor over time](https://contributor-overtime-api.apiseven.com/contributors-svg?chart=contributorOverTime&repo=topyao/max,topyao/max-routing,topyao/max-foundation,topyao/max-swoole,topyao/max-session,topyao/max-view,topyao/max-di,topyao/max-cache,topyao/max-console,topyao/max-http,topyao/max-event,topyao/max-config,topyao/max-lang,topyao/max-env,topyao/max-database,topyao/max-log,topyao/max-redis,topyao/max-validator)](https://www.apiseven.com/en/contributor-graph?chart=contributorOverTime&repo=topyao/max,topyao/max-routing,topyao/max-foundation,topyao/max-swoole,topyao/max-session,topyao/max-view,topyao/max-di,topyao/max-cache,topyao/max-console,topyao/max-http,topyao/max-event,topyao/max-config,topyao/max-lang,topyao/max-env,topyao/max-database,topyao/max-log,topyao/max-redis,topyao/max-validator)
+[![Contributor over time](https://contributor-overtime-api.apiseven.com/contributors-svg?chart=contributorOverTime&repo=topyao/max,topyao/max-routing,topyao/max-foundation,topyao/max,topyao/max-session,topyao/max-view,topyao/max-di,topyao/max-cache,topyao/max-console,topyao/max-http,topyao/max-event,topyao/max-config,topyao/max-lang,topyao/max-env,topyao/max-database,topyao/max-log,topyao/max-redis,topyao/max-validator)](https://www.apiseven.com/en/contributor-graph?chart=contributorOverTime&repo=topyao/max,topyao/max-routing,topyao/max-foundation,topyao/max,topyao/max-session,topyao/max-view,topyao/max-di,topyao/max-cache,topyao/max-console,topyao/max-http,topyao/max-event,topyao/max-config,topyao/max-lang,topyao/max-env,topyao/max-database,topyao/max-log,topyao/max-redis,topyao/max-validator)
 
 ## 环境要求
 
@@ -54,7 +54,7 @@ php max server // 启动
 > 你可以使用Git安装开发版
 
 ```shell
-git clone https://github.com/topyao/max-swoole.git .
+git clone https://github.com/topyao/max.git .
 composer install
 ```
 
