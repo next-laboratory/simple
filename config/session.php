@@ -23,7 +23,7 @@ return [
             ],
         ],
         'cache' => [
-            'handler' => 'Max\Session\Handlers\File',
+            'handler' => 'Max\Session\Handlers\Cache',
             'options' => [
                 'ttl' => 3600,
             ]
