@@ -33,18 +33,21 @@
 
 ```
 PHP >= 8.0
-SWOOLE >= 4.8
+SWOOLE >= 4.6
 ```
 
 ## 使用
 
-## 安装
+### 安装
 
 ```shell
-composer create-project --prefer-dist max/swoole max  // 安装
-php max server // 启动
+composer create-project max/max max  // 安装
 ```
+### 启动服务
 
+```shell
+php max server
+```
 这行命令会在你命令执行目录安装框架
 
 > 欢迎有兴趣的朋友参与开发
