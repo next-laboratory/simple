@@ -14,10 +14,7 @@ declare(strict_types=1);
 use Max\Config\Repository;
 use Max\Di\Exceptions\NotFoundException;
 use Max\Env\Env;
-use Max\Foundation\Http\Response;
-use Max\Foundation\View\Renderer;
 use Psr\Container\ContainerExceptionInterface;
-use Psr\Http\Message\ResponseInterface;
 
 if (false === function_exists('base_path')) {
     /**
@@ -45,24 +42,6 @@ if (false === function_exists('env')) {
     function env(string $key = null, $default = null): mixed
     {
         return make(Env::class)->get($key, $default);
-    }
-}
-
-if (false === function_exists('view')) {
-    /**
-     * @param string $template
-     * @param array  $arguments
-     *
-     * @return ResponseInterface
-     * @throws Throwable
-     */
-    function view(string $template, array $arguments = []): ResponseInterface
-    {
-        /** @var Renderer $renderer */
-        $renderer = make(Renderer::class);
-        ob_start();
-        echo $renderer->render($template, $arguments);
-        return (new Response())->html(ob_get_clean());
     }
 }
 
