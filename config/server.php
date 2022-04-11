@@ -17,22 +17,6 @@ use Swoole\Constant;
 return [
     'servers'   => [
         [
-            'name'      => 'websocket',
-            'type'      => \Max\Server\Server::SERVER_WEBSOCKET,
-            'host'      => '0.0.0.0',
-            'port'      => 9501,
-            'sockType'  => SWOOLE_SOCK_TCP,
-            'settings'  => [
-                Constant::OPTION_OPEN_WEBSOCKET_PROTOCOL => true,
-            ],
-            'callbacks' => [
-                'open'    => [\Max\Server\WebSocket\Server::class, 'open'],
-                'message' => [\Max\Server\WebSocket\Server::class, 'message'],
-                'close'   => [\Max\Server\WebSocket\Server::class, 'close'],
-                'receive' => [\Max\Server\WebSocket\Server::class, 'receive']
-            ],
-        ],
-        [
             'name'      => 'http',
             'type'      => \Max\Server\Server::SERVER_HTTP,
             'host'      => '0.0.0.0',
