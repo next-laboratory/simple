@@ -64,7 +64,6 @@ class ExceptionHandlerMiddleware extends CoreExceptionHandlerMiddleware
                 'code'    => $throwable->getCode(),
             ]);
         }
-        $this->output->error($throwable::class . ':' . $throwable->getMessage() . ' at ' . $throwable->getFile() . '+' . $throwable->getLine() . PHP_EOL . $throwable->getTraceAsString());
         return parent::renderException($throwable, $request);
     }
 }
