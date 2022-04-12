@@ -8,9 +8,9 @@ return array (
     'Max\\Event\\Contracts\\EventDispatcherInterface' => 'Max\\Event\\EventDispatcher',
     'Psr\\SimpleCache\\CacheInterface' => 'Max\\Foundation\\Cache\\Cache',
     'Psr\\Container\\ContainerInterface' => 'Max\\Di\\Container',
-    'Psr\\Http\\Message\\ServerRequestInterface' => 'Max\\Foundation\\Http\\ServerRequest',
-    'Psr\\Http\\Message\\ResponseInterface' => 'Max\\Foundation\\Http\\Response',
-    'Psr\\Http\\Server\\RequestHandlerInterface' => 'Max\\Foundation\\Http\\RequestHandler',
+    'Psr\\Http\\Message\\ServerRequestInterface' => 'Max\\Http\\ServerRequest',
+    'Psr\\Http\\Message\\ResponseInterface' => 'Max\\Http\\Response',
+    'Psr\\Http\\Server\\RequestHandlerInterface' => 'Max\\Http\\RequestHandler',
     'Psr\\Log\\LoggerInterface' => 'Max\\Log\\Logger',
   ),
 );

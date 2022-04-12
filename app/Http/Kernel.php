@@ -12,9 +12,9 @@ declare(strict_types=1);
 
 namespace App\Http;
 
-use Max\Foundation\Http\RequestHandler;
-use Max\Foundation\Http\Response;
 use Max\Http\Exceptions\HttpException;
+use Max\Http\RequestHandler;
+use Max\Http\Response;
 use Max\Routing\Router;
 use Psr\Http\Message\ServerRequestInterface;
 
@@ -42,8 +42,8 @@ class Kernel extends RequestHandler
      */
     protected function map(Router $router)
     {
-        $router->group(function(Router $router) {
-            $router->request('welcome', function(ServerRequestInterface $request, Response $response) {
+        $router->group(function (Router $router) {
+            $router->request('welcome', function (ServerRequestInterface $request, Response $response) {
                 return $response->json($request->all());
             });
         });
