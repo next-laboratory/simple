@@ -64,8 +64,8 @@ switch ($argv[1] ?? '') {
         break;
     case 'stop':
         $pids = [
-            '/var/run/max-php-manager.pid',
-            '/var/run/max-php-master.pid',
+            '/var/run/max.php-php-manager.pid',
+            '/var/run/max.php-php-master.pid',
         ];
         foreach ($pids as $pid) {
             if (!file_exists($pid)) {

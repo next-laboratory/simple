@@ -25,8 +25,6 @@ class ExceptionHandlerMiddleware extends CoreExceptionHandlerMiddleware
 {
     #[Inject]
     protected LoggerInterface $logger;
-    #[Inject]
-    protected ConsoleOutput $output;
 
     /**
      * @param Throwable              $throwable

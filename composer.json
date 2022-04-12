@@ -54,8 +54,7 @@
   },
   "scripts": {
     "post-autoload-dump": [
-      "rm -rf runtime/proxy",
-      "@php max vendor:publish"
+      "rm -rf runtime/proxy"
     ],
     "post-root-package-install": [
       "@php -r \"file_exists('.env') || copy('.example.env', '.env');\""

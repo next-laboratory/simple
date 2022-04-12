@@ -41,25 +41,19 @@ SWOOLE >= 4.6
 ### 安装
 
 ```shell
-composer create-project max/max max  // 安装
+composer create-project max/api-project  // 安装api项目
+composer create-project max/web-project  // 安装web项目
 ```
+
 ### 启动服务
 
 ```shell
-php max server
+php bin/max.php start
 ```
+
 这行命令会在你命令执行目录安装框架
 
 > 欢迎有兴趣的朋友参与开发
-
-参与开发请安装开发版本
-
-> 你可以使用Git安装开发版
-
-```shell
-git clone https://github.com/topyao/max.git .
-composer install
-```
 
 <a href="https://www.1kmb.com/note/283.html">开发文档</a>
 
