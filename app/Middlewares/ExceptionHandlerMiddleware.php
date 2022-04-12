@@ -13,7 +13,6 @@ declare(strict_types=1);
 
 namespace App\Middlewares;
 
-use Max\Console\Output\ConsoleOutput;
 use Max\Di\Annotations\Inject;
 use Max\Http\Middlewares\ExceptionHandlerMiddleware as CoreExceptionHandlerMiddleware;
 use Psr\Http\Message\ResponseInterface;

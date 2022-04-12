@@ -30,7 +30,7 @@ const BASE_PATH = __DIR__ . '/../';
 require './vendor/autoload.php';
 
 /** @var Container $container */
-$container       = Context::getContainer();
+$container = Context::getContainer();
 $eventDispatcher = make(\Max\Event\EventDispatcher::class);
 /** @var Env $env */
 $env = $container->make(Env::class);
@@ -38,10 +38,10 @@ $env->load(new IniFileLoader('./.env'));
 /** @var Repository $repository */
 $repository = $container->make(Repository::class);
 $repository->load(glob(base_path('config/*.php')));
-$bindings   = $repository->get('di.bindings', []);
+$bindings = $repository->get('di.bindings', []);
 $configFile = base_path('runtime/app/config.php');
 if (file_exists($configFile)) {
-    $config   = require $configFile;
+    $config = require $configFile;
     $bindings = array_merge($config['bindings'] ?? [], $bindings);
 }
 foreach ($bindings ?? [] as $id => $binding) {
