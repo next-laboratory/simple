@@ -13,23 +13,28 @@ declare(strict_types=1);
 
 namespace App\Controllers;
 
+use Max\Di\Annotations\Inject;
 use Max\Http\Annotations\Controller;
 use Max\Http\Annotations\GetMapping;
+use Psr\Http\Message\ServerRequestInterface;
 
 #[Controller(prefix: '/')]
-class IndexController extends AbstractController
+class IndexController
 {
+    #[Inject]
+    protected ServerRequestInterface $request;
+
     /**
      * @return array
      */
     #[GetMapping(path: '/')]
-    public function index(): array
+    public function index()
     {
         return [
             'status'  => true,
             'code'    => 0,
             'data'    => [],
-            'message' => 'Welcome.',
+            'message' => 'Hello, ' . $this->request->get('name', 'MaxPHP') . '!',
         ];
     }
 }

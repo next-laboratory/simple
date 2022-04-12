@@ -11,7 +11,6 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 
-use Max\Http\Server;
 use Swoole\Constant;
 
 return [
@@ -26,7 +25,7 @@ return [
                 Constant::OPTION_OPEN_HTTP_PROTOCOL => true,
             ],
             'callbacks' => [
-                'request' => [Server::class, 'request'],
+                'request' => [\Max\Http\Server::class, 'request'],
             ],
         ],
     ],

@@ -14,7 +14,6 @@ declare(strict_types=1);
 namespace App\Middlewares;
 
 use Max\Di\Exceptions\NotFoundException;
-use Max\Http\Exceptions\HttpException;
 use Max\Http\Exceptions\InvalidRequestHandlerException;
 use Psr\Container\ContainerExceptionInterface;
 use Psr\Http\Message\ResponseInterface;
@@ -33,7 +32,6 @@ class ParseBodyMiddleware implements MiddlewareInterface
      * @param RequestHandlerInterface $handler
      *
      * @return ResponseInterface
-     * @throws HttpException
      * @throws NotFoundException
      * @throws InvalidRequestHandlerException
      * @throws ContainerExceptionInterface
@@ -54,7 +52,6 @@ class ParseBodyMiddleware implements MiddlewareInterface
      * @param ServerRequestInterface $request
      *
      * @return bool
-     * @throws HttpException
      */
     protected function isValid(ServerRequestInterface $request): bool
     {

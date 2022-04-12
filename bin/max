@@ -55,6 +55,9 @@ foreach (config('event.listeners') as $listener) {
 
 Scanner::init();
 
+echo 'PHP:' . PHP_VERSION . PHP_EOL;
+echo 'swoole:' . SWOOLE_VERSION . PHP_EOL;
+
 switch ($argv[1] ?? '') {
     case 'start':
         (new MaxSwooleServer(config('server')))->start();

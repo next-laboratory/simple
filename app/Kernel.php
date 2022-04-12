@@ -1,6 +1,7 @@
 <?php
 
 declare(strict_types=1);
+
 /**
  * This file is part of the Max package.
  *
@@ -13,8 +14,8 @@ declare(strict_types=1);
 namespace App;
 
 use Max\Http\RequestHandler;
-use Max\Http\Response;
 use Max\Routing\Router;
+use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 
 class Kernel extends RequestHandler
@@ -39,7 +40,7 @@ class Kernel extends RequestHandler
     protected function map(Router $router)
     {
         $router->group(function (Router $router) {
-            $router->request('welcome', function (ServerRequestInterface $request, Response $response) {
+            $router->request('welcome', function (ServerRequestInterface $request, ResponseInterface $response) {
                 return $response->json($request->all());
             });
         });
