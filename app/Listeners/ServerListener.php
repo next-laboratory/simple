@@ -1,6 +1,7 @@
 <?php
 
 declare(strict_types=1);
+
 /**
  * This file is part of the Max package.
  *
@@ -50,7 +51,7 @@ class ServerListener implements EventListenerInterface
     }
 
     /**
-     * @throws HttpException
+     * @param object $event
      */
     public function process(object $event): void
     {

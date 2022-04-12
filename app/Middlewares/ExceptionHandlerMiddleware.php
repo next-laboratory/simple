@@ -1,6 +1,7 @@
 <?php
 
 declare(strict_types=1);
+
 /**
  * This file is part of the Max package.
  *
@@ -10,12 +11,11 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 
-namespace App\Http\Middlewares;
+namespace App\Middlewares;
 
 use Max\Console\Output\ConsoleOutput;
 use Max\Di\Annotations\Inject;
 use Max\Http\Middlewares\ExceptionHandlerMiddleware as CoreExceptionHandlerMiddleware;
-use Max\Http\Exceptions\HttpException;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use Psr\Log\LoggerInterface;
@@ -26,14 +26,13 @@ class ExceptionHandlerMiddleware extends CoreExceptionHandlerMiddleware
     #[Inject]
     protected LoggerInterface $logger;
     #[Inject]
-    protected ConsoleOutput   $output;
+    protected ConsoleOutput $output;
 
     /**
      * @param Throwable              $throwable
      * @param ServerRequestInterface $request
      *
      * @return void
-     * @throws HttpException
      */
     protected function reportException(Throwable $throwable, ServerRequestInterface $request)
     {

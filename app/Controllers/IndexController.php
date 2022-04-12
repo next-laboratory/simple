@@ -11,9 +11,8 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 
-namespace App\Http\Controllers;
+namespace App\Controllers;
 
-use App\Http\AbstractController;
 use Max\Http\Annotations\Controller;
 use Max\Http\Annotations\GetMapping;
 

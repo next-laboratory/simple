@@ -2,7 +2,8 @@
 
 namespace Psr\Http\Message {
 
-    use Max\Foundation\Http\{ServerRequest, Response};
+    use Max\Http\Response;
+    use Max\Http\ServerRequest;
 
     /**
      * @mixin ServerRequest
@@ -28,7 +29,6 @@ namespace Psr\Http\Server {
      */
     interface RequestHandlerInterface
     {
-
     }
 }
 

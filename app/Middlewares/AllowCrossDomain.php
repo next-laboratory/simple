@@ -1,6 +1,7 @@
 <?php
 
 declare(strict_types=1);
+
 /**
  * This file is part of the Max package.
  *
@@ -10,10 +11,11 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 
-namespace App\Http\Middlewares;
+namespace App\Middlewares;
 
 use Exception;
 use Max\Http\Message\Stream\StringStream;
+use Psr\Container\ContainerExceptionInterface;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Server\MiddlewareInterface;
@@ -44,6 +46,7 @@ class AllowCrossDomain implements MiddlewareInterface
      *
      * @return ResponseInterface
      * @throws Exception
+     * @throws ContainerExceptionInterface
      */
     public function process(ServerRequestInterface $request, RequestHandlerInterface $handler): ResponseInterface
     {

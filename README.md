@@ -23,7 +23,7 @@
 - 基于 Psr16 的缓存组件，支持 File,Memcached,Redis,APC[可扩展]
 - 方便的数据库操作方法，支持 MySQL、PostgreSQL 等[可扩展]
 - 支持路由功能
-- Blade视图引擎，命令行，验证器
+- 验证器
 
 ## 贡献一览
 

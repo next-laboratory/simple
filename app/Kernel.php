@@ -10,9 +10,8 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 
-namespace App\Http;
+namespace App;
 
-use Max\Http\Exceptions\HttpException;
 use Max\Http\RequestHandler;
 use Max\Http\Response;
 use Max\Routing\Router;
@@ -26,19 +25,16 @@ class Kernel extends RequestHandler
      * @var array|string[]
      */
     protected array $middlewares = [
-        'App\Http\Middlewares\ExceptionHandlerMiddleware',
-//        'App\Http\Middlewares\SessionMiddleware',
-        'Max\Foundation\Http\Middlewares\RoutingMiddleware',
-//        'App\Http\Middlewares\AllowCrossDomain',
-//        'App\Http\Middlewares\ParseBodyMiddleware',
+        'App\Middlewares\ExceptionHandlerMiddleware',
+        'Max\Http\Middlewares\RoutingMiddleware',
+//        'App\Middlewares\AllowCrossDomain',
+//        'App\Middlewares\ParseBodyMiddleware',
     ];
 
     /**
      * 注册路由
      *
      * @param Router $router
-     *
-     * @throws HttpException
      */
     protected function map(Router $router)
     {
