@@ -30,7 +30,7 @@ const BASE_PATH = __DIR__ . '/../';
 require './vendor/autoload.php';
 
 /** @var Container $container */
-$container = Context::getContainer();
+$container       = Context::getContainer();
 $eventDispatcher = make(\Max\Event\EventDispatcher::class);
 /** @var Env $env */
 $env = $container->make(Env::class);
@@ -39,11 +39,23 @@ $env->load(new IniFileLoader('./.env'));
 $repository = $container->make(Repository::class);
 $repository->load(glob(base_path('config/*.php')));
 $bindings = $repository->get('di.bindings', []);
-$configFile = base_path('runtime/app/config.php');
-if (file_exists($configFile)) {
-    $config = require $configFile;
-    $bindings = array_merge($config['bindings'] ?? [], $bindings);
+
+$installed = json_decode(file_get_contents(BASE_PATH . '/vendor/composer/installed.json'), true);
+$installed = $installed['packages'] ?? $installed;
+$config    = [];
+foreach ($installed as $package) {
+    if (isset($package['extra']['max']['config'])) {
+        $configProvider = $package['extra']['max']['config'];
+        $configProvider = new $configProvider;
+        if (method_exists($configProvider, '__invoke')) {
+            if (is_array($configItem = $configProvider())) {
+                $config = array_merge_recursive($config, $configItem);
+            }
+        }
+    }
 }
+$bindings = array_merge($config['bindings'] ?? [], $bindings);
+
 foreach ($bindings ?? [] as $id => $binding) {
     $container->alias($id, $binding);
 }
