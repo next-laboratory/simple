@@ -28,7 +28,7 @@ class IndexController
      * @return array
      */
     #[GetMapping(path: '/')]
-    public function index()
+    public function index(): array
     {
         return [
             'status'  => true,

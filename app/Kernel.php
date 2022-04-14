@@ -28,8 +28,9 @@ class Kernel extends RequestHandler
     protected array $middlewares = [
         'App\Middlewares\ExceptionHandlerMiddleware',
         'Max\Http\Middlewares\RoutingMiddleware',
-//        'App\Middlewares\AllowCrossDomain',
-//        'App\Middlewares\ParseBodyMiddleware',
+        //        'App\Middlewares\SessionMiddleware'
+        //        'App\Middlewares\AllowCrossDomain',
+        //        'App\Middlewares\ParseBodyMiddleware',
     ];
 
     /**
@@ -39,8 +40,8 @@ class Kernel extends RequestHandler
      */
     protected function map(Router $router)
     {
-        $router->group(function (Router $router) {
-            $router->request('welcome', function (ServerRequestInterface $request, ResponseInterface $response) {
+        $router->group(function(Router $router) {
+            $router->request('welcome', function(ServerRequestInterface $request, ResponseInterface $response) {
                 return $response->json($request->all());
             });
         });
