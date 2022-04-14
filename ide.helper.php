@@ -46,7 +46,7 @@ namespace Psr\Container {
 
 namespace Psr\SimpleCache {
 
-    use Max\Foundation\Cache\Cache;
+    use Max\Cache\Cache;
 
     /**
      * @mixin Cache

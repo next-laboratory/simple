@@ -15,8 +15,8 @@ namespace App\Listeners;
 
 use Max\Database\Events\QueryExecuted;
 use Max\Di\Annotations\Inject;
+use Max\Event\Annotations\Listen;
 use Max\Event\Contracts\EventListenerInterface;
-use Max\Foundation\Annotations\Listen;
 use Max\Log\LoggerFactory;
 
 #[Listen]
