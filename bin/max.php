@@ -25,13 +25,13 @@ ini_set('display_startup_errors', 'on');
 ini_set('memory_limit', '1G');
 error_reporting(E_ALL);
 date_default_timezone_set('PRC');
-const BASE_PATH = __DIR__ . '/';
+const BASE_PATH = __DIR__ . '/../';
 
 $loader = require './vendor/autoload.php';
 
 /** @var Container $container */
 $container       = Context::getContainer();
-$eventDispatcher = make(\Max\Event\EventDispatcher::class);
+$eventDispatcher = $container->make(\Max\Event\EventDispatcher::class);
 /** @var Env $env */
 $env = $container->make(Env::class);
 $env->load(new IniFileLoader('./.env'));
