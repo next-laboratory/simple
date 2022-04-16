@@ -7,8 +7,8 @@
 <p align="center">
 <a href="https://github.com/topyao/max/issues"><img src="https://img.shields.io/github/issues/topyao/max" alt=""></a>
 <a href="https://github.com/topyao/max"><img src="https://img.shields.io/github/stars/topyao/max" alt=""></a>
-<img src="https://img.shields.io/badge/php-%3E%3D8.0-brightgreen">
-<img src="https://img.shields.io/badge/license-apache%202-blue">
+<img src="https://img.shields.io/badge/php-%3E%3D8.0-brightgreen" alt="">
+<img src="https://img.shields.io/badge/license-apache%202-blue" alt="">
 </p>
 
 一款基于`swoole`的组件化的轻量`PHP`框架，可以用作`API`开发，方便快速。
@@ -41,8 +41,7 @@ SWOOLE >= 4.6
 ### 安装
 
 ```shell
-composer create-project max/api-project  // 安装api项目
-composer create-project max/web-project  // 安装web项目
+composer create-project max/http-project
 ```
 
 ### 启动服务
