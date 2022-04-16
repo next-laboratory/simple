@@ -81,9 +81,12 @@ class SessionMiddleware implements MiddlewareInterface
         $response = $handler->handle($request);
         $this->session->save();
         $this->session->close();
-        $expires = time() + $this->expires;
-        return $response->withCookie(new Cookie(
-            $this->name, $this->session->getId(), $expires, $this->path, $this->domain, $this->secure, $this->httponly
-        ));
+        $cookie = new Cookie(
+            $this->name, $this->session->getId(), time() + $this->expires, $this->path, $this->domain, $this->secure, $this->httponly
+        );
+        return $response->withAddedHeader('Set-Cookie', $cookie->__toString());
+//        return $response->withCookie(new Cookie(
+//            $this->name, $this->session->getId(), time() + $this->expires, $this->path, $this->domain, $this->secure, $this->httponly
+//        ));
     }
 }
