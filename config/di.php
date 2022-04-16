@@ -13,8 +13,7 @@ declare(strict_types=1);
 
 return [
     'scanDir'  => [
-        BASE_PATH . 'app/Controllers',
-        BASE_PATH . 'app/Listeners',
+        BASE_PATH . 'app',
     ],
     // 依赖绑定
     'bindings' => [

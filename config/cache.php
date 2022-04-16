@@ -10,6 +10,7 @@ declare(strict_types=1);
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
+
 return [
     'default' => 'file',
     'stores'  => [
@@ -17,7 +18,7 @@ return [
         'file'      => [
             'handler' => 'Max\Cache\Handlers\File',
             'options' => [
-                'path' => __DIR__ . '/../runtime/cache/app',
+                'path' => __DIR__ . '/../runtime/cache',
             ],
         ],
         // redis缓存

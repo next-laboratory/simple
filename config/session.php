@@ -10,13 +10,14 @@ declare(strict_types=1);
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
+
 return [
     'default' => 'file',
     'stores'  => [
         'file'  => [
             'handler' => 'Max\Session\Handlers\File',
             'options' => [
-                'path'          => __DIR__ . '/../runtime/session',
+                'path'          => __DIR__ . '/../runtime/framework/session',
                 'gcDivisor'     => 100,
                 'gcProbability' => 1,
                 'gcMaxLifetime' => 1440,

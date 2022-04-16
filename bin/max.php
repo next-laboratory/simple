@@ -60,7 +60,7 @@ foreach ($bindings ?? [] as $id => $binding) {
     $container->alias($id, $binding);
 }
 
-Scanner::init($loader, BASE_PATH . 'runtime/app/proxies.php');
+Scanner::init($loader, config('di.scanDir'), BASE_PATH . 'runtime');
 
 echo 'PHP:' . PHP_VERSION . PHP_EOL;
 echo 'swoole:' . SWOOLE_VERSION . PHP_EOL;
