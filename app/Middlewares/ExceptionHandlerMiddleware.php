@@ -13,7 +13,6 @@ declare(strict_types=1);
 
 namespace App\Middlewares;
 
-use Max\Di\Annotations\Inject;
 use Max\Http\Middlewares\ExceptionHandlerMiddleware as CoreExceptionHandlerMiddleware;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
@@ -22,8 +21,13 @@ use Throwable;
 
 class ExceptionHandlerMiddleware extends CoreExceptionHandlerMiddleware
 {
-    #[Inject]
-    protected LoggerInterface $logger;
+    /**
+     * @param ResponseInterface $response
+     * @param LoggerInterface   $logger
+     */
+    public function __construct(protected ResponseInterface $response, protected LoggerInterface $logger)
+    {
+    }
 
     /**
      * @param Throwable              $throwable
