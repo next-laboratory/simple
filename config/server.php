@@ -25,7 +25,7 @@ return [
                 Constant::OPTION_OPEN_HTTP_PROTOCOL => true,
             ],
             'callbacks' => [
-                'request' => [\Max\Http\Server::class, 'request'],
+                'request' => [\Max\Http\Server::class, 'onRequest'],
             ],
         ],
     ],
