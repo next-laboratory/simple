@@ -26,8 +26,6 @@ return [
             ],
             'callbacks' => [
                 'request' => [\Max\Http\Server::class, 'onRequest'],
-                'task'         => [\Max\Server\Callbacks::class, 'task'],
-                'finish'       => [\Max\Server\Callbacks::class, 'finish'],
             ],
         ],
     ],
@@ -37,5 +35,9 @@ return [
         Constant::OPTION_TASK_WORKER_NUM       => 2,
         Constant::OPTION_WORKER_NUM            => 2,
         Constant::OPTION_TASK_ENABLE_COROUTINE => true,
+    ],
+    'callbacks' => [
+        'task'   => [\Max\Server\Callbacks::class, 'onTask'],
+        'finish' => [\Max\Server\Callbacks::class, 'onFinish'],
     ],
 ];
