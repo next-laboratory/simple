@@ -66,7 +66,9 @@ const BASE_PATH = __DIR__ . '/../';
 
     switch ($argv[1] ?? '') {
         case 'start':
-            (new MaxSwooleServer($repository->get('server')))->start();
+            $server = new MaxSwooleServer($repository->get('server'));
+            $server->setEventDispatcher($container->make(\Max\Event\EventDispatcher::class));
+            $server->start();
             break;
         case 'stop':
             $pids = [
