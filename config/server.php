@@ -11,13 +11,17 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 
+use Max\Http\Server as HttpServer;
+use Max\Server\Callbacks;
+use Max\Server\Listeners\ServerListener;
+use Max\Server\Server;
 use Swoole\Constant;
 
 return [
     'servers'   => [
         [
             'name'      => 'http',
-            'type'      => \Max\Server\Server::SERVER_HTTP,
+            'type'      => Server::SERVER_HTTP,
             'host'      => '0.0.0.0',
             'port'      => 8080,
             'sockType'  => SWOOLE_SOCK_TCP,
@@ -25,7 +29,7 @@ return [
                 Constant::OPTION_OPEN_HTTP_PROTOCOL => true,
             ],
             'callbacks' => [
-                'request' => [\Max\Http\Server::class, 'onRequest'],
+                ServerListener::EVENT_REQUEST => [HttpServer::class, 'onRequest'],
             ],
         ],
     ],
@@ -37,7 +41,7 @@ return [
         Constant::OPTION_TASK_ENABLE_COROUTINE => true,
     ],
     'callbacks' => [
-        'task'   => [\Max\Server\Callbacks::class, 'onTask'],
-        'finish' => [\Max\Server\Callbacks::class, 'onFinish'],
+        ServerListener::EVENT_TASK   => [Callbacks::class, 'onTask'],
+        ServerListener::EVENT_FINISH => [Callbacks::class, 'onFinish'],
     ],
 ];
