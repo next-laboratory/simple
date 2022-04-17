@@ -44,7 +44,6 @@
         "max/env": "dev-master",
         "max/utils": "dev-master",
         "max/http": "dev-master",
-        "max/swagger": "dev-master",
         "swoole/ide-helper": "^4.8"
     },
     "require-dev": {
