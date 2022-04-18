@@ -43,6 +43,8 @@
         "max/server": "dev-master",
         "max/env": "dev-master",
         "max/http": "dev-master",
+        "max/view": "dev-master",
+        "max/session": "dev-master",
         "swoole/ide-helper": "^4.8"
     },
     "require-dev": {
