@@ -57,10 +57,10 @@
             "@php -r \"file_exists('.env') || copy('.example.env', '.env');\""
         ],
         "start": [
-            "php max server -a start"
+            "php bin/max.php start"
         ],
         "stop": [
-            "php max server -a stop"
+            "php bin/max.php stop"
         ]
     }
 }
