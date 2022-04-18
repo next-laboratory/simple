@@ -42,7 +42,6 @@
         "max/validator": "dev-master",
         "max/server": "dev-master",
         "max/env": "dev-master",
-        "max/utils": "dev-master",
         "max/http": "dev-master",
         "swoole/ide-helper": "^4.8"
     },
