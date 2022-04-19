@@ -13,14 +13,11 @@ declare(strict_types=1);
 
 namespace App\Middlewares;
 
-use Max\Di\Context;
-use Max\Di\Exceptions\NotFoundException;
+use Max\Di\Annotations\Inject;
 use Max\Http\Middlewares\ExceptionHandlerMiddleware as CoreExceptionHandlerMiddleware;
-use Psr\Container\ContainerExceptionInterface;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use Psr\Log\LoggerInterface;
-use ReflectionException;
 use Throwable;
 
 class ExceptionHandlerMiddleware extends CoreExceptionHandlerMiddleware
@@ -28,18 +25,8 @@ class ExceptionHandlerMiddleware extends CoreExceptionHandlerMiddleware
     /**
      * @var LoggerInterface|mixed|object
      */
+    #[Inject]
     protected LoggerInterface $logger;
-
-    /**
-     * @throws ContainerExceptionInterface
-     * @throws NotFoundException
-     * @throws ReflectionException
-     */
-    public function __construct(ResponseInterface $response)
-    {
-        parent::__construct($response);
-        $this->logger = Context::getContainer()->make(LoggerInterface::class);
-    }
 
     /**
      * @param Throwable              $throwable
