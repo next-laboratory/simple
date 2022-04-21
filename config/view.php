@@ -18,7 +18,7 @@ return [
             'engine'  => 'Max\View\Engines\Blade',
             'options' => [
                 // 模板目录
-                'path'       => __DIR__ . '/../storage/views/',
+                'path'       => __DIR__ . '/../views/',
                 // 编译和缓存目录
                 'compileDir' => __DIR__ . '/../runtime/cache/views/',
                 // 模板缓存
