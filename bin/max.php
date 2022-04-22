@@ -19,7 +19,7 @@ use Max\Di\Scanner;
 use Max\Env\Env;
 use Max\Env\Loader\IniFileLoader;
 use Max\Event\EventDispatcher;
-use Max\Event\ListenerColloctor;
+use Max\Event\ListenerCollector;
 use Max\Server\Server as MaxSwooleServer;
 
 ini_set('display_errors', 'on');
@@ -65,7 +65,7 @@ const BASE_PATH = __DIR__ . '/../';
     /** @var EventDispatcher $eventDispatcher */
     $eventDispatcher  = $container->make(EventDispatcher::class);
     $listenerProvider = $eventDispatcher->getListenerProvider();
-    foreach (ListenerColloctor::all() as $listener) {
+    foreach (ListenerCollector::all() as $listener) {
         $listenerProvider->addListener($container->make($listener));
     }
     echo 'PHP:' . PHP_VERSION . PHP_EOL;

@@ -13,13 +13,15 @@ declare(strict_types=1);
 
 namespace App\Middlewares;
 
-use Exception;
+use Max\Di\Exceptions\NotFoundException;
+use Max\Http\Exceptions\InvalidRequestHandlerException;
 use Max\Http\Message\Stream\StringStream;
 use Psr\Container\ContainerExceptionInterface;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Server\MiddlewareInterface;
 use Psr\Http\Server\RequestHandlerInterface;
+use ReflectionException;
 
 /**
  * 跨域中间件，如果有预检请求，则需要给路由添加OPTIONS请求方式
@@ -45,8 +47,10 @@ class AllowCrossDomain implements MiddlewareInterface
      * @param RequestHandlerInterface $handler
      *
      * @return ResponseInterface
-     * @throws Exception
      * @throws ContainerExceptionInterface
+     * @throws NotFoundException
+     * @throws InvalidRequestHandlerException
+     * @throws ReflectionException
      */
     public function process(ServerRequestInterface $request, RequestHandlerInterface $handler): ResponseInterface
     {
