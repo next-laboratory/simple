@@ -18,6 +18,8 @@ use Max\Di\Context;
 use Max\Di\Scanner;
 use Max\Env\Env;
 use Max\Env\Loader\IniFileLoader;
+use Max\Event\EventDispatcher;
+use Max\Event\ListenerColloctor;
 use Max\Server\Server as MaxSwooleServer;
 
 ini_set('display_errors', 'on');
@@ -60,13 +62,18 @@ const BASE_PATH = __DIR__ . '/../';
     }
 
     Scanner::init($loader, $repository->get('di.scanDir'), BASE_PATH . 'runtime');
-
+    /** @var EventDispatcher $eventDispatcher */
+    $eventDispatcher  = $container->make(EventDispatcher::class);
+    $listenerProvider = $eventDispatcher->getListenerProvider();
+    foreach (ListenerColloctor::all() as $listener) {
+        $listenerProvider->addListener($container->make($listener));
+    }
     echo 'PHP:' . PHP_VERSION . PHP_EOL;
     echo 'swoole:' . SWOOLE_VERSION . PHP_EOL;
 
     switch ($argv[1] ?? '') {
         case 'start':
-            $server = new MaxSwooleServer($repository->get('server'), $container->make(\Max\Event\EventDispatcher::class));
+            $server = new MaxSwooleServer($repository->get('server'), $eventDispatcher);
             $container->set(MaxSwooleServer::class, $server);
             $server->start();
             break;
