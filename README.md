@@ -11,7 +11,7 @@
 <img src="https://img.shields.io/badge/license-apache%202-blue" alt="">
 </p>
 
-一款基于`swoole`的组件化的轻量`PHP`框架，可以用作`API`开发，方便快速。
+一款基于`swoole`的组件化的轻量`PHP`框架，可以用作`API`开发，方便快速。框架默认安装了`session`和`view`扩展包，如果不需要可以直接移除。
 
 ## 主要特性
 
@@ -22,8 +22,7 @@
 - 基于 Psr15 的中间件
 - 基于 Psr16 的缓存组件，支持 File,Memcached,Redis,APC[可扩展]
 - 方便的数据库操作方法，支持 MySQL、PostgreSQL 等[可扩展]
-- 支持路由功能
-- 验证器
+- 路由，验证器，Blade视图
 
 ## 贡献一览
 
