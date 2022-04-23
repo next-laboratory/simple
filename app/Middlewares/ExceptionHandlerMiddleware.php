@@ -13,7 +13,7 @@ declare(strict_types=1);
 
 namespace App\Middlewares;
 
-use Max\Di\Annotations\Inject;
+use Max\Di\Annotation\Inject;
 use Max\Http\Middlewares\ExceptionHandlerMiddleware as CoreExceptionHandlerMiddleware;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;

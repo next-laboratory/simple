@@ -13,7 +13,7 @@ declare(strict_types=1);
 
 namespace App\Controllers;
 
-use Max\Di\Annotations\Inject;
+use Max\Di\Annotation\Inject;
 use Max\Http\Annotations\Controller;
 use Max\Http\Annotations\GetMapping;
 use Psr\Http\Message\ServerRequestInterface;
