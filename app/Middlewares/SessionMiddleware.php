@@ -77,7 +77,7 @@ class SessionMiddleware implements MiddlewareInterface
      */
     public function process(ServerRequestInterface $request, RequestHandlerInterface $handler): ResponseInterface
     {
-        $this->session->start($request->getCookieParams()[strtolower($this->name)] ?? null);
+        $this->session->start($request->getCookieParams()[strtoupper($this->name)] ?? null);
         $response = $handler->handle($request);
         $this->session->save();
         $this->session->close();
