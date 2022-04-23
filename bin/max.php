@@ -20,6 +20,7 @@ use Max\Env\Env;
 use Max\Env\Loader\IniFileLoader;
 use Max\Event\EventDispatcher;
 use Max\Event\ListenerCollector;
+use Max\Http\RouteCollector;
 use Max\Server\Server as MaxSwooleServer;
 
 ini_set('display_errors', 'on');
@@ -61,11 +62,11 @@ const BASE_PATH = __DIR__ . '/../';
         $container->alias($id, $binding);
     }
 
-    Scanner::init($loader, $repository->get('di.scanDir'), BASE_PATH . 'runtime');
+    Scanner::init($loader, [ListenerCollector::class, RouteCollector::class], $repository->get('di.scanDir'), BASE_PATH . 'runtime');
     /** @var EventDispatcher $eventDispatcher */
     $eventDispatcher  = $container->make(EventDispatcher::class);
     $listenerProvider = $eventDispatcher->getListenerProvider();
-    foreach (ListenerCollector::all() as $listener) {
+    foreach (ListenerCollector::getListeners() as $listener) {
         $listenerProvider->addListener($container->make($listener));
     }
     echo 'PHP:' . PHP_VERSION . PHP_EOL;
