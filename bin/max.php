@@ -61,8 +61,7 @@ const BASE_PATH = __DIR__ . '/../';
     foreach ($bindings ?? [] as $id => $binding) {
         $container->alias($id, $binding);
     }
-
-    Scanner::init($loader, [ListenerCollector::class, RouteCollector::class], $repository->get('di.scanDir'), BASE_PATH . 'runtime');
+    Scanner::init($loader, $repository->get('di.scanner'));
     /** @var EventDispatcher $eventDispatcher */
     $eventDispatcher  = $container->make(EventDispatcher::class);
     $listenerProvider = $eventDispatcher->getListenerProvider();

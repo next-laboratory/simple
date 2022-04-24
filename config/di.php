@@ -12,8 +12,16 @@ declare(strict_types=1);
  */
 
 return [
-    'scanDir'  => [
-        BASE_PATH . 'app',
+    'scanner'  => [
+        'cache'      => true,
+        'paths'      => [
+            BASE_PATH . 'app',
+        ],
+        'collectors' => [
+            'Max\Event\ListenerCollector',
+            'Max\Http\RouteCollector'
+        ],
+        'runtimeDir' => BASE_PATH . 'runtime',
     ],
     // 依赖绑定
     'bindings' => [
