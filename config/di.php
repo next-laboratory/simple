@@ -13,7 +13,7 @@ declare(strict_types=1);
 
 return [
     'scanner'  => [
-        'cache'      => true,
+        'cache'      => false,
         'paths'      => [
             BASE_PATH . 'app',
         ],
