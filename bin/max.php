@@ -51,7 +51,7 @@ const BASE_PATH = __DIR__ . '/../';
             $configProvider = new $configProvider;
             if (method_exists($configProvider, '__invoke')) {
                 if (is_array($configItem = $configProvider())) {
-                    $config = array_merge_recursive($config, $configItem);
+                    $config = array_replace_recursive($config, $configItem);
                 }
             }
         }
