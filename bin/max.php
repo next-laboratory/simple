@@ -20,7 +20,6 @@ use Max\Env\Env;
 use Max\Env\Loader\IniFileLoader;
 use Max\Event\EventDispatcher;
 use Max\Event\ListenerCollector;
-use Max\Http\RouteCollector;
 use Max\Server\Server as MaxSwooleServer;
 
 ini_set('display_errors', 'on');

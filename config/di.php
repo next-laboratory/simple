@@ -25,6 +25,6 @@ return [
     ],
     // 依赖绑定
     'bindings' => [
-        'Psr\Http\Server\RequestHandlerInterface' => 'App\\Kernel',
+        'Psr\Http\Server\RequestHandlerInterface' => 'App\\Http\\Kernel',
     ],
 ];

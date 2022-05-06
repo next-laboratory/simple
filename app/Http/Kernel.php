@@ -11,7 +11,7 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 
-namespace App;
+namespace App\Http;
 
 use Max\Http\RequestHandler;
 use Max\Routing\Router;
@@ -26,11 +26,11 @@ class Kernel extends RequestHandler
      * @var array|string[]
      */
     protected array $middlewares = [
-        'App\Middlewares\ExceptionHandlerMiddleware',
+        'App\Http\Middlewares\ExceptionHandlerMiddleware',
         'Max\Http\Middlewares\RoutingMiddleware',
-        //        'App\Middlewares\SessionMiddleware'
-        //        'App\Middlewares\AllowCrossDomain',
-        //        'App\Middlewares\ParseBodyMiddleware',
+        //        'App\Http\Middlewares\SessionMiddleware',
+        //        'App\Http\Middlewares\AllowCrossDomain',
+        //        'App\Http\Middlewares\ParseBodyMiddleware',
     ];
 
     /**

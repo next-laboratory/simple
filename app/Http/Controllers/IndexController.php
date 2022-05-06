@@ -11,7 +11,7 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 
-namespace App\Controllers;
+namespace App\Http\Controllers;
 
 use Max\Di\Annotation\Inject;
 use Max\Http\Annotations\Controller;
