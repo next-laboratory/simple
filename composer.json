@@ -45,11 +45,14 @@
         "max/http": "dev-master",
         "max/view": "dev-master",
         "max/session": "dev-master",
-        "swoole/ide-helper": "^4.8"
+        "max/console": "dev-master",
+        "max/framework": "dev-master"
     },
     "require-dev": {
+        "swoole/ide-helper": "^4.8",
         "phpunit/phpunit": "^9.5",
-        "symfony/var-dumper": "*"
+        "symfony/var-dumper": "*",
+        "phpbench/phpbench": "^1.2"
     },
     "scripts": {
         "post-autoload-dump": [
@@ -57,12 +60,6 @@
         ],
         "post-root-package-install": [
             "@php -r \"file_exists('.env') || copy('.example.env', '.env');\""
-        ],
-        "start": [
-            "php bin/max.php start"
-        ],
-        "stop": [
-            "php bin/max.php stop"
         ]
     }
 }

@@ -46,7 +46,8 @@ composer create-project max/http-project:dev-master
 ### 启动服务
 
 ```shell
-php bin/max.php start
+php bin/max server start
+php bin/max server stop
 ```
 
 这行命令会在你命令执行目录安装框架
