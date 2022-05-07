@@ -34,7 +34,7 @@ class ExceptionHandlerMiddleware extends CoreExceptionHandlerMiddleware
      *
      * @return void
      */
-    protected function reportException(Throwable $throwable, ServerRequestInterface $request)
+    protected function reportException(Throwable $throwable, ServerRequestInterface $request): void
     {
         $this->logger->error($throwable->getMessage(), [
             'trace'   => $throwable->getTrace(),

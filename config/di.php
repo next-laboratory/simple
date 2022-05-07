@@ -27,5 +27,7 @@ return [
     // 依赖绑定
     'bindings' => [
         'Psr\Http\Server\RequestHandlerInterface' => 'App\\Http\\Kernel',
+        'Psr\Http\Message\ServerRequestInterface' => 'App\\Http\\Utils\\ServerRequest',
+        'Psr\Http\Message\ResponseInterface'      => 'App\\Http\\Utils\\Response',
     ],
 ];

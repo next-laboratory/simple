@@ -2,8 +2,8 @@
 
 namespace Psr\Http\Message {
 
-    use Max\Http\Response;
-    use Max\Http\ServerRequest;
+    use App\Http\Utils\Response;
+    use App\Http\Utils\ServerRequest;
 
     /**
      * @mixin ServerRequest

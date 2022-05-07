@@ -13,7 +13,6 @@ declare(strict_types=1);
 
 namespace App\Console;
 
-use App\Console\Commands\Server;
 use Max\Framework\Console\Kernel as ConsoleKernel;
 
 class Kernel extends ConsoleKernel

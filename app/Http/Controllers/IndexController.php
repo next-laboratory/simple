@@ -16,6 +16,7 @@ namespace App\Http\Controllers;
 use Max\Di\Annotation\Inject;
 use Max\Http\Annotations\Controller;
 use Max\Http\Annotations\GetMapping;
+use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 
 #[Controller(prefix: '/')]
@@ -23,6 +24,8 @@ class IndexController
 {
     #[Inject]
     protected ServerRequestInterface $request;
+    #[Inject]
+    protected ResponseInterface      $response;
 
     /**
      * @return array
@@ -30,11 +33,6 @@ class IndexController
     #[GetMapping(path: '/')]
     public function index(): array
     {
-        return [
-            'status'  => true,
-            'code'    => 0,
-            'data'    => [],
-            'message' => 'Hello, ' . $this->request->get('name', 'MaxPHP') . '!',
-        ];
+        return $this->response->success(message: 'Hello, ' . $this->request->get('name', 'MaxPHP') . '!');
     }
 }
