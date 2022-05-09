@@ -16,7 +16,7 @@ namespace App\Http\Middlewares;
 use Max\Di\Exceptions\NotFoundException;
 use Max\Http\Cookie;
 use Max\Http\Exceptions\InvalidRequestHandlerException;
-use Max\Http\Session;
+use Max\Session\Session;
 use Psr\Container\ContainerExceptionInterface;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;

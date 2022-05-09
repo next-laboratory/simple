@@ -15,7 +15,7 @@ return [
     'default' => 'file',
     'stores'  => [
         'file'  => [
-            'handler' => 'Max\Session\Handlers\File',
+            'handler' => 'Max\Session\Handlers\FileHandler',
             'options' => [
                 'path'          => __DIR__ . '/../runtime/session',
                 'gcDivisor'     => 100,
