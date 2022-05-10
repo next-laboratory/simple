@@ -13,6 +13,7 @@ declare(strict_types=1);
 
 namespace App\Http\Middlewares;
 
+use Max\Console\Output\ConsoleOutput;
 use Max\Di\Annotation\Inject;
 use Max\Http\Middlewares\ExceptionHandlerMiddleware as CoreExceptionHandlerMiddleware;
 use Psr\Http\Message\ResponseInterface;
@@ -57,6 +58,7 @@ class ExceptionHandlerMiddleware extends CoreExceptionHandlerMiddleware
      */
     protected function renderException(Throwable $throwable, ServerRequestInterface $request): ResponseInterface
     {
+        $this->dump($throwable);
         if ($request->isAjax()) {
             return $this->response->json([
                 'status'  => false,
@@ -66,5 +68,20 @@ class ExceptionHandlerMiddleware extends CoreExceptionHandlerMiddleware
             ]);
         }
         return parent::renderException($throwable, $request);
+    }
+
+    /**
+     * @param Throwable $throwable
+     *
+     * @return void
+     */
+    protected function dump(Throwable $throwable): void
+    {
+        (new ConsoleOutput())->error(sprintf("%s in %s +%d\n%s",
+            $throwable->getMessage(),
+            $throwable->getFile(),
+            $throwable->getLine(),
+            $throwable->getTraceAsString()
+        ));
     }
 }
