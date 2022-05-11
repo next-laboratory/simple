@@ -12,16 +12,18 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 
+use App\Console\Kernel;
+
 ini_set('display_errors', 'on');
 ini_set('display_startup_errors', 'on');
 ini_set('memory_limit', '1G');
 error_reporting(E_ALL);
 date_default_timezone_set('PRC');
-const BASE_PATH = __DIR__ . '/';
+const BASE_PATH = __DIR__ . '/../';
 
 (function() {
-    $loader  = require_once './vendor/autoload.php';
-    $console = new \App\Console\Kernel();
+    $loader  = require_once BASE_PATH . 'vendor/autoload.php';
+    $console = new Kernel();
     $console->init($loader);
     $console->run();
 })();
