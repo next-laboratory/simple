@@ -14,7 +14,7 @@ declare(strict_types=1);
 namespace App\Http\Middlewares;
 
 use Max\Console\Output\ConsoleOutput;
-use Max\Di\Annotation\Inject;
+use Max\Aop\Annotation\Inject;
 use Max\Http\Middlewares\ExceptionHandlerMiddleware as CoreExceptionHandlerMiddleware;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
@@ -41,7 +41,7 @@ class ExceptionHandlerMiddleware extends CoreExceptionHandlerMiddleware
             'trace'   => $throwable->getTrace(),
             'method'  => $request->getMethod(),
             'uri'     => $request->getUri()->__toString(),
-            'request' => $request->all(),
+            'request' => $request->getQueryParams() + $request->getParsedBody(),
             'headers' => $request->getHeaders(),
             'file: '  => $throwable->getFile(),
             'line: '  => $throwable->getLine(),
