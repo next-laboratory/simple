@@ -46,7 +46,9 @@
         "max/view": "dev-master",
         "max/session": "dev-master",
         "max/console": "dev-master",
-        "max/framework": "dev-master"
+        "max/framework": "dev-master",
+        "max/redis": "dev-master",
+        "max/aop": "dev-master"
     },
     "require-dev": {
         "swoole/ide-helper": "^4.8",
