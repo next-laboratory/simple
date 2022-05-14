@@ -11,19 +11,24 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 
+use Max\Redis\Connectors\PoolConnector;
+
 return [
     'default'     => 'redis',
     'connections' => [
         'redis' => [
-            'host'          => '127.0.0.1',
-            'port'          => 6379,
-            'auth'          => '',
-            'database'      => 0,
-            'timeout'       => 3,
-            'readTimeout'   => 3,
-            'retryInterval' => 3,
-            'reserved'      => '',
-            'poolSize'      => 64,
+            'connector' => PoolConnector::class,
+            'options'   => [
+                'host'          => '127.0.0.1',
+                'port'          => 6379,
+                'auth'          => '',
+                'database'      => 0,
+                'timeout'       => 3,
+                'readTimeout'   => 3,
+                'retryInterval' => 3,
+                'reserved'      => '',
+                'poolSize'      => 64,
+            ]
         ],
     ]
 ];
