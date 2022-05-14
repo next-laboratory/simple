@@ -21,12 +21,12 @@
 - 基于 Psr14 的事件
 - 基于 Psr15 的中间件
 - 基于 Psr16 的缓存组件，支持 File,Memcached,Redis,APC[可扩展]
-- 方便的数据库操作方法，支持 MySQL、PostgreSQL 等[可扩展]
-- 路由，验证器，Blade视图
+- max/database 支持连接池
+- AOP，支持路由功能，验证器，swagger，blade视图
 
 ## 贡献一览
 
-[![Contributor over time](https://contributor-overtime-api.apiseven.com/contributors-svg?chart=contributorOverTime&repo=topyao/max,topyao/max-routing,topyao/max-foundation,topyao/max,topyao/max-session,topyao/max-view,topyao/max-di,topyao/max-cache,topyao/max-console,topyao/max-http,topyao/max-event,topyao/max-config,topyao/max-lang,topyao/max-env,topyao/max-database,topyao/max-log,topyao/max-redis,topyao/max-validator)](https://www.apiseven.com/en/contributor-graph?chart=contributorOverTime&repo=topyao/max,topyao/max-routing,topyao/max-foundation,topyao/max,topyao/max-session,topyao/max-view,topyao/max-di,topyao/max-cache,topyao/max-console,topyao/max-http,topyao/max-event,topyao/max-config,topyao/max-lang,topyao/max-env,topyao/max-database,topyao/max-log,topyao/max-redis,topyao/max-validator)
+[![Contributor over time](https://contributor-overtime-api.apiseven.com/contributors-svg?chart=contributorOverTime&repo=topyao/max,topyao/max-routing,topyao/max-session,topyao/max-view,topyao/max-di,topyao/max-cache,topyao/max-console,topyao/max-http,topyao/max-event,topyao/max-config,topyao/max-aop,topyao/max-env,topyao/max-database,topyao/max-log,topyao/max-redis,topyao/max-validator)](https://contributor-overtime-api.apiseven.com/contributors-svg?chart=contributorOverTime&repo=topyao/max,topyao/max-routing,topyao/max-session,topyao/max-view,topyao/max-di,topyao/max-cache,topyao/max-console,topyao/max-http,topyao/max-event,topyao/max-config,topyao/max-aop,topyao/max-env,topyao/max-database,topyao/max-log,topyao/max-redis,topyao/max-validator)
 
 ## 环境要求
 
@@ -46,8 +46,8 @@ composer create-project max/http-project:dev-master
 ### 启动服务
 
 ```shell
-php bin/max server start
-php bin/max server stop
+php bin/max swoole start
+php bin/max swoole stop
 ```
 
 这行命令会在你命令执行目录安装框架
