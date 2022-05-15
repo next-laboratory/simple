@@ -12,23 +12,24 @@ declare(strict_types=1);
  */
 
 use Max\Redis\Connectors\AutoConnector;
+use Max\Redis\RedisConfig;
 
 return [
-    'default'     => 'redis',
+    'default' => 'redis',
     'connections' => [
         'redis' => [
             'connector' => AutoConnector::class,
-            'options'   => [
-                'host'          => '127.0.0.1',
-                'port'          => 6379,
-                'auth'          => '',
-                'database'      => 0,
-                'timeout'       => 3,
-                'readTimeout'   => 3,
-                'retryInterval' => 3,
-                'reserved'      => '',
-                'poolSize'      => 64,
-            ]
-        ],
+            'options' => [
+                RedisConfig::OPTION_HOST => '127.0.0.1',
+                RedisConfig::OPTION_PORT => 6379,
+                RedisConfig::OPTION_AUTH => '',
+                RedisConfig::OPTION_DATABASE => 0,
+                RedisConfig::OPTION_TIMEOUT => 3,
+                RedisConfig::OPTION_READ_TIMEOUT => 3,
+                RedisConfig::OPTION_RETRY_INTERVAL => 3,
+                RedisConfig::OPTION_RESERVED => null,
+                RedisConfig::OPTION_POOL_SIZE => 64,
+            ],
+        ]
     ]
 ];

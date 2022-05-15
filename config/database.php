@@ -12,33 +12,34 @@ declare(strict_types=1);
  */
 
 use Max\Database\Connectors\AutoConnector;
+use Max\Database\DatabaseConfig;
 
 return [
-    'default'     => 'mysql',
+    'default' => 'mysql',
     'connections' => [
         'mysql' => [
             'connector' => AutoConnector::class,
-            'options'   => [
+            'options' => [
                 // 驱动
-                'driver'     => 'mysql',
+                DatabaseConfig::OPTION_DRIVER => 'mysql',
                 // 主机地址
-                'host'       => env('database.host', 'localhost'),
+                DatabaseConfig::OPTION_HOST => env('database.host', 'localhost'),
                 // 数据库用户名
-                'user'       => env('database.user', 'user'),
+                DatabaseConfig::OPTION_USER => env('database.user', 'user'),
                 // unixSocket
-                'unixSocket' => null,
+                DatabaseConfig::OPTION_UNIX_SOCKET => null,
                 // 数据库密码
-                'password'   => env('database.pass', 'pass'),
+                DatabaseConfig::OPTION_PASSWORD => env('database.pass', 'pass'),
                 // 数据库名
-                'database'   => env('database.dbname', 'name'),
+                DatabaseConfig::OPTION_DB_NAME => env('database.dbname', 'name'),
                 // 端口
-                'port'       => env('database.port', 3306),
+                DatabaseConfig::OPTION_PORT => env('database.port', 3306),
                 // 额外设置
-                'options'    => [],
+                DatabaseConfig::OPTION_OPTIONS => [],
                 // 编码
-                'charset'    => env('database.charset', 'utf8mb4'),
+                DatabaseConfig::OPTION_CHARSET => env('database.charset', 'utf8mb4'),
                 // 连接池内最大连接数量
-                'poolSize'   => 16,
+                DatabaseConfig::OPTION_POOL_SIZE => 64,
             ],
         ],
     ],
