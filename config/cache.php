@@ -24,7 +24,9 @@ return [
         // redis缓存
         'redis'     => [
             'handler' => 'Max\Cache\Handlers\RedisHandler',
-            'options' => [],
+            'options' => [
+                'connection' => 'redis',
+            ],
         ],
         //memcached缓存
         'memcached' => [
