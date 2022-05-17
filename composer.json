@@ -1,5 +1,5 @@
 {
-  "name": "max/http-project",
+  "name": "max/swoole-project",
   "license": "Apache-2.0",
   "type": "project",
   "description": "A lightweight, high-performance PHP framework based on swoole.",
