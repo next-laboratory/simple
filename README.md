@@ -40,7 +40,7 @@ SWOOLE >= 4.6
 ### 安装
 
 ```shell
-composer create-project max/http-project:dev-master
+composer create-project max/swoole-project:dev-master
 ```
 
 ### 启动服务
