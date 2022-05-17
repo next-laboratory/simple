@@ -15,7 +15,7 @@ namespace App\Http\Middlewares;
 
 use Max\Console\Output\ConsoleOutput;
 use Max\Aop\Annotation\Inject;
-use Max\Http\Middlewares\ExceptionHandlerMiddleware as CoreExceptionHandlerMiddleware;
+use Max\Framework\Http\Middlewares\ExceptionHandlerMiddleware as CoreExceptionHandlerMiddleware;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use Psr\Log\LoggerInterface;

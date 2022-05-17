@@ -11,7 +11,7 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 
-use Max\Http\Server as HttpServer;
+use Max\Swoole\Http\Server as HttpServer;
 use Max\Server\Callbacks;
 use Max\Server\Listeners\ServerListener;
 use Max\Server\Server;

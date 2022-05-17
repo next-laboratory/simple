@@ -14,8 +14,8 @@ declare(strict_types=1);
 namespace App\Http\Controllers;
 
 use Max\Aop\Annotation\Inject;
-use Max\Http\Annotations\Controller;
-use Max\Http\Annotations\GetMapping;
+use Max\Routing\Annotations\Controller;
+use Max\Routing\Annotations\GetMapping;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 
@@ -25,7 +25,7 @@ class IndexController
     #[Inject]
     protected ServerRequestInterface $request;
     #[Inject]
-    protected ResponseInterface $response;
+    protected ResponseInterface      $response;
 
     /**
      * @return array

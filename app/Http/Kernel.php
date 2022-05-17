@@ -27,7 +27,7 @@ class Kernel extends RequestHandler
      */
     protected array $middlewares = [
         'App\Http\Middlewares\ExceptionHandlerMiddleware',
-        'Max\Http\Middlewares\RoutingMiddleware',
+        'Max\Framework\Http\Middlewares\RoutingMiddleware',
         //        'App\Http\Middlewares\SessionMiddleware',
         //        'App\Http\Middlewares\AllowCrossDomain',
         //        'App\Http\Middlewares\ParseBodyMiddleware',

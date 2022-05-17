@@ -48,7 +48,8 @@
         "max/console": "dev-master",
         "max/framework": "dev-master",
         "max/redis": "dev-master",
-        "max/aop": "dev-master"
+        "max/aop": "dev-master",
+        "max/swoole": "dev-master"
     },
     "require-dev": {
         "swoole/ide-helper": "^4.8",
@@ -58,7 +59,7 @@
     },
     "scripts": {
         "post-autoload-dump": [
-            "rm -rf runtime/di"
+            "rm -rf runtime/aop"
         ],
         "post-root-package-install": [
             "@php -r \"file_exists('.env') || copy('.example.env', '.env');\""
