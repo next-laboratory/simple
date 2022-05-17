@@ -4,7 +4,7 @@ namespace App\Http\Utils;
 
 use Max\Context\Context;
 use Max\Http\Message\Stream\StringStream;
-use Max\Http\Response as HttpResponse;
+use Max\Swoole\Http\Response as HttpResponse;
 use Psr\Http\Message\ResponseInterface;
 
 class Response extends HttpResponse

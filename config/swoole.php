@@ -12,9 +12,9 @@ declare(strict_types=1);
  */
 
 use Max\Swoole\Http\Server as HttpServer;
-use Max\Server\Callbacks;
-use Max\Server\Listeners\ServerListener;
-use Max\Server\Server;
+use Max\Swoole\Callbacks;
+use Max\Swoole\Listeners\ServerListener;
+use Max\Swoole\Server;
 use Swoole\Constant;
 
 return [
@@ -36,8 +36,8 @@ return [
     'mode'      => SWOOLE_PROCESS,
     'settings'  => [
         Constant::OPTION_ENABLE_COROUTINE      => true,
-        Constant::OPTION_TASK_WORKER_NUM       => 2,
-        Constant::OPTION_WORKER_NUM            => 2,
+        Constant::OPTION_TASK_WORKER_NUM       => 1,
+        Constant::OPTION_WORKER_NUM            => 4,
         Constant::OPTION_TASK_ENABLE_COROUTINE => true,
     ],
     'callbacks' => [

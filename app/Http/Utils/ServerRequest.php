@@ -5,7 +5,7 @@ namespace App\Http\Utils;
 use InvalidArgumentException;
 use Max\Context\Context;
 use Max\Http\Message\UploadedFile;
-use Max\Http\ServerRequest as HttpServerRequest;
+use Max\Swoole\Http\ServerRequest as HttpServerRequest;
 use Max\Routing\Route;
 use Psr\Http\Message\ServerRequestInterface;
 use Swoole\Http\Request;

@@ -13,7 +13,7 @@ declare(strict_types=1);
 
 namespace App\Http;
 
-use Max\Http\RequestHandler;
+use Max\Swoole\Http\RequestHandler;
 use Max\Routing\Router;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
@@ -28,7 +28,7 @@ class Kernel extends RequestHandler
     protected array $middlewares = [
         'App\Http\Middlewares\ExceptionHandlerMiddleware',
         'Max\Framework\Http\Middlewares\RoutingMiddleware',
-        //        'App\Http\Middlewares\SessionMiddleware',
+//        'App\Http\Middlewares\SessionMiddleware',
         //        'App\Http\Middlewares\AllowCrossDomain',
         //        'App\Http\Middlewares\ParseBodyMiddleware',
     ];
@@ -40,8 +40,8 @@ class Kernel extends RequestHandler
      */
     protected function map(Router $router)
     {
-        $router->group(function(Router $router) {
-            $router->request('welcome', function(ServerRequestInterface $request, ResponseInterface $response) {
+        $router->group(function (Router $router) {
+            $router->request('welcome', function (ServerRequestInterface $request, ResponseInterface $response) {
                 return $response->json($request->all());
             });
         });
