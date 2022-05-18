@@ -48,6 +48,7 @@
     "max/redis": "dev-master",
     "max/aop": "dev-master",
     "max/swagger": "dev-master",
+    "max/http": "dev-master",
     "max/swoole": "dev-master"
   },
   "require-dev": {
