@@ -14,8 +14,8 @@ declare(strict_types=1);
 namespace App\Http\Middlewares;
 
 use Max\Di\Exceptions\NotFoundException;
-use Max\Http\Cookie;
 use Max\Http\Exceptions\InvalidRequestHandlerException;
+use Max\Http\Message\Cookie;
 use Max\Session\Session;
 use Psr\Container\ContainerExceptionInterface;
 use Psr\Http\Message\ResponseInterface;
