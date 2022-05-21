@@ -20,7 +20,7 @@ return [
         'collectors' => [
             'Max\Event\ListenerCollector',
             'Max\Framework\Http\RouteCollector',
-            'Max\Console\CommandCollector',
+            'Max\Framework\Console\CommandCollector',
         ],
         'runtimeDir' => BASE_PATH . 'runtime',
     ],

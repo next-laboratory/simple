@@ -14,7 +14,7 @@ declare(strict_types=1);
 namespace App\Listeners;
 
 use Max\Database\Events\QueryExecuted;
-use Max\Aop\Annotation\Inject;
+use Max\Di\Annotations\Inject;
 use Max\Event\Annotations\Listen;
 use Max\Event\Contracts\EventListenerInterface;
 use Max\Log\LoggerFactory;

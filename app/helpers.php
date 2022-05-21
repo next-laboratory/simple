@@ -13,7 +13,6 @@ declare(strict_types=1);
 
 use Max\Config\Repository;
 use Max\Di\Exceptions\NotFoundException;
-use Max\Env\Env;
 use Psr\Container\ContainerExceptionInterface;
 
 if (false === function_exists('base_path')) {
@@ -26,22 +25,6 @@ if (false === function_exists('base_path')) {
     function base_path(string $path = ''): string
     {
         return BASE_PATH . ltrim($path, '/');
-    }
-}
-
-if (false === function_exists('env')) {
-    /**
-     * env获取
-     *
-     * @param string|null $key
-     * @param null        $default
-     *
-     * @return mixed
-     * @throws Exception|ContainerExceptionInterface
-     */
-    function env(string $key = null, $default = null): mixed
-    {
-        return make(Env::class)->get($key, $default);
     }
 }
 
@@ -62,5 +45,18 @@ if (false === function_exists('config')) {
         $config = make(Repository::class);
 
         return $key ? $config->get($key, $default) : $config->all();
+    }
+}
+
+if (false === function_exists('env')) {
+    /**
+     * @param string     $key
+     * @param mixed|null $default
+     *
+     * @return mixed
+     */
+    function env(string $key, mixed $default = null): mixed
+    {
+        return $_ENV[$key] ?? $default;
     }
 }

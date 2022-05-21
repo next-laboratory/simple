@@ -46,8 +46,8 @@ composer create-project max/swoole-project:dev-master
 ### 启动服务
 
 ```shell
-php bin/max swoole start
-php bin/max swoole stop
+php bin/max.php swoole start
+php bin/max.php swoole stop
 ```
 
 这行命令会在你命令执行目录安装框架

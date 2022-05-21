@@ -13,12 +13,12 @@ declare(strict_types=1);
 
 namespace App\Http\Middlewares;
 
-use Max\Console\Output\ConsoleOutput;
-use Max\Aop\Annotation\Inject;
+use Max\Di\Annotations\Inject;
 use Max\Framework\Http\Middlewares\ExceptionHandlerMiddleware as CoreExceptionHandlerMiddleware;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use Psr\Log\LoggerInterface;
+use Symfony\Component\Console\Output\ConsoleOutput;
 use Throwable;
 
 class ExceptionHandlerMiddleware extends CoreExceptionHandlerMiddleware
@@ -77,7 +77,7 @@ class ExceptionHandlerMiddleware extends CoreExceptionHandlerMiddleware
      */
     protected function dump(Throwable $throwable): void
     {
-        (new ConsoleOutput())->error(sprintf("%s in %s +%d\n%s",
+        (new ConsoleOutput())->writeln(sprintf("<comment>[ERRO]</comment> %s in %s +%d\n%s",
             $throwable->getMessage(),
             $throwable->getFile(),
             $throwable->getLine(),

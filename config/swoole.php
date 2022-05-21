@@ -39,6 +39,7 @@ return [
         Constant::OPTION_TASK_WORKER_NUM       => 1,
         Constant::OPTION_WORKER_NUM            => 4,
         Constant::OPTION_TASK_ENABLE_COROUTINE => true,
+        Constant::OPTION_MAX_CONNECTION        => 1024,
     ],
     'callbacks' => [
         ServerListener::EVENT_TASK   => [Callbacks::class, 'onTask'],

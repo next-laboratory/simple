@@ -12,16 +12,14 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 
-use App\Console\Kernel;
 use Max\Aop\Scanner;
 use Max\Config\Repository;
-use Max\Console\CommandCollector;
-use Max\Di\Container;
 use Max\Di\Context;
-use Max\Env\Env;
-use Max\Env\Loader\IniFileLoader;
 use Max\Event\EventDispatcher;
 use Max\Event\ListenerCollector;
+use Max\Framework\Console\CommandCollector;
+use Symfony\Component\Console\Application;
+use Symfony\Component\Dotenv\Dotenv;
 
 ini_set('display_errors', 'on');
 ini_set('display_startup_errors', 'on');
@@ -32,12 +30,8 @@ const BASE_PATH = __DIR__ . '/../';
 
 (function() {
     $loader = require_once BASE_PATH . 'vendor/autoload.php';
-
-    /** @var Container $container */
+    (new Dotenv())->load('./.env');
     $container = Context::getContainer();
-    /** @var Env $env */
-    $env = $container->make(Env::class);
-    $env->load(new IniFileLoader('./.env'));
     /** @var Repository $repository */
     $repository = $container->make(Repository::class);
     $repository->scan(base_path('config'));
@@ -72,16 +66,16 @@ const BASE_PATH = __DIR__ . '/../';
         $listenerProvider->addListener($container->make($listener));
     }
 
-    $console = new Kernel();
+    $application = new Application();
 
     foreach ($config['commands'] ?? [] as $command) {
-        $console->add(new $command);
+        $application->add(new $command);
     }
     foreach (CommandCollector::all() as $command) {
-        $console->add(new $command);
+        $application->add(new $command);
     }
 
-    $console->run();
+    $application->run();
 })();
 
 
