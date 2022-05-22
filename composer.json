@@ -1,68 +1,64 @@
 {
-  "name": "max/swoole-project",
-  "license": "Apache-2.0",
-  "type": "project",
-  "description": "A lightweight, high-performance PHP framework based on swoole.",
-  "homepage": "https://github.com/topyao/max",
-  "minimum-stability": "dev",
-  "prefer-stable": true,
-  "keywords": [
-    "maxphp",
-    "flexible",
-    "php framework"
-  ],
-  "authors": [
-    {
-      "name": "chengyao",
-      "email": "987861463@qq.com",
-      "homepage": "https://www.1kmb.com"
-    }
-  ],
-  "autoload": {
-    "psr-4": {
-      "App\\": "app/"
-    },
-    "files": [
-      "app/helpers.php"
-    ]
-  },
-  "config": {
-    "optimize-autoloader": true,
-    "preferred-install": "dist"
-  },
-  "require": {
-    "php": "^8.0",
-    "ext-swoole": ">=4.6",
-    "ext-posix": "*",
-    "ext-pcntl": "*",
-    "max/log": "dev-master",
-    "max/config": "dev-master",
-    "max/cache": "dev-master",
-    "max/database": "dev-master",
-    "max/validator": "dev-master",
-    "max/env": "dev-master",
-    "max/view": "dev-master",
-    "max/session": "dev-master",
-    "max/console": "dev-master",
-    "max/framework": "dev-master",
-    "max/redis": "dev-master",
-    "max/aop": "dev-master",
-    "max/swagger": "dev-master",
-    "max/http": "dev-master",
-    "max/swoole": "dev-master"
-  },
-  "require-dev": {
-    "swoole/ide-helper": "*",
-    "phpunit/phpunit": "^9.5",
-    "symfony/var-dumper": "*",
-    "phpbench/phpbench": "^1.2"
-  },
-  "scripts": {
-    "post-autoload-dump": [
-      "rm -rf runtime/aop"
+    "name": "max/swoole-project",
+    "license": "Apache-2.0",
+    "type": "project",
+    "description": "A lightweight, high-performance PHP framework based on swoole.",
+    "homepage": "https://github.com/topyao/max",
+    "minimum-stability": "dev",
+    "prefer-stable": true,
+    "keywords": [
+        "maxphp",
+        "flexible",
+        "php framework"
     ],
-    "post-root-package-install": [
-      "@php -r \"file_exists('.env') || copy('.example.env', '.env');\""
-    ]
-  }
+    "authors": [
+        {
+            "name": "chengyao",
+            "email": "987861463@qq.com",
+            "homepage": "https://www.1kmb.com"
+        }
+    ],
+    "autoload": {
+        "psr-4": {
+            "App\\": "app/"
+        },
+        "files": [
+            "app/helpers.php"
+        ]
+    },
+    "config": {
+        "optimize-autoloader": true,
+        "preferred-install": "dist"
+    },
+    "require": {
+        "php": "^8.0",
+        "ext-swoole": ">=4.6",
+        "ext-posix": "*",
+        "ext-pcntl": "*",
+        "max/log": "dev-master",
+        "max/config": "dev-master",
+        "max/cache": "dev-master",
+        "max/database": "dev-master",
+        "max/validator": "dev-master",
+        "max/view": "dev-master",
+        "max/session": "dev-master",
+        "max/framework": "dev-master",
+        "max/redis": "dev-master",
+        "max/aop": "dev-master",
+        "max/swoole": "dev-master",
+        "symfony/dotenv": "^6.0"
+    },
+    "require-dev": {
+        "swoole/ide-helper": "*",
+        "symfony/var-dumper": "*"
+    },
+    "scripts": {
+        "post-autoload-dump": [
+            "rm -rf runtime/aop",
+            "@php bin/max.php vendor:publish"
+        ],
+        "post-root-package-install": [
+            "@php -r \"file_exists('.env') || copy('.example.env', '.env');\""
+        ]
+    }
 }
