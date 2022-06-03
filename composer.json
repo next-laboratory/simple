@@ -28,7 +28,9 @@
         "workerman/workerman": "^4.0",
         "max/config": "dev-master",
         "max/event": "dev-master",
-        "vlucas/phpdotenv": "^5.4"
+        "vlucas/phpdotenv": "^5.4",
+        "max/view": "dev-master",
+        "max/session": "dev-master"
     },
     "require-dev": {
         "swoole/ide-helper": "*",
