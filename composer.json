@@ -46,39 +46,5 @@
         ]
     },
     "minimum-stability": "dev",
-    "prefer-stable": true,
-    "repositories": [
-        {
-            "type": "path",
-            "url": "/home/cheng/max/max-vendor/src/aop"
-        },
-        {
-            "type": "path",
-            "url": "/home/cheng/max/max-vendor/src/di"
-        },
-        {
-            "type": "path",
-            "url": "/home/cheng/max/max-vendor/src/http-server"
-        },
-        {
-            "type": "path",
-            "url": "/home/cheng/max/max-vendor/src/config"
-        },
-        {
-            "type": "path",
-            "url": "/home/cheng/max/max-vendor/src/reflection"
-        },
-        {
-            "type": "path",
-            "url": "/home/cheng/max/max-vendor/src/utils"
-        },
-        {
-            "type": "path",
-            "url": "/home/cheng/max/max-vendor/src/http"
-        },
-        {
-            "type": "path",
-            "url": "/home/cheng/max/max-vendor/src/routing"
-        }
-    ]
+    "prefer-stable": true
 }
