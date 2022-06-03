@@ -11,9 +11,11 @@ class Kernel extends \Max\HttpServer\Kernel
 {
     protected function map(Router $router): void
     {
-//        $router->get('/', [IndexController::class, 'index']);
-//        $router->get('/test', function(Context $ctx) {
-//            return $ctx->HTML('new');
-//        });
+        $router->middleware(TestMiddleware::class)->group(function(Router $router) {
+            $router->get('/', [IndexController::class, 'index']);
+            $router->get('/test', function(Context $ctx) {
+                return $ctx->HTML('new');
+            });
+        });
     }
 }
