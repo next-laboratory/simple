@@ -1,0 +1,112 @@
+{
+    "name": "root/max-simple",
+    "minimum-stability": "dev",
+    "autoload": {
+        "psr-4": {
+            "App\\": "app/"
+        }
+    },
+    "authors": [
+        {
+            "name": "chengyao",
+            "email": "987861453@qq.com"
+        }
+    ],
+    "require": {
+        "max/aop": "dev-master",
+        "swoole/ide-helper": "dev-master",
+        "max/di": "dev-master",
+        "max/http-server": "dev-master",
+        "workerman/workerman": "^4.0"
+    },
+    "repositories": [
+        {
+            "type": "path",
+            "url": "/home/cheng/max/max-vendor/src/log"
+        },
+        {
+            "type": "path",
+            "url": "/home/cheng/max/max-vendor/src/http-server"
+        },
+        {
+            "type": "path",
+            "url": "/home/cheng/max/max-vendor/src/config"
+        },
+        {
+            "type": "path",
+            "url": "/home/cheng/max/max-vendor/src/cache"
+        },
+        {
+            "type": "path",
+            "url": "/home/cheng/max/max-vendor/src/database"
+        },
+        {
+            "type": "path",
+            "url": "/home/cheng/max/max-vendor/src/validator"
+        },
+        {
+            "type": "path",
+            "url": "/home/cheng/max/max-vendor/src/session"
+        },
+        {
+            "type": "path",
+            "url": "/home/cheng/max/max-vendor/src/framework"
+        },
+        {
+            "type": "path",
+            "url": "/home/cheng/max/max-vendor/src/redis"
+        },
+        {
+            "type": "path",
+            "url": "/home/cheng/max/max-vendor/src/aop"
+        },
+        {
+            "type": "path",
+            "url": "/home/cheng/max/max-vendor/src/swoole"
+        },
+        {
+            "type": "path",
+            "url": "/home/cheng/max/max-vendor/src/workerman"
+        },
+        {
+            "type": "path",
+            "url": "/home/cheng/max/max-vendor/src/di"
+        },
+        {
+            "type": "path",
+            "url": "/home/cheng/max/max-vendor/src/context"
+        },
+        {
+            "type": "path",
+            "url": "/home/cheng/max/max-vendor/src/event"
+        },
+        {
+            "type": "path",
+            "url": "/home/cheng/max/max-vendor/src/http"
+        },
+        {
+            "type": "path",
+            "url": "/home/cheng/max/max-vendor/src/pool"
+        },
+        {
+            "type": "path",
+            "url": "/home/cheng/max/max-vendor/src/routing"
+        },
+        {
+            "type": "path",
+            "url": "/home/cheng/max/max-vendor/src/utils"
+        },
+        {
+            "type": "path",
+            "url": "/home/cheng/max/max-vendor/src/view"
+        },
+        {
+            "type": "path",
+            "url": "/home/cheng/max/max-vendor/src/reflection"
+        },
+        {
+            "type": "path",
+            "url": "/home/cheng/max/max-vendor/src/swagger"
+        }
+    ]
+}
