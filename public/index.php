@@ -1,6 +1,6 @@
 <?php
 
-use App\Kernel;
+use App\Http\Kernel;
 use Max\Config\Repository;
 use Max\Di\Context;
 

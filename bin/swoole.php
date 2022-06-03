@@ -1,6 +1,6 @@
 <?php
 
-use App\Kernel;
+use App\Http\Kernel;
 use Dotenv\Dotenv;
 use Max\Aop\Scanner;
 use Max\Aop\ScannerConfig;
@@ -8,9 +8,6 @@ use Max\Config\Repository;
 use Max\Di\Context;
 use Max\Event\EventDispatcher;
 use Max\Event\ListenerCollector;
-use Max\HttpServer\Contracts\ExceptionHandlerInterface;
-use Max\HttpServer\ExceptionHandler;
-use Max\HttpServer\RouteCollector;
 use Swoole\Http\Request;
 use Swoole\Http\Response;
 use Swoole\Http\Server;
