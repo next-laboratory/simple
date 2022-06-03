@@ -27,6 +27,7 @@
         "max/http-server": "dev-master",
         "workerman/workerman": "^4.0",
         "max/config": "dev-master",
+        "max/event": "dev-master",
         "vlucas/phpdotenv": "^5.4"
     },
     "require-dev": {
