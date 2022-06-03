@@ -13,7 +13,7 @@ declare(strict_types=1);
 
 namespace App\Http\Middlewares;
 
-use Max\Http\Message\Cookie;
+use Max\HttpMessage\Cookie;
 use Max\Session\Session;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;

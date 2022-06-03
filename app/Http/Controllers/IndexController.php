@@ -13,7 +13,6 @@ declare(strict_types=1);
 
 namespace App\Http\Controllers;
 
-use App\Http\Middlewares\SessionMiddleware;
 use Max\HttpServer\Context;
 use Max\Routing\Annotations\Controller;
 use Max\Routing\Annotations\GetMapping;
@@ -23,7 +22,7 @@ use Psr\Http\Message\ResponseInterface;
 #[Controller(prefix: '/')]
 class IndexController
 {
-    #[GetMapping(path: '/', middlewares: [SessionMiddleware::class])]
+    #[GetMapping(path: '/')]
     public function index(Context $ctx): ResponseInterface
     {
         return $ctx->end('Hello, ' . $ctx->get('name', 'MaxPHP!'));
