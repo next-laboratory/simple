@@ -1,11 +1,18 @@
 {
     "name": "max/max-simple",
-    "minimum-stability": "dev",
     "type": "project",
+    "keywords": [
+        "maxphp",
+        "flexible",
+        "php framework"
+    ],
     "autoload": {
         "psr-4": {
             "App\\": "app/"
-        }
+        },
+        "files": [
+            "app/helpers.php"
+        ]
     },
     "authors": [
         {
@@ -14,10 +21,64 @@
         }
     ],
     "require": {
+        "php": "^8.0",
         "max/aop": "dev-master",
-        "swoole/ide-helper": "dev-master",
         "max/di": "dev-master",
         "max/http-server": "dev-master",
-        "workerman/workerman": "^4.0"
-    }
+        "workerman/workerman": "^4.0",
+        "max/config": "dev-master",
+        "vlucas/phpdotenv": "^5.4"
+    },
+    "require-dev": {
+        "swoole/ide-helper": "*",
+        "symfony/var-dumper": "*"
+    },
+    "config": {
+        "optimize-autoloader": true,
+        "preferred-install": "dist"
+    },
+    "scripts": {
+        "post-autoload-dump": [
+            "rm -rf runtime/aop"
+        ],
+        "post-root-package-install": [
+            "@php -r \"file_exists('.env') || copy('.example.env', '.env');\""
+        ]
+    },
+    "minimum-stability": "dev",
+    "prefer-stable": true,
+    "repositories": [
+        {
+            "type": "path",
+            "url": "/home/cheng/max/max-vendor/src/aop"
+        },
+        {
+            "type": "path",
+            "url": "/home/cheng/max/max-vendor/src/di"
+        },
+        {
+            "type": "path",
+            "url": "/home/cheng/max/max-vendor/src/http-server"
+        },
+        {
+            "type": "path",
+            "url": "/home/cheng/max/max-vendor/src/config"
+        },
+        {
+            "type": "path",
+            "url": "/home/cheng/max/max-vendor/src/reflection"
+        },
+        {
+            "type": "path",
+            "url": "/home/cheng/max/max-vendor/src/utils"
+        },
+        {
+            "type": "path",
+            "url": "/home/cheng/max/max-vendor/src/http"
+        },
+        {
+            "type": "path",
+            "url": "/home/cheng/max/max-vendor/src/routing"
+        }
+    ]
 }

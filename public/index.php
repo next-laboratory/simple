@@ -1,9 +1,16 @@
 <?php
 
+use App\Kernel;
+use Max\Di\Context;
+use Max\HttpServer\Contracts\ExceptionHandlerInterface;
+use Max\HttpServer\ExceptionHandler;
+
 require_once '../vendor/autoload.php';
 
-\Max\Di\Context::getContainer()->bind(\Max\HttpServer\Contracts\ExceptionHandlerInterface::class, \Max\HttpServer\ExceptionHandler::class);
+(function() {
+    Context::getContainer()->bind(ExceptionHandlerInterface::class, ExceptionHandler::class);
+    $requestHandler = Context::getContainer()->make(Kernel::class);
+    $requestHandler->handleFPMRequest();
+})();
 
-$requestHandler = \Max\Di\Context::getContainer()->make(\App\Kernel::class);
 
-$requestHandler->handleFPMRequest();

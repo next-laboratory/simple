@@ -1,24 +1,37 @@
 <?php
 
+use App\Kernel;
+use Dotenv\Dotenv;
+use Max\Aop\Scanner;
+use Max\Aop\ScannerConfig;
+use Max\Config\Repository;
+use Max\Di\Context;
+use Max\HttpServer\Contracts\ExceptionHandlerInterface;
+use Max\HttpServer\ExceptionHandler;
 use Workerman\Connection\TcpConnection;
 use Workerman\Protocols\Http\Request;
 use Workerman\Worker;
 
-$loader = require_once './vendor/autoload.php';
+ini_set('display_errors', 'on');
+ini_set('display_startup_errors', 'on');
+ini_set('memory_limit', '1G');
+error_reporting(E_ALL);
+date_default_timezone_set('PRC');
 
-\Max\Aop\Scanner::init($loader, new \Max\Aop\ScannerConfig([
-    'paths'      => ['./app'],
-    'runtimeDir' => './runtime'
-]));
-
-\Max\Di\Context::getContainer()->bind(\Max\HttpServer\Contracts\ExceptionHandlerInterface::class, \Max\HttpServer\ExceptionHandler::class);
-
-$worker = new Worker('http://0.0.0.0:8989');
-
-$worker->onMessage = function(TcpConnection $tcpConnection, Request $request) {
-    $requestHandler = \Max\Di\Context::getContainer()->make(\App\Kernel::class);
-    $requestHandler->handleWorkermanRequest($tcpConnection, $request);
-};
-
-Worker::runAll();
+(function() {
+    $loader = require_once './vendor/autoload.php';
+    Dotenv::createImmutable(dirname(__DIR__))->load();
+    $container = Context::getContainer();
+    /** @var Repository $repository */
+    $repository = $container->make(Repository::class);
+    $repository->scan('./config');
+    Scanner::init($loader, new ScannerConfig($repository->get('aop')));
+    Context::getContainer()->bind(ExceptionHandlerInterface::class, ExceptionHandler::class);
+    $worker            = new Worker('http://0.0.0.0:8989');
+    $worker->onMessage = function(TcpConnection $tcpConnection, Request $request) {
+        $requestHandler = Context::getContainer()->make(Kernel::class);
+        $requestHandler->handleWorkermanRequest($tcpConnection, $request);
+    };
+    Worker::runAll();
+})();
 

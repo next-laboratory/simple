@@ -1,20 +1,39 @@
 <?php
 
-$loader = require_once './vendor/autoload.php';
+use App\Kernel;
+use Dotenv\Dotenv;
+use Max\Aop\Scanner;
+use Max\Aop\ScannerConfig;
+use Max\Config\Repository;
+use Max\Di\Context;
+use Max\HttpServer\Contracts\ExceptionHandlerInterface;
+use Max\HttpServer\ExceptionHandler;
+use Max\HttpServer\RouteCollector;
+use Swoole\Http\Request;
+use Swoole\Http\Response;
+use Swoole\Http\Server;
 
-\Max\Aop\Scanner::init($loader, new \Max\Aop\ScannerConfig([
-    'paths'      => ['./app'],
-    'collectors' => [\Max\HttpServer\RouteCollector::class],
-    'runtimeDir' => './runtime'
-]));
+ini_set('display_errors', 'on');
+ini_set('display_startup_errors', 'on');
+ini_set('memory_limit', '1G');
+error_reporting(E_ALL);
+date_default_timezone_set('PRC');
 
-$server = new \Swoole\Http\Server('0.0.0.0', 8989);
+(function() {
+    $loader = require_once './vendor/autoload.php';
+    Dotenv::createImmutable(dirname(__DIR__))->load();
+    $container = Context::getContainer();
+    /** @var Repository $repository */
+    $repository = $container->make(Repository::class);
+    $repository->scan('./config');
+    Scanner::init($loader, new ScannerConfig($repository->get('aop')));
+    $server = new Server('0.0.0.0', 8989);
+    Context::getContainer()->bind(ExceptionHandlerInterface::class, ExceptionHandler::class);
+    $server->on('request', function(Request $request, Response $response) {
+        $requestHandler = Context::getContainer()->make(Kernel::class);
+        $requestHandler->handleSwooleRequest($request, $response);
+    });
 
-\Max\Di\Context::getContainer()->bind(\Max\HttpServer\Contracts\ExceptionHandlerInterface::class, \Max\HttpServer\ExceptionHandler::class);
+    $server->start();
+})();
 
-$server->on('request', function(\Swoole\Http\Request $request, \Swoole\Http\Response $response) {
-    $requestHandler = \Max\Di\Context::getContainer()->make(\App\Kernel::class);
-    $requestHandler->handleSwooleRequest($request, $response);
-});
-
-$server->start();
