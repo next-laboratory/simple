@@ -27,8 +27,10 @@ date_default_timezone_set('PRC');
     $repository = $container->make(Repository::class);
     $repository->scan('./config');
     Scanner::init($loader, new ScannerConfig($repository->get('aop')));
+    foreach ($repository->get('di.bindings') as $id => $value) {
+        $container->bind($id, $value);
+    }
     $server = new Server('0.0.0.0', 8989);
-    Context::getContainer()->bind(ExceptionHandlerInterface::class, ExceptionHandler::class);
     $server->on('request', function(Request $request, Response $response) {
         $requestHandler = Context::getContainer()->make(Kernel::class);
         $requestHandler->handleSwooleRequest($request, $response);

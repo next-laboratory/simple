@@ -26,7 +26,9 @@ date_default_timezone_set('PRC');
     $repository = $container->make(Repository::class);
     $repository->scan('./config');
     Scanner::init($loader, new ScannerConfig($repository->get('aop')));
-    Context::getContainer()->bind(ExceptionHandlerInterface::class, ExceptionHandler::class);
+    foreach ($repository->get('di.bindings') as $id => $value) {
+        $container->bind($id, $value);
+    }
     $worker            = new Worker('http://0.0.0.0:8989');
     $worker->onMessage = function(TcpConnection $tcpConnection, Request $request) {
         $requestHandler = Context::getContainer()->make(Kernel::class);
