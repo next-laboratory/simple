@@ -6,6 +6,8 @@ use Max\Aop\Scanner;
 use Max\Aop\ScannerConfig;
 use Max\Config\Repository;
 use Max\Di\Context;
+use Max\Event\EventDispatcher;
+use Max\Event\ListenerCollector;
 use Max\HttpServer\Contracts\ExceptionHandlerInterface;
 use Max\HttpServer\ExceptionHandler;
 use Workerman\Connection\TcpConnection;
@@ -25,9 +27,15 @@ date_default_timezone_set('PRC');
     /** @var Repository $repository */
     $repository = $container->make(Repository::class);
     $repository->scan('./config');
-    Scanner::init($loader, new ScannerConfig($repository->get('aop')));
+    Scanner::init($loader, new ScannerConfig($repository->get('di.aop')));
     foreach ($repository->get('di.bindings') as $id => $value) {
         $container->bind($id, $value);
+    }
+    /** @var EventDispatcher $eventDispatcher */
+    $eventDispatcher  = $container->make(EventDispatcher::class);
+    $listenerProvider = $eventDispatcher->getListenerProvider();
+    foreach (ListenerCollector::getListeners() as $listener) {
+        $listenerProvider->addListener($container->make($listener));
     }
     $worker            = new Worker('http://0.0.0.0:8989');
     $worker->onMessage = function(TcpConnection $tcpConnection, Request $request) {
