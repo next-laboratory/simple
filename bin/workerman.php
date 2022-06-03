@@ -32,6 +32,15 @@ date_default_timezone_set('PRC');
         $requestHandler = Context::getContainer()->make(Kernel::class);
         $requestHandler->handleWorkermanRequest($tcpConnection, $request);
     };
+
+    echo <<<EOT
+,--.   ,--.                  ,------. ,--.  ,--.,------.  
+|   `.'   | ,--,--.,--.  ,--.|  .--. '|  '--'  ||  .--. ' 
+|  |'.'|  |' ,-.  | \  `'  / |  '--' ||  .--.  ||  '--' | 
+|  |   |  |\ '-'  | /  /.  \ |  | --' |  |  |  ||  | --'  
+`--'   `--' `--`--''--'  '--'`--'     `--'  `--'`--' 
+
+EOT;
     Worker::runAll();
 })();
 
