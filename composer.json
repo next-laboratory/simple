@@ -1,5 +1,5 @@
 {
-    "name": "max/max-simple",
+    "name": "max/simple",
     "type": "project",
     "keywords": [
         "maxphp",
@@ -31,7 +31,7 @@
     },
     "require-dev": {
         "swoole/ide-helper": "*",
-        "symfony/var-dumper": "*"
+        "symfony/var-dumper": "^6.1"
     },
     "config": {
         "optimize-autoloader": true,
