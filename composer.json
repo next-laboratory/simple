@@ -1,5 +1,6 @@
 {
     "name": "max/simple",
+    "license": "Apache-2.0",
     "type": "project",
     "keywords": [
         "maxphp",
@@ -34,7 +35,7 @@
     },
     "require-dev": {
         "swoole/ide-helper": "*",
-        "symfony/var-dumper": "^6.1"
+        "symfony/var-dumper": "^6.0"
     },
     "config": {
         "optimize-autoloader": true,
