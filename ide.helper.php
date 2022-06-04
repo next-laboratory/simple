@@ -1,5 +1,17 @@
 <?php
 
+namespace Psr\Http\Message {
+
+    use Max\HttpMessage\ServerRequest;
+
+    /**
+     * @mixin ServerRequest
+     */
+    interface ServerRequestInterface
+    {
+    }
+}
+
 namespace Psr\Container {
 
     use Max\Di\Container;

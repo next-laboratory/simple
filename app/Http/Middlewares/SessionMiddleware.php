@@ -15,6 +15,7 @@ namespace App\Http\Middlewares;
 
 use Max\HttpMessage\Cookie;
 use Max\Session\Session;
+use Max\Session\SessionManager;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Server\MiddlewareInterface;
@@ -32,32 +33,13 @@ class SessionMiddleware implements MiddlewareInterface
      *
      * @var array|mixed|null
      */
-    protected int $expires = 9 * 3600;
+    protected int    $expires  = 9 * 3600;
+    protected bool   $httponly = true;
+    protected string $path     = '/';
+    protected string $domain   = '';
+    protected bool   $secure   = true;
 
-    /**
-     * @var bool
-     */
-    protected bool $httponly = true;
-
-    /**
-     * @var string
-     */
-    protected string $path = '/';
-
-    /**
-     * @var string
-     */
-    protected string $domain = '';
-
-    /**
-     * @var bool
-     */
-    protected bool $secure = true;
-
-    /**
-     * @param Session $session
-     */
-    public function __construct(protected Session $session)
+    public function __construct(protected SessionManager $sessionManager)
     {
     }
 
@@ -69,13 +51,16 @@ class SessionMiddleware implements MiddlewareInterface
      */
     public function process(ServerRequestInterface $request, RequestHandlerInterface $handler): ResponseInterface
     {
-        $this->session->start($request->getCookieParams()[strtoupper($this->name)] ?? null);
-        $response = $handler->handle($request);
-        $this->session->save();
-        $this->session->close();
+        $session = $this->sessionManager->create();
+        $session->start($request->getCookieParams()[strtoupper($this->name)] ?? null);
+        $request->session = $session;
+        $response         = $handler->handle($request);
+        $session->save();
+        $session->close();
         $cookie = new Cookie(
-            $this->name, $this->session->getId(), time() + $this->expires, $this->path, $this->domain, $this->secure, $this->httponly
+            $this->name, $session->getId(), time() + $this->expires, $this->path, $this->domain, $this->secure, $this->httponly
         );
+
         return $response->withAddedHeader('Set-Cookie', $cookie->__toString());
     }
 }

@@ -6,6 +6,7 @@ use Max\Aop\Scanner;
 use Max\Aop\ScannerConfig;
 use Max\Config\Repository;
 use Max\Di\Context;
+use Max\Event\Contracts\EventListenerInterface;
 use Max\Event\EventDispatcher;
 use Max\Event\ListenerCollector;
 use Swoole\Http\Request;
@@ -33,14 +34,18 @@ date_default_timezone_set('PRC');
     $eventDispatcher  = $container->make(EventDispatcher::class);
     $listenerProvider = $eventDispatcher->getListenerProvider();
     foreach (ListenerCollector::getListeners() as $listener) {
-        $listenerProvider->addListener($container->make($listener));
+        $listener = $container->make($listener);
+        /** @var EventListenerInterface $listener */
+        $listenerProvider->addListener($listener);
     }
     $server = new Server('0.0.0.0', 8989);
     $server->on('request', function(Request $request, Response $response) {
         $requestHandler = Context::getContainer()->make(Kernel::class);
         $requestHandler->handleSwooleRequest($request, $response);
     });
-
+    $server->set([
+        \Swoole\Constant::OPTION_WORKER_NUM => 4,
+    ]);
     echo <<<EOT
 ,--.   ,--.                  ,------. ,--.  ,--.,------.  
 |   `.'   | ,--,--.,--.  ,--.|  .--. '|  '--'  ||  .--. ' 

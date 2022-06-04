@@ -8,6 +8,7 @@ return [
         ],
         'collectors' => [
             'Max\HttpServer\RouteCollector',
+            'Max\Event\ListenerCollector'
         ],
         'runtimeDir' => './runtime',
     ],
