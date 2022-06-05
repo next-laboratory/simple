@@ -13,14 +13,17 @@ declare(strict_types=1);
 
 namespace App\Exceptions;
 
+use Max\HttpMessage\Response;
 use Max\HttpServer\ExceptionHandler as HttpExceptionHandler;
+use Max\View\Renderer;
+use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use Psr\Log\LoggerInterface;
 use Throwable;
 
 class ExceptionHandler extends HttpExceptionHandler
 {
-    public function __construct(protected LoggerInterface $logger)
+    public function __construct(protected LoggerInterface $logger, protected ?Renderer $renderer = null)
     {
     }
 
@@ -32,5 +35,13 @@ class ExceptionHandler extends HttpExceptionHandler
             'headers' => $request->getHeaders(),
             'request' => $request->getQueryParams() + $request->getParsedBody()
         ]);
+    }
+
+    protected function renderException(Throwable $throwable, ServerRequestInterface $request): ResponseInterface
+    {
+        if (is_null($this->renderer)) {
+            return parent::renderException(...func_get_args());
+        }
+        return new Response($this->getStatusCode($throwable), [], $this->renderer->render('error'));
     }
 }

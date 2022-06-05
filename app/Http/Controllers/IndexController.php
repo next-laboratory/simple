@@ -39,6 +39,6 @@ class IndexController
     #[GetMapping(path: '/welcome')]
     public function welcome(Context $ctx, Renderer $renderer): ResponseInterface
     {
-        return $ctx->end($renderer->render('index', ['a' => 123]));
+        return $ctx->HTML($renderer->render('index', ['a' => 123]));
     }
 }

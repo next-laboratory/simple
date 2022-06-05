@@ -23,16 +23,10 @@ use Psr\Http\Server\RequestHandlerInterface;
 class SessionMiddleware implements MiddlewareInterface
 {
     /**
-     * @var string|array|mixed|null
-     */
-    protected string $name = 'MAXPHP_SESSION_ID';
-
-    /**
      * Cookie 过期时间【+9小时，实际1小时后过期，和时区有关】
-     *
-     * @var array|mixed|null
      */
     protected int    $expires  = 9 * 3600;
+    protected string $name     = 'MAXPHP_SESSION_ID';
     protected bool   $httponly = true;
     protected string $path     = '/';
     protected string $domain   = '';
