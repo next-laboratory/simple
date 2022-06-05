@@ -31,7 +31,9 @@
         "max/event": "dev-master",
         "vlucas/phpdotenv": "^5.4",
         "max/view": "dev-master",
-        "max/session": "dev-master"
+        "max/session": "dev-master",
+        "max/redis": "dev-master",
+        "max/log": "dev-master"
     },
     "require-dev": {
         "swoole/ide-helper": "*",

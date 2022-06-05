@@ -8,6 +8,7 @@
     <title>Document</title>
 </head>
 <body>
-{{$a}}
+<h1>Welcome!</h1>
+<img src="./favicon.ico" alt="">
 </body>
 </html>

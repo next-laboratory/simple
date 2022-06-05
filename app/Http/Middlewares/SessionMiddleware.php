@@ -14,7 +14,6 @@ declare(strict_types=1);
 namespace App\Http\Middlewares;
 
 use Max\HttpMessage\Cookie;
-use Max\Session\Session;
 use Max\Session\SessionManager;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
