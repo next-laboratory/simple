@@ -9,8 +9,7 @@ use Max\Di\Context;
 use Max\Event\Contracts\EventListenerInterface;
 use Max\Event\EventDispatcher;
 use Max\Event\ListenerCollector;
-use Swoole\Http\Request;
-use Swoole\Http\Response;
+use Swoole\Constant;
 use Swoole\Http\Server;
 
 ini_set('display_errors', 'on');
@@ -39,12 +38,9 @@ date_default_timezone_set('PRC');
         $listenerProvider->addListener($listener);
     }
     $server = new Server('0.0.0.0', 8989);
-    $server->on('request', function(Request $request, Response $response) {
-        $requestHandler = Context::getContainer()->make(Kernel::class);
-        $requestHandler->handleSwooleRequest($request, $response);
-    });
+    $server->on('request', [Context::getContainer()->make(Kernel::class), 'handleSwooleRequest']);
     $server->set([
-        \Swoole\Constant::OPTION_WORKER_NUM => 4,
+        Constant::OPTION_WORKER_NUM => 4,
     ]);
     echo <<<EOT
 ,--.   ,--.                  ,------. ,--.  ,--.,------.  

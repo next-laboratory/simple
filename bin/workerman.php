@@ -9,8 +9,6 @@ use Max\Di\Context;
 use Max\Event\Contracts\EventListenerInterface;
 use Max\Event\EventDispatcher;
 use Max\Event\ListenerCollector;
-use Workerman\Connection\TcpConnection;
-use Workerman\Protocols\Http\Request;
 use Workerman\Worker;
 
 ini_set('display_errors', 'on');
@@ -39,10 +37,7 @@ date_default_timezone_set('PRC');
         $listenerProvider->addListener($listener);
     }
     $worker            = new Worker('http://0.0.0.0:8989');
-    $worker->onMessage = function(TcpConnection $tcpConnection, Request $request) {
-        $requestHandler = Context::getContainer()->make(Kernel::class);
-        $requestHandler->handleWorkermanRequest($tcpConnection, $request);
-    };
+    $worker->onMessage = [Context::getContainer()->make(Kernel::class), 'handleWorkermanRequest'];
     $worker->count     = 4;
 
     echo <<<EOT
