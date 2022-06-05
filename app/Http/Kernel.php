@@ -17,7 +17,7 @@ class Kernel extends HttpKernel
     {
         $router->group(function(Router $router) {
             $router->get('/', [IndexController::class, 'index']);
-            $router->get('/welcome', ['App\Http\Controllers\IndexController@welcome']);
+            $router->get('/welcome', 'App\Http\Controllers\IndexController@welcome');
             $router->get('/test', function(Context $ctx) {
                 return $ctx->HTML('test');
             });
