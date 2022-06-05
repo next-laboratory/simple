@@ -39,7 +39,7 @@ class ExceptionHandler extends HttpExceptionHandler
 
     protected function renderException(Throwable $throwable, ServerRequestInterface $request): ResponseInterface
     {
-        if (is_null($this->renderer)) {
+        if (env('APP_DEBUG') || is_null($this->renderer)) {
             return parent::renderException(...func_get_args());
         }
         return new Response($this->getStatusCode($throwable), [], $this->renderer->render('error'));
