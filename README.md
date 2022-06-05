@@ -21,7 +21,7 @@ php bin/workerman.php start
 > 内置服务
 
 ```php
-php -S 0.0.0.0:8080 -t public
+php bin/fpm.php
 ```
 
 > FPM模式，将请求指向public/index.php即可
@@ -34,7 +34,7 @@ php -S 0.0.0.0:8080 -t public
 
 ### 路由定义
 
-> cswoole/workerman下可以使用注解定义
+> swoole/workerman下可以使用注解定义
 
 ```php
 <?php
