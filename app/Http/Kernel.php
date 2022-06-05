@@ -16,7 +16,7 @@ class Kernel extends HttpKernel
     protected function map(Router $router): void
     {
         $router->group(function(Router $router) {
-            $router->get('/', [IndexController::class, 'index']);
+            $router->request('/', [IndexController::class, 'index']);
             $router->get('/welcome', 'App\Http\Controllers\IndexController@welcome');
             $router->get('/test', function(Context $ctx) {
                 return $ctx->HTML('test');
