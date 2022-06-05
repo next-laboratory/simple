@@ -11,17 +11,17 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 
-namespace App\Exceptions;
+namespace App\Http\Middlewares;
 
 use Max\HttpMessage\Response;
-use Max\HttpServer\ExceptionHandler as HttpExceptionHandler;
+use Max\HttpServer\Middlewares\ExceptionHandleMiddleware as HttpExceptionHandleMiddleware;
 use Max\View\Renderer;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use Psr\Log\LoggerInterface;
 use Throwable;
 
-class ExceptionHandler extends HttpExceptionHandler
+class ExceptionHandleMiddleware extends HttpExceptionHandleMiddleware
 {
     public function __construct(protected LoggerInterface $logger, protected ?Renderer $renderer = null)
     {

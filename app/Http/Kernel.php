@@ -10,6 +10,8 @@ use Max\Routing\Router;
 class Kernel extends HttpKernel
 {
     protected array $middlewares = [
+        'App\Http\Middlewares\ExceptionHandleMiddleware',
+        'Max\HttpServer\Middlewares\RoutingMiddleware',
         //        'App\Http\Middlewares\SessionMiddleware',
     ];
 

@@ -11,7 +11,7 @@ return [
             'options' => [
                 'filename' => __DIR__ . '/../runtime/logs/app.log',
                 'maxFiles' => 180,
-                'level'    => Logger::WARNING,
+                'level'    => Logger::DEBUG,
             ],
         ],
         'sql' => [
