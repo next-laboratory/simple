@@ -19,13 +19,21 @@ use Max\Routing\Annotations\GetMapping;
 use Max\View\Renderer;
 use Psr\Http\Message\ResponseInterface;
 
+/**
+ * 当前类使用了注解定义路由，只在swoole/workerman环境下有效
+ * cli-server或FPM环境下不支持注解/AOP，需要在App\Http\Kernel中定义路由
+ */
 #[Controller(prefix: '/')]
 class IndexController
 {
-    #[GetMapping(path: '/')]
     public function index(Context $ctx): ResponseInterface
     {
-        return $ctx->end('Hello, ' . $ctx->get('name', 'MaxPHP!'));
+        return $ctx->JSON([
+            'code'    => 0,
+            'status'  => true,
+            'message' => 'Hello, ' . $ctx->get('name', 'MaxPHP') . '!',
+            'data'    => [],
+        ]);
     }
 
     #[GetMapping(path: '/welcome')]

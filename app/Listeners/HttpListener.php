@@ -29,6 +29,6 @@ class HttpListener implements EventListenerInterface
 
     public function process(object $event): void
     {
-        dump($event);
+//        dump($event);
     }
 }
