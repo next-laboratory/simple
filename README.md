@@ -66,9 +66,9 @@ class IndexController
 
 ```php
 $router->middleware(TestMiddleware::class)->group(function(Router $router) {
-            $router->get('/', [IndexController::class, 'index']);
-            $router->get('/test', function(\Psr\Http\Message\ServerRequestInterface $request) {
-                return (new \App\Http\Response())->HTML('new');
-            });
-        });
+    $router->get('/', [IndexController::class, 'index']);
+    $router->get('/test', function(\Psr\Http\Message\ServerRequestInterface $request) {
+        return (new \App\Http\Response())->HTML('new');
+    });
+});
 ```
