@@ -18,6 +18,11 @@ define('BASE_PATH', dirname(__DIR__) . '/');
 
 (function() {
     $loader = require_once './vendor/autoload.php';
+
+    if (!class_exists('Workerman\Worker')) {
+        throw new Exception('You should install the workerman using `composer require workerman/workerman` before starting.');
+    }
+
     Bootstrap::boot($loader, true);
 
     /**

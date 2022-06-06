@@ -19,6 +19,10 @@ define('BASE_PATH', dirname(__DIR__) . '/');
 
 (function() {
     $loader = require_once './vendor/autoload.php';
+    if (!class_exists('Swoole\Server')) {
+        throw new Exception('You should install the swoole extension before starting.');
+    }
+
     Bootstrap::boot($loader, true);
 
     /**
