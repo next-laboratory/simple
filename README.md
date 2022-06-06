@@ -23,7 +23,7 @@ php bin/workerman.php start
 > 内置服务
 
 ```php
-php bin/fpm.php
+php bin/cli.php
 ```
 
 > FPM模式，将请求指向public/index.php即可

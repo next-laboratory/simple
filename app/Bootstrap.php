@@ -17,7 +17,7 @@ class Bootstrap
 {
     /**
      * @param ClassLoader $loader
-     * @param bool        $enable
+     * @param bool $enable
      *
      * @return void
      * @throws ContainerExceptionInterface
@@ -32,7 +32,9 @@ class Bootstrap
          *
          * @var Repository $repository
          */
-        Dotenv::createImmutable(dirname(__DIR__))->load();
+        if (file_exists(BASE_PATH . '.env')) {
+            Dotenv::createImmutable(BASE_PATH)->load();
+        }
         $repository = $container->make(Repository::class);
         $repository->scan(BASE_PATH . './config');
 
