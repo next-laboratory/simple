@@ -2,8 +2,12 @@
 
 use App\Bootstrap;
 use App\Http\Kernel;
+use App\Http\ServerRequest;
 use Max\Di\Context;
+use Max\HttpServer\ResponseEmitter\SwooleResponseEmitter;
 use Swoole\Constant;
+use Swoole\Http\Request;
+use Swoole\Http\Response;
 use Swoole\Http\Server;
 
 ini_set('display_errors', 'on');
@@ -16,11 +20,30 @@ define('BASE_PATH', dirname(__DIR__) . '/');
 (function() {
     $loader = require_once './vendor/autoload.php';
     Bootstrap::boot($loader, true);
-    $server = new Server('0.0.0.0', 8989);
-    $server->on('request', [Context::getContainer()->make(Kernel::class), 'handleSwooleRequest']);
-    $server->set([
+
+    /**
+     * Configuration.
+     */
+    $host     = '0.0.0.0';
+    $port     = 8989;
+    $settings = [
         Constant::OPTION_WORKER_NUM => 4,
-    ]);
+    ];
+
+    /**
+     * Start server.
+     */
+    $server = new Server($host, $port);
+    /** @var Kernel $kernel */
+    $kernel = Context::getContainer()->make(Kernel::class);
+    $server->on('request', function(Request $request, Response $response) use ($kernel) {
+        $serverRequest = ServerRequest::createFromSwooleRequest($request);
+        $psrResponse   = $kernel->createResponse($serverRequest);
+        $serverRequest->withAttribute('rawRequest', $request);
+        $serverRequest->withAttribute('rawResponse', $response);
+        (new SwooleResponseEmitter())->emit($psrResponse, $response);
+    });
+    $server->set($settings);
     echo <<<EOT
 ,--.   ,--.                  ,------. ,--.  ,--.,------.  
 |   `.'   | ,--,--.,--.  ,--.|  .--. '|  '--'  ||  .--. ' 
@@ -29,6 +52,10 @@ define('BASE_PATH', dirname(__DIR__) . '/');
 `--'   `--' `--`--''--'  '--'`--'     `--'  `--'`--' 
 
 EOT;
+    printf("System       Name:       %s\n", strtolower(PHP_OS));
+    printf("PHP          Version:    %s\n", PHP_VERSION);
+    printf("Swoole       Version:    %s\n", swoole_version());
+    printf("Listen       Addr:       http://%s:%d\n", $host, $port);
 
     $server->start();
 })();

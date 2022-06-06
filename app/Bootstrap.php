@@ -8,7 +8,6 @@ use Max\Aop\Scanner;
 use Max\Aop\ScannerConfig;
 use Max\Config\Repository;
 use Max\Di\Context;
-use Max\Event\Contracts\EventListenerInterface;
 use Max\Event\ListenerCollector;
 use Max\Event\ListenerProvider;
 use Psr\Container\ContainerExceptionInterface;
@@ -29,7 +28,7 @@ class Bootstrap
         $container = Context::getContainer();
 
         /**
-         * Initialize environment and config.
+         * Initialize environment variables and configurations.
          *
          * @var Repository $repository
          */
@@ -38,7 +37,7 @@ class Bootstrap
         $repository->scan(BASE_PATH . './config');
 
         /**
-         * Initialize scanner if enabled.
+         * Initialize scanner if it is enabled.
          */
         if ($enable) {
             Scanner::init($loader, new ScannerConfig($repository->get('di.aop')));
@@ -58,9 +57,7 @@ class Bootstrap
          */
         $listenerProvider = $container->make(ListenerProvider::class);
         foreach (ListenerCollector::getListeners() as $listener) {
-            $listener = $container->make($listener);
-            /** @var EventListenerInterface $listener */
-            $listenerProvider->addListener($listener);
+            $listenerProvider->addListener($container->make($listener));
         }
     }
 }

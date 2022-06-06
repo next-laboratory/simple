@@ -41,25 +41,24 @@ php bin/fpm.php
 
 namespace App\Controllers;
 
-use Max\HttpServer\Context;
+use App\Http\Response;
 use Max\Routing\Annotations\Controller;
 use Max\Routing\Annotations\GetMapping;
-use Psr\Http\Message\ResponseInterface;
+use Psr\Http\Message\ResponseInterface;use Psr\Http\Message\ServerRequestInterface;
 
 #[Controller(prefix: '/')]
 class IndexController
 {
     #[GetMapping(path: '/<id>')]
-    public function index(Context $ctx, $id): ResponseInterface
+    public function index(ServerRequestInterface $request, $id): ResponseInterface
     {
-        return $ctx->HTML('Hello, ' . $ctx->input()->get('name', 'MaxPHP!'));
+        return (new Response())->HTML('Hello, ' . $ctx->input()->get('name', 'MaxPHP!'));
     }
 }
 
 ```
 
-如上请求`0.0.0.0:8080/1` 会指向`index`方法，控制器方法接收`Context`参数和路由参数，如上路由中的`<id>`的值会被传递给`$id`，`$ctx` 是该请求的上下文，可以使用`$ctx->request`
-拿到当前请求实例，控制器方法必须返回`ResponseInterface`实例
+如上请求`0.0.0.0:8080/1` 会指向`index`方法，控制器方法接收`$request`参数和路由参数，如上路由中的`<id>`的值会被传递给`$id`，控制器方法必须返回`ResponseInterface`实例。
 
 > FPM或内置服务下不能使用注解
 
@@ -68,8 +67,8 @@ class IndexController
 ```php
 $router->middleware(TestMiddleware::class)->group(function(Router $router) {
             $router->get('/', [IndexController::class, 'index']);
-            $router->get('/test', function(Context $ctx) {
-                return $ctx->HTML('new');
+            $router->get('/test', function(\Psr\Http\Message\ServerRequestInterface $request) {
+                return (new \App\Http\Response())->HTML('new');
             });
         });
 ```

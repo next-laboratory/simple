@@ -2,7 +2,9 @@
 
 use App\Bootstrap;
 use App\Http\Kernel;
+use App\Http\ServerRequest;
 use Max\Di\Context;
+use Max\HttpServer\ResponseEmitter\FPMResponseEmitter;
 
 ini_set('display_errors', 'on');
 ini_set('display_startup_errors', 'on');
@@ -14,7 +16,10 @@ define('BASE_PATH', dirname(__DIR__) . '/');
 (function() {
     $loader = require_once '../vendor/autoload.php';
     Bootstrap::boot($loader, false);
-    Context::getContainer()->make(Kernel::class)->handleFPMRequest();
+    /** @var Kernel $kernel */
+    $kernel   = Context::getContainer()->make(Kernel::class);
+    $response = $kernel->createResponse(ServerRequest::createFromGlobals());
+    (new FPMResponseEmitter())->emit($response);
 })();
 
 

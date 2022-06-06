@@ -13,11 +13,12 @@ declare(strict_types=1);
 
 namespace App\Http\Controllers;
 
-use Max\HttpServer\Context;
+use App\Http\Response;
 use Max\Routing\Annotations\Controller;
 use Max\Routing\Annotations\GetMapping;
 use Max\View\Renderer;
 use Psr\Http\Message\ResponseInterface;
+use Psr\Http\Message\ServerRequestInterface;
 
 /**
  * 当前类使用了注解定义路由，只在swoole/workerman环境下有效
@@ -26,19 +27,19 @@ use Psr\Http\Message\ResponseInterface;
 #[Controller(prefix: '/')]
 class IndexController
 {
-    public function index(Context $ctx): ResponseInterface
+    public function index(ServerRequestInterface $request): ResponseInterface
     {
-        return $ctx->JSON([
+        return (new Response())->JSON([
             'code'    => 0,
             'status'  => true,
-            'message' => 'Hello, ' . $ctx->get('name', 'MaxPHP') . '!',
+            'message' => 'Hello, ' . $request->get('name', 'MaxPHP') . '!',
             'data'    => [],
         ]);
     }
 
     #[GetMapping(path: '/welcome')]
-    public function welcome(Context $ctx, Renderer $renderer): ResponseInterface
+    public function welcome(ServerRequestInterface $request, Renderer $renderer): ResponseInterface
     {
-        return $ctx->HTML($renderer->render('index', ['a' => 123]));
+        return (new Response())->HTML($renderer->render('index', ['a' => 123]));
     }
 }

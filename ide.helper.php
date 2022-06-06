@@ -2,13 +2,22 @@
 
 namespace Psr\Http\Message {
 
-    use Max\HttpMessage\ServerRequest;
+    use App\Http\Response;
+    use App\Http\ServerRequest;
 
     /**
      * @mixin ServerRequest
      */
     interface ServerRequestInterface
     {
+    }
+
+    /**
+     * @mixin Response
+     */
+    interface ResponseInterface
+    {
+
     }
 }
 
