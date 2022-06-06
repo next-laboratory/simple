@@ -1,4 +1,6 @@
-一款支持swoole, workerman, FPM环境的框架
+# 一款支持swoole, workerman, FPM环境的框架
+
+> 开发阶段，感兴趣可以参与开发，参与开发扩展包需要提交pr到max/max包
 
 ```php
 composer create-project max/simple:dev-master
@@ -52,7 +54,7 @@ class IndexController
     #[GetMapping(path: '/<id>')]
     public function index(ServerRequestInterface $request, $id): ResponseInterface
     {
-        return (new Response())->HTML('Hello, ' . $ctx->input()->get('name', 'MaxPHP!'));
+        return (new Response())->HTML('Hello, ' . $request->get('name', 'MaxPHP!'));
     }
 }
 
