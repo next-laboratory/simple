@@ -1,9 +1,13 @@
 {
     "name": "max/simple",
     "license": "Apache-2.0",
+    "description": "一款支持swoole/workerman/cli-server/FPM环境的PHP框架。",
     "type": "project",
     "keywords": [
         "maxphp",
+        "swoole",
+        "workerman",
+        "FPM",
         "flexible",
         "php framework"
     ],
@@ -18,7 +22,7 @@
     "authors": [
         {
             "name": "chengyao",
-            "email": "987861453@qq.com"
+            "email": "987861463@qq.com"
         }
     ],
     "require": {
