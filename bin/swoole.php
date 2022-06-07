@@ -40,10 +40,11 @@ define('BASE_PATH', dirname(__DIR__) . '/');
     /** @var Kernel $kernel */
     $kernel = Context::getContainer()->make(Kernel::class);
     $server->on('request', function(Request $request, Response $response) use ($kernel) {
-        $serverRequest = ServerRequest::createFromSwooleRequest($request);
-        $psrResponse   = $kernel->through($serverRequest);
-        $serverRequest->withAttribute('rawRequest', $request);
-        $serverRequest->withAttribute('rawResponse', $response);
+        $psrResponse = $kernel->through(
+            ServerRequest::createFromSwooleRequest($request)
+                         ->withAttribute('rawRequest', $request)
+                         ->withAttribute('rawResponse', $response)
+        );
         (new SwooleResponseEmitter())->emit($psrResponse, $response);
     });
     $server->set($settings);
