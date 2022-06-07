@@ -22,7 +22,6 @@ define('BASE_PATH', dirname(__DIR__) . '/');
     if (!class_exists('Swoole\Server')) {
         throw new Exception('You should install the swoole extension before starting.');
     }
-
     Bootstrap::boot($loader, true);
 
     /**
@@ -42,7 +41,7 @@ define('BASE_PATH', dirname(__DIR__) . '/');
     $kernel = Context::getContainer()->make(Kernel::class);
     $server->on('request', function(Request $request, Response $response) use ($kernel) {
         $serverRequest = ServerRequest::createFromSwooleRequest($request);
-        $psrResponse   = $kernel->createResponse($serverRequest);
+        $psrResponse   = $kernel->through($serverRequest);
         $serverRequest->withAttribute('rawRequest', $request);
         $serverRequest->withAttribute('rawResponse', $response);
         (new SwooleResponseEmitter())->emit($psrResponse, $response);
