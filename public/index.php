@@ -18,7 +18,7 @@ define('BASE_PATH', dirname(__DIR__) . '/');
     Bootstrap::boot($loader, false);
     /** @var Kernel $kernel */
     $kernel   = Context::getContainer()->make(Kernel::class);
-    $response = $kernel->createResponse(ServerRequest::createFromGlobals());
+    $response = $kernel->through(ServerRequest::createFromGlobals());
     (new FPMResponseEmitter())->emit($response);
 })();
 
