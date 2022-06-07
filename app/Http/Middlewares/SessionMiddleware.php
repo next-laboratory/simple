@@ -46,7 +46,7 @@ class SessionMiddleware implements MiddlewareInterface
     {
         $session = $this->sessionManager->create();
         $session->start($request->getCookieParams()[strtoupper($this->name)] ?? null);
-        $request->withAttribute('Max\Session\Session', $session);
+        $request  = $request->withAttribute('Max\Session\Session', $session);
         $response = $handler->handle($request);
         $session->save();
         $session->close();

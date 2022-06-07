@@ -33,7 +33,7 @@ class ParseBodyMiddleware implements MiddlewareInterface
     {
         if ($this->isValid($request)) {
             if ($body = $request->getBody()?->getContents()) {
-                $request->withParsedBody(array_replace_recursive($request->getParsedBody(), json_decode($body, true) ?? []));
+                $request = $request->withParsedBody(array_replace_recursive($request->getParsedBody(), json_decode($body, true) ?? []));
             }
         }
 
