@@ -44,7 +44,7 @@ class Response extends \Max\HttpMessage\Response
      */
     public function HTML($data, int $status = 200): ResponseInterface
     {
-        return $this->withHeader('Content-Type', 'charset=utf-8')->end((string)$data, $status);
+        return $this->withHeader('Content-Type', 'text/html; charset=utf-8')->end((string)$data, $status);
     }
 
     /**
