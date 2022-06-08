@@ -18,7 +18,7 @@ return [
             './app'
         ],
         'collectors' => [
-            'Max\HttpServer\RouteCollector',
+            'Max\Http\Server\RouteCollector',
             'Max\Event\ListenerCollector',
             'Max\Framework\Console\CommandCollector',
         ],
