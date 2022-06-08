@@ -15,7 +15,7 @@ namespace App\Listeners;
 
 use Max\Event\Annotations\Listen;
 use Max\Event\Contracts\EventListenerInterface;
-use Max\HttpServer\Events\OnRequest;
+use Max\Http\Server\Events\OnRequest;
 
 #[Listen]
 class HttpListener implements EventListenerInterface

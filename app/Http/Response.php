@@ -3,9 +3,9 @@
 namespace App\Http;
 
 use ArrayAccess;
-use Max\HttpMessage\Cookie;
-use Max\HttpMessage\Stream\FileStream;
-use Max\HttpMessage\Stream\StringStream;
+use Max\Http\Message\Cookie;
+use Max\Http\Message\Stream\FileStream;
+use Max\Http\Message\Stream\StringStream;
 use Max\Utils\Exceptions\FileNotFoundException;
 use Max\Utils\Filesystem;
 use Max\Utils\Str;
@@ -13,12 +13,12 @@ use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\StreamInterface;
 use Stringable;
 
-class Response extends \Max\HttpMessage\Response
+class Response extends \Max\Http\Message\Response
 {
     /**
      * Set cookie.
      */
-    public function setCookie(
+    public function withCookie(
         string $name, string $value, int $expires = 3600, string $path = '/',
         string $domain = '', bool $secure = false, bool $httponly = false, string $samesite = ''
     ): static

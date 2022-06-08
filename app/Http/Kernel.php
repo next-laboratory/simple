@@ -3,7 +3,7 @@
 namespace App\Http;
 
 use App\Http\Controllers\IndexController;
-use Max\HttpServer\Kernel as HttpKernel;
+use Max\Http\Server\Kernel as HttpKernel;
 use Max\Routing\Router;
 use Psr\Http\Message\ServerRequestInterface;
 
@@ -16,7 +16,7 @@ class Kernel extends HttpKernel
      */
     protected array $middlewares = [
         'App\Http\Middlewares\ExceptionHandleMiddleware',
-        'Max\HttpServer\Middlewares\RoutingMiddleware',
+        'Max\Http\Server\Middlewares\RoutingMiddleware',
         //        'App\Http\Middlewares\SessionMiddleware',
     ];
 

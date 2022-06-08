@@ -2,7 +2,7 @@
 
 namespace App\Http;
 
-use Max\HttpMessage\UploadedFile;
+use Max\Http\Message\UploadedFile;
 use Max\Session\Session;
 use Max\Utils\Arr;
 use RuntimeException;
@@ -10,7 +10,7 @@ use Swoole\Http\Request;
 use Swoole\Http\Response;
 use Workerman\Connection\TcpConnection;
 
-class ServerRequest extends \Max\HttpMessage\ServerRequest
+class ServerRequest extends \Max\Http\Message\ServerRequest
 {
     /**
      * @param string $name

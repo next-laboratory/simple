@@ -13,7 +13,7 @@ declare(strict_types=1);
 
 namespace App\Http\Middlewares;
 
-use Max\HttpMessage\Stream\StringStream;
+use Max\Http\Message\Stream\StringStream;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Server\MiddlewareInterface;

@@ -13,8 +13,8 @@ declare(strict_types=1);
 
 namespace App\Http\Middlewares;
 
-use Max\HttpMessage\Response;
-use Max\HttpServer\Middlewares\ExceptionHandleMiddleware as HttpExceptionHandleMiddleware;
+use Max\Http\Message\Response;
+use Max\Http\Server\Middlewares\ExceptionHandleMiddleware as HttpExceptionHandleMiddleware;
 use Max\View\Renderer;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
