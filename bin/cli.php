@@ -1,26 +1,27 @@
 <?php
 
-declare(strict_types=1);
+use App\Bootstrap;
+use Max\Aop\Scanner;
+use Max\Framework\Console\CommandCollector;
+use Symfony\Component\Console\Application;
 
-/**
- * This file is part of the Max package.
- *
- * (c) Cheng Yao <987861463@qq.com>
- *
- * For the full copyright and license information, please view the LICENSE
- * file that was distributed with this source code.
- */
+ini_set('display_errors', 'on');
+ini_set('display_startup_errors', 'on');
+ini_set('memory_limit', '1G');
+error_reporting(E_ALL);
+date_default_timezone_set('PRC');
+define('BASE_PATH', dirname(__DIR__) . '/');
 
-$host = '0.0.0.0';
-$port = 8989;
-echo <<<EOT
-,--.   ,--.                  ,------. ,--.  ,--.,------.  
-|   `.'   | ,--,--.,--.  ,--.|  .--. '|  '--'  ||  .--. ' 
-|  |'.'|  |' ,-.  | \  `'  / |  '--' ||  .--.  ||  '--' | 
-|  |   |  |\ '-'  | /  /.  \ |  | --' |  |  |  ||  | --'  
-`--'   `--' `--`--''--'  '--'`--'     `--'  `--'`--' 
+(function() {
+    $loader = require_once './vendor/autoload.php';
+    Bootstrap::boot($loader, true);
 
-EOT;
-printf("System       Name:       %s\n", strtolower(PHP_OS));
-printf("PHP          Version:    %s\n", PHP_VERSION);
-passthru('php -S ' . $host . ':' . $port . ' -t public/ server.php');
+    $config      = Scanner::scanConfig(BASE_PATH . '/vendor/composer/installed.json');
+    $application = new Application();
+    $commands    = array_merge($config['commands'], CommandCollector::all());
+    foreach ($commands as $command) {
+        $application->add(new $command);
+    }
+    $application->run();
+})();
+
