@@ -13,17 +13,6 @@
 
 一款支持swoole, workerman, FPM环境的框架的组件化的轻量`PHP`框架，可以用作`API`开发，方便快速。框架默认安装了`session`和`view`扩展包，如果不需要可以直接移除。
 
-## 主要特性
-
-- 组件和框架核心分离
-- 基于 Psr7 的 HTTP-Message
-- 基于 Psr11 的容器
-- 基于 Psr14 的事件
-- 基于 Psr15 的中间件
-- 基于 Psr16 的缓存组件，支持 File,Memcached,Redis,APC[可扩展]
-- max/database 支持连接池
-- AOP，支持路由功能，验证器，swagger，blade视图
-
 ## 贡献一览
 
 [![Contributor over time](https://contributor-overtime-api.apiseven.com/contributors-svg?chart=contributorOverTime&repo=topyao/max,topyao/max-routing,topyao/max-session,topyao/max-view,topyao/max-di,topyao/max-cache,topyao/max-console,topyao/max-http,topyao/max-event,topyao/max-config,topyao/max-aop,topyao/max-env,topyao/max-database,topyao/max-log,topyao/max-redis,topyao/max-validator)](https://contributor-overtime-api.apiseven.com/contributors-svg?chart=contributorOverTime&repo=topyao/max,topyao/max-routing,topyao/max-session,topyao/max-view,topyao/max-di,topyao/max-cache,topyao/max-console,topyao/max-http,topyao/max-event,topyao/max-config,topyao/max-aop,topyao/max-env,topyao/max-database,topyao/max-log,topyao/max-redis,topyao/max-validator)
@@ -48,7 +37,8 @@ composer create-project max/simple:dev-master max
 > swoole服务
 
 ```php
-php bin/swoole.php
+php bin/swoole.php   // 异步模式
+php bin/swooleco.php // 协程模式
 ```
 
 > workerman服务
@@ -73,7 +63,7 @@ php bin/cli-server.php
 
 ### 路由定义
 
-> swoole/workerman下可以使用注解定义
+> swoole/swooleco/workerman下可以使用注解定义
 
 ```php
 <?php

@@ -16,6 +16,7 @@ class Kernel extends HttpKernel
      */
     protected array $middlewares = [
         'App\Http\Middlewares\ExceptionHandleMiddleware',
+        //        'App\Http\Middlewares\AllowCrossDomain',
         'Max\Http\Server\Middlewares\RoutingMiddleware',
         //        'App\Http\Middlewares\SessionMiddleware',
     ];
@@ -31,7 +32,7 @@ class Kernel extends HttpKernel
     {
         $router->group(function(Router $router) {
             $router->request('/', [IndexController::class, 'index']);
-            $router->get('/welcome', 'App\Http\Controllers\IndexController@welcome');
+            $router->get('/welcome', 'App\Http\Controllers\IndexController@index');
             $router->get('/test', function(ServerRequestInterface $request) {
                 return (new Response())->HTML('test');
             });
