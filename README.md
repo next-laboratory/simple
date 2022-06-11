@@ -79,8 +79,8 @@ use Psr\Http\Message\ServerRequestInterface;
 #[Controller(prefix: '/')]
 class IndexController
 {
-    #[GetMapping(path: '/<id>')]
-    public function index(ServerRequestInterface $request, $id): ResponseInterface
+    #[GetMapping(path: '/')]
+    public function index(ServerRequestInterface $request): ResponseInterface
     {
         return (new Response())->HTML('Hello, ' . $request->get('name', 'MaxPHP!'));
     }
@@ -88,7 +88,7 @@ class IndexController
 
 ```
 
-如上请求`0.0.0.0:8080/1` 会指向`index`方法，控制器方法接收`$request`参数和路由参数，如上路由中的`<id>`的值会被传递给`$id`，控制器方法必须返回`ResponseInterface`实例。
+如上请求`0.0.0.0:8080` 会指向`index`方法，控制器方法接收`$request`参数和路由参数，控制器方法不支持依赖注入，最多只有一个参数，即当前请求类，且需要返回`ResponseInterface`实例。
 
 > FPM或内置服务下不能使用注解
 
