@@ -13,10 +13,10 @@ declare(strict_types=1);
 
 namespace App\Http\Middlewares;
 
-use Max\HttpServer\Middlewares\AllowCrossDomain as BaseAllowCrossDomain;
+use Max\Http\Server\Middlewares\AllowCrossDomain as BaseAllowCrossDomain;
 
 class AllowCrossDomain extends BaseAllowCrossDomain
 {
-    /** @var array $allowOrigin 允许域，全部可以使用`*` */
+    /** @inheritdoc */
     protected array $allowOrigin = [];
 }
