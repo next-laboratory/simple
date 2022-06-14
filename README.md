@@ -88,7 +88,7 @@ class IndexController
 
 ```
 
-如上请求`0.0.0.0:8080` 会指向`index`方法，控制器方法接收`$request`参数和路由参数，控制器方法不支持依赖注入，最多只有一个参数，即当前请求类，且需要返回`ResponseInterface`实例。
+如上请求`0.0.0.0:8080` 会指向`index`方法，控制器方法支持依赖注入，如需当前请求示例，则请求参数名必须是`request`，其他路由参数均会被注入，控制器方法需要返回`ResponseInterface`实例。
 
 > FPM或内置服务下不能使用注解
 
@@ -102,6 +102,8 @@ $router->middleware(TestMiddleware::class)->group(function(Router $router) {
     });
 });
 ```
+
+## 参与开发
 
 欢迎有兴趣的朋友参与开发
 
