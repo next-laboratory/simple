@@ -53,11 +53,10 @@ define('BASE_PATH', dirname(__DIR__) . '/');
         $server = new Swoole\Coroutine\Http\Server($host, $port);
         $kernel = Context::getContainer()->make(Kernel::class);;
         $server->handle('/', function(Request $request, Response $response) use ($kernel) {
-            $psrResponse = $kernel->through(
-                ServerRequest::createFromSwooleRequest($request)
-                             ->withAttribute('rawRequest', $request)
-                             ->withAttribute('rawResponse', $response)
-            );
+            $psrResponse = $kernel->through(ServerRequest::createFromSwooleRequest($request, [
+                'request'  => $request,
+                'response' => $response,
+            ]));
             (new SwooleResponseEmitter())->emit($psrResponse, $response);
         });
 

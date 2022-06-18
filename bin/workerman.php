@@ -46,11 +46,10 @@ define('BASE_PATH', dirname(__DIR__) . '/');
     $worker            = new Worker($protocol);
     $kernel            = Context::getContainer()->make(Kernel::class);
     $worker->onMessage = function(TcpConnection $connection, Request $request) use ($kernel) {
-        $psrResponse = $kernel->through(
-            ServerRequest::createFromWorkermanRequest($request)
-                         ->withAttribute('rawRequest', $request)
-                         ->withAttribute('rawResponse', $connection)
-        );
+        $psrResponse = $kernel->through(ServerRequest::createFromWorkermanRequest($request, [
+            'TcpConnection' => $connection,
+            'request'       => $request,
+        ]));
         (new WorkermanResponseEmitter())->emit($psrResponse, $connection);
     };
     $worker->count     = $workerNum;
