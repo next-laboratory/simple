@@ -1,5 +1,16 @@
 <?php
 
+declare(strict_types=1);
+
+/**
+ * This file is part of the Max package.
+ *
+ * (c) Cheng Yao <987861463@qq.com>
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
 namespace App;
 
 use Composer\Autoload\ClassLoader;
@@ -33,8 +44,9 @@ class Bootstrap
          * @var Repository $repository
          */
         if (file_exists(BASE_PATH . '.env')) {
-            Dotenv::createImmutable(BASE_PATH)->load();
+            Dotenv::createUnsafeImmutable(BASE_PATH)->load();
         }
+
         $repository = $container->make(Repository::class);
         $repository->scan(BASE_PATH . './config');
 
