@@ -14,11 +14,9 @@ declare(strict_types=1);
 namespace App\Listeners;
 
 use Max\Database\Events\QueryExecuted;
-use Max\Event\Annotations\Listen;
 use Max\Event\Contracts\EventListenerInterface;
 use Max\Log\LoggerFactory;
 
-#[Listen]
 class DatabaseQueryListener implements EventListenerInterface
 {
     public function __construct(protected LoggerFactory $loggerFactory)

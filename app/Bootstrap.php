@@ -17,7 +17,7 @@ class Bootstrap
 {
     /**
      * @param ClassLoader $loader
-     * @param bool $enable
+     * @param bool        $enable
      *
      * @return void
      * @throws ContainerExceptionInterface
@@ -58,7 +58,8 @@ class Bootstrap
          * @var ListenerProvider $listenerProvider
          */
         $listenerProvider = $container->make(ListenerProvider::class);
-        foreach (ListenerCollector::getListeners() as $listener) {
+        $listeners        = $repository->get('listeners');
+        foreach (array_unique(array_merge(ListenerCollector::getListeners(), $listeners)) as $listener) {
             $listenerProvider->addListener($container->make($listener));
         }
     }
