@@ -13,7 +13,6 @@ declare(strict_types=1);
 
 namespace App\Http\Middlewares;
 
-use Max\Di\Context;
 use Max\Http\Message\Response;
 use Max\Http\Server\Middlewares\ExceptionHandleMiddleware as HttpExceptionHandleMiddleware;
 use Max\View\Renderer;
@@ -21,7 +20,6 @@ use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use Psr\Log\LoggerInterface;
 use Throwable;
-use Whoops\Run;
 
 class ExceptionHandleMiddleware extends HttpExceptionHandleMiddleware
 {
