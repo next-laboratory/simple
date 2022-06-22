@@ -15,11 +15,11 @@ namespace App\Listeners;
 
 use Max\Database\Events\QueryExecuted;
 use Max\Event\Contracts\EventListenerInterface;
-use Max\Log\LoggerFactory;
+use Psr\Log\LoggerInterface;
 
 class DatabaseQueryListener implements EventListenerInterface
 {
-    public function __construct(protected LoggerFactory $loggerFactory)
+    public function __construct(protected LoggerInterface $logger)
     {
     }
 
@@ -39,7 +39,7 @@ class DatabaseQueryListener implements EventListenerInterface
     public function process(object $event): void
     {
         if ($event instanceof QueryExecuted) {
-            $this->loggerFactory->get('sql')->debug($event->query, [
+            $this->logger->get('sql')->debug($event->query, [
                 'duration' => $event->duration,
                 'bindings' => $event->bindings,
             ]);

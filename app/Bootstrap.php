@@ -22,6 +22,7 @@ use Max\Di\Context;
 use Max\Event\ListenerCollector;
 use Max\Event\ListenerProvider;
 use Psr\Container\ContainerExceptionInterface;
+use Psr\Log\LoggerInterface;
 use ReflectionException;
 
 class Bootstrap
@@ -50,6 +51,14 @@ class Bootstrap
         $repository = $container->make(Repository::class);
         $repository->scan(BASE_PATH . './config');
 
+        /**
+         * @var LoggerInterface $logger
+         * Initialize loggers.
+         */
+        $logger = $container->make(Logger::class);
+        if ('cli' === PHP_SAPI) {
+            $logger->debug('Server started.');
+        }
         /**
          * Initialize scanner if it is enabled.
          */

@@ -35,12 +35,12 @@
         "max/view": "dev-master",
         "max/session": "dev-master",
         "max/redis": "dev-master",
-        "max/log": "dev-master",
         "max/database": "dev-master",
         "max/framework": "dev-master",
         "workerman/workerman": "^4.0",
         "vlucas/phpdotenv": "^5.4",
-        "symfony/console": "^6.0"
+        "symfony/console": "^6.0",
+        "monolog/monolog": "^2.7"
     },
     "require-dev": {
         "swoole/ide-helper": "*",

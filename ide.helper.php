@@ -44,3 +44,15 @@ namespace Psr\SimpleCache {
     {
     }
 }
+
+namespace Psr\Log {
+
+    use App\Logger;
+
+    /**
+     * @mixin Logger
+     */
+    interface LoggerInterface
+    {
+    }
+}
