@@ -1,21 +1,17 @@
 <p align="center">
-<img src="https://raw.githubusercontent.com/topyao/max/master/public/favicon.ico" width="120" alt="Max">
+<img src="https://raw.githubusercontent.com/topyao/max-simple/master/public/favicon.ico" width="120" alt="Max">
 </p>
 
 <p align="center">轻量 • 简单 • 快速</p>
 
 <p align="center">
-<a href="https://github.com/topyao/max/issues"><img src="https://img.shields.io/github/issues/topyao/max" alt=""></a>
-<a href="https://github.com/topyao/max"><img src="https://img.shields.io/github/stars/topyao/max" alt=""></a>
+<a href="https://github.com/topyao/max-simple/issues"><img src="https://img.shields.io/github/issues/topyao/max-simple" alt=""></a>
+<a href="https://github.com/topyao/max-simple"><img src="https://img.shields.io/github/stars/topyao/max-simple" alt=""></a>
 <img src="https://img.shields.io/badge/php-%3E%3D8.0-brightgreen" alt="">
 <img src="https://img.shields.io/badge/license-apache%202-blue" alt="">
 </p>
 
 一款支持swoole, workerman, FPM环境的框架的组件化的轻量`PHP`框架，可以用作`API`开发，方便快速。框架默认安装了`session`和`view`扩展包，如果不需要可以直接移除。
-
-## 贡献一览
-
-[![Contributor over time](https://contributor-overtime-api.apiseven.com/contributors-svg?chart=contributorOverTime&repo=topyao/max,topyao/max-routing,topyao/max-session,topyao/max-view,topyao/max-di,topyao/max-cache,topyao/max-console,topyao/max-http,topyao/max-event,topyao/max-config,topyao/max-aop,topyao/max-env,topyao/max-database,topyao/max-log,topyao/max-redis,topyao/max-validator)](https://contributor-overtime-api.apiseven.com/contributors-svg?chart=contributorOverTime&repo=topyao/max,topyao/max-routing,topyao/max-session,topyao/max-view,topyao/max-di,topyao/max-cache,topyao/max-console,topyao/max-http,topyao/max-event,topyao/max-config,topyao/max-aop,topyao/max-env,topyao/max-database,topyao/max-log,topyao/max-redis,topyao/max-validator)
 
 ## 环境要求
 
