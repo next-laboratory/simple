@@ -45,7 +45,7 @@ class Kernel extends HttpKernel
             $router->request('/', [IndexController::class, 'index']);
             $router->get('/welcome', 'App\Http\Controllers\IndexController@index');
             $router->get('/test', function(ServerRequestInterface $request) {
-                return (new Response())->HTML('test');
+                return Response::HTML('test');
             });
         });
     }

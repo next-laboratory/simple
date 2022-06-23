@@ -21,7 +21,7 @@ class IndexController
 {
     public function index(ServerRequestInterface $request): ResponseInterface
     {
-        return (new Response())->JSON([
+        return Response::JSON([
             'code'    => 0,
             'status'  => true,
             'message' => 'Hello, ' . $request->get('name', 'MaxPHP') . '!',
