@@ -35,10 +35,6 @@ class Kernel extends HttpKernel
 
     /**
      * Register routes.
-     *
-     * @param Router $router
-     *
-     * @return void
      */
     protected function map(Router $router): void
     {

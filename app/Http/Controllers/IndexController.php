@@ -19,6 +19,9 @@ use Psr\Http\Message\ServerRequestInterface;
 
 class IndexController
 {
+    /**
+     * 注意： 如果需要使用请求变量，切记变量名为$request，否则不能注入
+     */
     public function index(ServerRequestInterface $request): ResponseInterface
     {
         return Response::JSON([

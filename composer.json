@@ -37,6 +37,8 @@
         "max/redis": "dev-master",
         "max/database": "dev-master",
         "max/framework": "dev-master",
+        "max/context": "dev-master",
+        "max/jwt": "dev-master",
         "workerman/workerman": "^4.0",
         "vlucas/phpdotenv": "^5.4",
         "symfony/console": "^6.0",

@@ -13,8 +13,12 @@ declare(strict_types=1);
 
 namespace App\Http;
 
+use App\Models\User;
 use Exception;
+use Max\Context\Context;
+use Max\Http\Message\ServerRequest as PsrServerRequest;
 use Max\Http\Message\UploadedFile;
+use Max\JWT\Contracts\Authenticatable;
 use Max\Session\Session;
 use Max\Utils\Arr;
 use RuntimeException;
@@ -22,7 +26,7 @@ use Swoole\Http\Request;
 use Swoole\Http\Response;
 use Workerman\Connection\TcpConnection;
 
-class ServerRequest extends \Max\Http\Message\ServerRequest
+class ServerRequest extends PsrServerRequest
 {
     /**
      * @param string $name
@@ -218,5 +222,34 @@ class ServerRequest extends \Max\Http\Message\ServerRequest
     public function all(): array
     {
         return $this->getQueryParams() + $this->getParsedBody();
+    }
+
+    /**
+     * 设置变量到上下文
+     */
+    public function setContextValue(string $key, mixed $value): void
+    {
+        Context::put($key, $value);
+    }
+
+    /**
+     * @return ?User
+     */
+    public function user(): ?Authenticatable
+    {
+        return $this->getAttribute(User::class);
+    }
+
+    /**
+     * 从上下文中获取变量
+     */
+    public function getContextValue(string $key): mixed
+    {
+        return Context::get($key);
+    }
+
+    public function __destruct()
+    {
+        Context::delete();
     }
 }
