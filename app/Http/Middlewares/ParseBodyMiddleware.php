@@ -31,25 +31,15 @@ class ParseBodyMiddleware implements MiddlewareInterface
      */
     public function process(ServerRequestInterface $request, RequestHandlerInterface $handler): ResponseInterface
     {
-        if ($this->isValid($request)) {
+        if (
+            in_array($request->getMethod(), ['POST', 'PUT', 'PATCH'])
+            && str_starts_with($request->getHeaderLine('Content-Type'), 'application/json')
+        ) {
             if ($body = $request->getBody()?->getContents()) {
                 $request = $request->withParsedBody(array_replace_recursive($request->getParsedBody(), json_decode($body, true) ?? []));
             }
         }
 
         return $handler->handle($request);
-    }
-
-    /**
-     * @param ServerRequestInterface $request
-     *
-     * @return bool
-     */
-    protected function isValid(ServerRequestInterface $request): bool
-    {
-        if (in_array($request->getMethod(), ['POST', 'PUT', 'PATCH'])) {
-            return 0 === strcasecmp($request->getHeaderLine('Content-Type'), 'application/json');
-        }
-        return false;
     }
 }
