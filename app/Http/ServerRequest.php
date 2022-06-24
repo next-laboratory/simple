@@ -13,6 +13,7 @@ declare(strict_types=1);
 
 namespace App\Http;
 
+use Exception;
 use Max\Http\Message\UploadedFile;
 use Max\Session\Session;
 use Max\Utils\Arr;
@@ -42,6 +43,16 @@ class ServerRequest extends \Max\Http\Message\ServerRequest
             return $session;
         }
         throw new RuntimeException('Session is invalid.');
+    }
+
+    /**
+     * @throws Exception
+     */
+    public function CSRFToken(): string
+    {
+        $token = bin2hex(random_bytes(32));
+        $this->session()->set('_token', $token);
+        return $token;
     }
 
     /**
