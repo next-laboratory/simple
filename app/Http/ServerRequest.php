@@ -217,6 +217,6 @@ class ServerRequest extends \Max\Http\Message\ServerRequest
      */
     public function all(): array
     {
-        return $this->getParsedBody() + $this->getParsedBody();
+        return $this->getQueryParams() + $this->getParsedBody();
     }
 }
