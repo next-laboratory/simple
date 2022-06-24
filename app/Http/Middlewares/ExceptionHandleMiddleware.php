@@ -13,8 +13,9 @@ declare(strict_types=1);
 
 namespace App\Http\Middlewares;
 
-use Max\Http\Message\Response;
+use App\Http\Response;
 use Max\Http\Server\Middlewares\ExceptionHandleMiddleware as HttpExceptionHandleMiddleware;
+use Max\Utils\Str;
 use Max\View\Renderer;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
@@ -23,28 +24,28 @@ use Throwable;
 
 class ExceptionHandleMiddleware extends HttpExceptionHandleMiddleware
 {
-    public function __construct(protected LoggerInterface $logger, protected ?Renderer $renderer = null)
+    public function __construct(
+        protected LoggerInterface $logger,
+        protected ?Renderer       $renderer = null
+    )
     {
     }
 
-    protected function reportException(Throwable $throwable, ServerRequestInterface $request): void
+    public function handleException(Throwable $throwable, ServerRequestInterface $request): ResponseInterface
     {
-        $this->logger->error($throwable->getMessage(), [
+        $this->logger->error(sprintf('[%s] %s: %s', $requestId = Str::uuid(), $throwable::class, $throwable->getMessage()), [
             'file'    => $throwable->getFile(),
             'line'    => $throwable->getLine(),
             'headers' => $request->getHeaders(),
-            'request' => $request->getQueryParams() + $request->getParsedBody()
+            'request' => $request->getQueryParams() + $request->getParsedBody(),
         ]);
-    }
 
-    protected function renderException(Throwable $throwable, ServerRequestInterface $request): ResponseInterface
-    {
         if (env('APP_DEBUG') || is_null($this->renderer)) {
             return parent::renderException(...func_get_args());
         }
         $code    = $this->getStatusCode($throwable);
         $message = $throwable->getMessage();
-        return \App\Http\Response::HTML(<<<EOT
+        return Response::HTML(<<<EOT
 <html lang="en"><head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
@@ -140,6 +141,7 @@ class ExceptionHandleMiddleware extends HttpExceptionHandleMiddleware
                 <li>Check if you visited the correct URL.</li>
                 <li>Report this issue if you think this is a mistake.</li>
             </ul>
+            ID: $requestId
             <button type="button" onclick="window.location.reload()">Retry</button>
         </main>
     </div>
