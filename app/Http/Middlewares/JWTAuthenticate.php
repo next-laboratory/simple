@@ -22,9 +22,8 @@ class JWTAuthenticate implements MiddlewareInterface
     public function process(ServerRequestInterface $request, RequestHandlerInterface $handler): ResponseInterface
     {
         if ($token = $this->JWTAuth->parseToken($request)) {
-            $payload    = $this->JWTAuth->getPayload(trim($token));
-            $identified = $payload->aud;
-            if ($user = User::findOrFail($identified)) {
+            $payload = $this->JWTAuth->getPayload(trim($token));
+            if ($user = User::findOrFail($payload->aud)) {
                 return $handler->handle($request->withAttribute(User::class, $user));
             }
         }
