@@ -44,12 +44,12 @@ class Bootstrap
          *
          * @var Repository $repository
          */
-        if (file_exists(BASE_PATH . '.env')) {
+        if (file_exists(base_path('.env'))) {
             Dotenv::createUnsafeImmutable(BASE_PATH)->load();
         }
 
         $repository = $container->make(Repository::class);
-        $repository->scan(BASE_PATH . './config');
+        $repository->scan(base_path('./config'));
 
         /**
          * @var LoggerInterface $logger

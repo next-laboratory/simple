@@ -27,10 +27,10 @@ class Logger implements LoggerInterface
     public function __construct()
     {
         $this->logger['app'] = new MonoLogger('app', [
-            new RotatingFileHandler(BASE_PATH . 'runtime/logs/app.log', 180, MonoLogger::DEBUG),
+            new RotatingFileHandler(base_path('runtime/logs/app.log'), 180, MonoLogger::DEBUG),
         ]);
         $this->logger['sql'] = new MonoLogger('sql', [
-            new RotatingFileHandler(BASE_PATH . 'runtime/logs/database/sql.log', 180, MonoLogger::DEBUG),
+            new RotatingFileHandler(base_path('runtime/logs/database/sql.log'), 180, MonoLogger::DEBUG),
         ]);
     }
 

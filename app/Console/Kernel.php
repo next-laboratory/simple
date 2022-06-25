@@ -19,7 +19,7 @@ class Kernel
      */
     public function run(): void
     {
-        $config      = Scanner::scanConfig(BASE_PATH . '/vendor/composer/installed.json');
+        $config      = Scanner::scanConfig(base_path('vendor/composer/installed.json'));
         $application = new Application();
         $commands    = array_merge($this->commands, $config['commands'], CommandCollector::all());
         foreach ($commands as $command) {
