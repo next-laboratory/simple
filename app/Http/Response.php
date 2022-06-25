@@ -87,7 +87,15 @@ class Response extends \Max\Http\Message\Response
             $name = Str::random(10) . $extension;
         }
         return new static(200, [
-            'Content-Disposition' => sprintf('attachment;filename="%s"', htmlspecialchars($name, ENT_COMPAT))
+            'Pragma'                    => 'public', // Public指示响应可被任何缓存区缓存
+            'Expires'                   => '0', // 浏览器不会响应缓存
+            'Cache-Control'             => 'must-revalidate, post-check=0, pre-check=0',
+            //            'Content-Type'              => 'application/force-download', // 请求该页面就出现下载保存窗口
+            //            'Content-Type'              => 'application/octet-stream', // 二进制流，不知道下载文件类型
+            //            'Content-Type'              => 'application/vnd.ms-excel',
+            'Content-Type'              => 'application/download',
+            'Content-Transfer-Encoding' => 'binary',
+            'Content-Disposition'       => sprintf('attachment;filename="%s"', htmlspecialchars($name, ENT_COMPAT))
         ], new FileStream($uri, $offset, $length));
     }
 }
