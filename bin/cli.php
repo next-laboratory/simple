@@ -12,9 +12,7 @@ declare(strict_types=1);
  */
 
 use App\Bootstrap;
-use Max\Aop\Scanner;
-use Max\Framework\Console\CommandCollector;
-use Symfony\Component\Console\Application;
+use App\Console\Kernel;
 
 ini_set('display_errors', 'on');
 ini_set('display_startup_errors', 'on');
@@ -26,13 +24,6 @@ define('BASE_PATH', dirname(__DIR__) . '/');
 (function() {
     $loader = require_once './vendor/autoload.php';
     Bootstrap::boot($loader, true);
-
-    $config      = Scanner::scanConfig(BASE_PATH . '/vendor/composer/installed.json');
-    $application = new Application();
-    $commands    = array_merge($config['commands'], CommandCollector::all());
-    foreach ($commands as $command) {
-        $application->add(new $command);
-    }
-    $application->run();
+    (new Kernel())->run();
 })();
 
