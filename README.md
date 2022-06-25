@@ -11,7 +11,7 @@
 <img src="https://img.shields.io/badge/license-apache%202-blue" alt="">
 </p>
 
-一款支持swoole, workerman, FPM环境的框架的组件化的轻量`PHP`框架，可以用作`API`开发，方便快速。框架默认安装了`session`和`view`扩展包，如果不需要可以直接移除。
+一款支持swoole, workerman, FPM环境的组件化的轻量`PHP`框架，可以用作`API`开发，方便快速。框架默认安装了`session`和`view`扩展包，如果不需要可以直接移除。
 
 ## 环境要求
 
