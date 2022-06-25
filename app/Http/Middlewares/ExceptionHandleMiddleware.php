@@ -16,7 +16,6 @@ namespace App\Http\Middlewares;
 use App\Http\Response;
 use Max\Http\Server\Middlewares\ExceptionHandleMiddleware as HttpExceptionHandleMiddleware;
 use Max\Utils\Str;
-use Max\View\Renderer;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use Psr\Log\LoggerInterface;
@@ -24,25 +23,22 @@ use Throwable;
 
 class ExceptionHandleMiddleware extends HttpExceptionHandleMiddleware
 {
-    public function __construct(
-        protected LoggerInterface $logger,
-        protected ?Renderer       $renderer = null
-    )
+    public function __construct(protected LoggerInterface $logger)
     {
     }
 
     public function handleException(Throwable $throwable, ServerRequestInterface $request): ResponseInterface
     {
+        if (env('APP_DEBUG')) {
+            return parent::renderException(...func_get_args());
+        }
+
         $this->logger->error(sprintf('[%s] %s: %s', $requestId = Str::uuid(), $throwable::class, $throwable->getMessage()), [
             'file'    => $throwable->getFile(),
             'line'    => $throwable->getLine(),
             'headers' => $request->getHeaders(),
             'request' => $request->getQueryParams() + $request->getParsedBody(),
         ]);
-
-        if (env('APP_DEBUG') || is_null($this->renderer)) {
-            return parent::renderException(...func_get_args());
-        }
         $code    = $this->getStatusCode($throwable);
         $message = $throwable->getMessage();
         return Response::HTML(<<<EOT
