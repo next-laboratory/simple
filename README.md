@@ -54,7 +54,7 @@ php bin/cli-server.php
 
 ## 区别
 
-使用swoole/workerman支持注解，AOP等特性， FPM模式可以直接卸载AOP包。
+使用swoole/workerman支持注解、AOP等特性， FPM模式可以直接卸载AOP包。
 
 ## 简单入门
 
@@ -89,7 +89,7 @@ class IndexController
 
 > FPM或内置服务下不能使用注解
 
-路由定义在`App\Kernel`类的`map`方法中定义
+路由定义在`App\Http\Kernel`类的`map`方法中定义
 
 ```php
 $router->middleware(TestMiddleware::class)->group(function(Router $router) {
