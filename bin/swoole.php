@@ -41,7 +41,8 @@ define('BASE_PATH', dirname(__DIR__) . '/');
     $host     = '0.0.0.0';
     $port     = 8989;
     $settings = [
-        Constant::OPTION_WORKER_NUM => 4,
+        Constant::OPTION_WORKER_NUM  => 4,
+        Constant::OPTION_MAX_REQUEST => 100000,
     ];
 
     /**

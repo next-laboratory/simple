@@ -19,7 +19,6 @@ use Max\Http\Server\ResponseEmitter\SwooleResponseEmitter;
 use Swoole\Constant;
 use Swoole\Http\Request;
 use Swoole\Http\Response;
-use Swoole\Http\Server;
 use function Swoole\Coroutine\run;
 
 ini_set('display_errors', 'on');
@@ -44,7 +43,8 @@ define('BASE_PATH', dirname(__DIR__) . '/');
         $host     = '0.0.0.0';
         $port     = 8989;
         $settings = [
-            Constant::OPTION_WORKER_NUM => 4,
+            Constant::OPTION_WORKER_NUM  => 4,
+            Constant::OPTION_MAX_REQUEST => 100000,
         ];
 
         /**
