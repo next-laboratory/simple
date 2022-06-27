@@ -39,6 +39,7 @@ class VerifyCSRFToken implements MiddlewareInterface
                 throw new CSRFException('CSRF token is invalid', 419);
             }
         }
+        $request->session()->remove('_token');
         return $handler->handle($request);
     }
 }
