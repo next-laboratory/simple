@@ -14,6 +14,7 @@ declare(strict_types=1);
 namespace App\Http\Middlewares;
 
 use App\Exceptions\CSRFException;
+use Exception;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Server\MiddlewareInterface;
@@ -30,16 +31,32 @@ class VerifyCSRFToken implements MiddlewareInterface
 
     /**
      * @throws CSRFException
+     * @throws Exception
      */
     public function process(ServerRequestInterface $request, RequestHandlerInterface $handler): ResponseInterface
     {
-        if (!in_array($request->getUri()->getPath(), $this->except) && $request->isMethod('POST')) {
-            $token = $request->getHeaderLine('X-CSRF-Token') ?: $request->post('_token');
-            if (is_null($token) || $request->session()->get('_token') !== $token) {
-                throw new CSRFException('CSRF token is invalid', 419);
+        if ($request->isMethod('POST') && !in_array($request->getUri()->getPath(), $this->except)) {
+            $previousToken = $request->getCookieParams()['X-XSRF-TOKEN'] ?? null;
+            if (is_null($previousToken)) {
+                $this->abort();
+            }
+
+            $token = $request->getHeaderLine('X-CSRF-Token')
+                ?: $request->getHeaderLine('X-XSRF-TOKEN')
+                    ?: ($request->getParsedBody()['_token'] ?? null);
+            if (is_null($token) || $token !== $previousToken) {
+                $this->abort();
             }
         }
-        $request->session()->remove('_token');
-        return $handler->handle($request);
+
+        return $handler->handle($request)->withCookie('X-XSRF-TOKEN', bin2hex(random_bytes(32)));
+    }
+
+    /**
+     * @throws CSRFException
+     */
+    protected function abort()
+    {
+        throw new CSRFException('CSRF token is invalid', 419);
     }
 }
