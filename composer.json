@@ -35,6 +35,7 @@
         "max/view": "dev-master",
         "max/session": "dev-master",
         "max/redis": "dev-master",
+        "max/cache": "dev-master",
         "max/database": "dev-master",
         "max/framework": "dev-master",
         "max/context": "dev-master",
@@ -45,8 +46,11 @@
         "monolog/monolog": "^2.7"
     },
     "require-dev": {
+        "max/watcher": "dev-master",
         "swoole/ide-helper": "*",
-        "symfony/var-dumper": "^6.0"
+        "symfony/var-dumper": "^6.0",
+        "friendsofphp/php-cs-fixer": "^3.8",
+        "phpstan/phpstan": "^1.7"
     },
     "config": {
         "optimize-autoloader": true,
