@@ -26,7 +26,7 @@ class VerifyCSRFToken implements MiddlewareInterface
      * 排除，不校验CSRF Token.
      */
     protected array $except = [
-        '/'
+//        '/'
     ];
 
     /**
@@ -50,7 +50,7 @@ class VerifyCSRFToken implements MiddlewareInterface
         }
         $response = $handler->handle($request);
         if ($request->isMethod('GET')) {
-            $response->withCookie('X-XSRF-TOKEN', bin2hex(random_bytes(32)), time() + 9 * 3600);
+            $response = $response->withCookie('X-XSRF-TOKEN', bin2hex(random_bytes(32)), time() + 9 * 3600);
         }
         return $response;
     }
