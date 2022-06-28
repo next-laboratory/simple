@@ -49,7 +49,7 @@ class VerifyCSRFToken implements MiddlewareInterface
             }
         }
 
-        return $handler->handle($request)->withCookie('X-XSRF-TOKEN', bin2hex(random_bytes(32)));
+        return $handler->handle($request)->withCookie('X-XSRF-TOKEN', bin2hex(random_bytes(32)), time() + 9 * 3600);
     }
 
     /**
