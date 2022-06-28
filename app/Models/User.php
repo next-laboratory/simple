@@ -10,7 +10,7 @@ use Max\JWT\Contracts\Authenticatable;
  */
 class User extends Model implements Authenticatable
 {
-    protected string $table    = 'passport_users';
+    protected string $table    = 'users';
     protected array  $hidden   = [
         'password',
     ];
