@@ -27,10 +27,10 @@ class Kernel extends HttpKernel
      */
     protected array $middlewares = [
         'App\Http\Middlewares\ExceptionHandleMiddleware',
-        'App\Http\Middlewares\AllowCrossDomain',
+        //        'App\Http\Middlewares\AllowCrossDomain',
         'Max\Http\Server\Middlewares\RoutingMiddleware',
-        'App\Http\Middlewares\SessionMiddleware',
-        'App\Http\Middlewares\VerifyCSRFToken',
+        //        'App\Http\Middlewares\SessionMiddleware',
+        //        'App\Http\Middlewares\VerifyCSRFToken',
     ];
 
     /**
