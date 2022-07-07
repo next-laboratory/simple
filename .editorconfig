@@ -1,0 +1,5 @@
+root = true
+
+[*]
+ij_formatter_enabled = true
+ij_php_align_multiline_array_initializer_expression = true
