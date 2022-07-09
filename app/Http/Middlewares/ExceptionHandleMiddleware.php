@@ -14,6 +14,8 @@ declare(strict_types=1);
 namespace App\Http\Middlewares;
 
 use App\Http\Response;
+use Max\Framework\Exceptions\VarDumperAbort;
+use Max\Framework\Exceptions\VarDumperExceptionHandler;
 use Max\Http\Server\Middlewares\ExceptionHandleMiddleware as HttpExceptionHandleMiddleware;
 use Max\Utils\Str;
 use Psr\Http\Message\ResponseInterface;
@@ -29,6 +31,10 @@ class ExceptionHandleMiddleware extends HttpExceptionHandleMiddleware
 
     public function handleException(Throwable $throwable, ServerRequestInterface $request): ResponseInterface
     {
+        if ($throwable instanceof VarDumperAbort) {
+            return VarDumperExceptionHandler::convertToResponse($throwable);
+        }
+
         if (env('APP_DEBUG')) {
             return parent::renderException(...func_get_args());
         }
