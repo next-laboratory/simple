@@ -50,7 +50,7 @@ define('BASE_PATH', dirname(__DIR__) . '/');
             'TcpConnection' => $connection,
             'request'       => $request,
         ]));
-        (new WorkermanResponseEmitter())->emit($psrResponse, $connection);
+        (new WorkerManResponseEmitter())->emit($psrResponse, $connection);
     };
     $worker->count     = $workerNum;
 
