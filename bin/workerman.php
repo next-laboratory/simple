@@ -15,7 +15,7 @@ use App\Bootstrap;
 use App\Http\Kernel;
 use App\Http\ServerRequest;
 use Max\Di\Context;
-use Max\Http\Server\ResponseEmitter\WorkermanResponseEmitter;
+use Max\Http\Server\ResponseEmitter\WorkerManResponseEmitter;
 use Workerman\Connection\TcpConnection;
 use Workerman\Protocols\Http\Request;
 use Workerman\Worker;
