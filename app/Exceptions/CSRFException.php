@@ -2,7 +2,7 @@
 
 namespace App\Exceptions;
 
-use Max\Http\Server\Exceptions\HttpException;
+use Max\Http\Message\Exceptions\HttpException;
 
 class CSRFException extends HttpException
 {
