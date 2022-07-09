@@ -79,7 +79,7 @@ class IndexController
     #[GetMapping(path: '/')]
     public function index(ServerRequestInterface $request): ResponseInterface
     {
-        return (new Response())->HTML('Hello, ' . $request->get('name', 'MaxPHP!'));
+        return Response::HTML('Hello, ' . $request->get('name', 'MaxPHP!'));
     }
 }
 
@@ -95,7 +95,7 @@ class IndexController
 $router->middleware(TestMiddleware::class)->group(function(Router $router) {
     $router->get('/', [IndexController::class, 'index']);
     $router->get('/test', function(\Psr\Http\Message\ServerRequestInterface $request) {
-        return (new \App\Http\Response())->HTML('new');
+        return \App\Http\Response::HTML('new');
     });
 });
 ```
