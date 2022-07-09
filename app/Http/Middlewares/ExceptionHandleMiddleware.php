@@ -15,6 +15,7 @@ namespace App\Http\Middlewares;
 
 use App\Exceptions\Handlers\AppExceptionHandler;
 use App\Exceptions\Handlers\HttpExceptionHandler;
+use Max\Framework\Exceptions\VarDumperAbortHandler;
 use Max\Http\Server\Middlewares\ExceptionHandleMiddleware as HttpExceptionHandleMiddleware;
 
 class ExceptionHandleMiddleware extends HttpExceptionHandleMiddleware
@@ -23,6 +24,7 @@ class ExceptionHandleMiddleware extends HttpExceptionHandleMiddleware
      * 异常处理类
      */
     protected array $exceptionHandlers = [
+        VarDumperAbortHandler::class,
         HttpExceptionHandler::class,
         AppExceptionHandler::class,
     ];
