@@ -42,6 +42,7 @@ define('BASE_PATH', dirname(__DIR__) . '/');
 
 EOT;
     printf("System       Name:       %s\n", strtolower(PHP_OS));
+    printf("Container    Name:       ReactPHP\n");
     printf("PHP          Version:    %s\n", PHP_VERSION);
     printf("Listen       Addr:       http://%s\n", $listen);
     $http->listen($socket);

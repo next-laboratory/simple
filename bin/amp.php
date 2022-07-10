@@ -52,6 +52,7 @@ define('BASE_PATH', dirname(__DIR__) . '/');
 
 EOT;
         printf("System       Name:       %s\n", strtolower(PHP_OS));
+        printf("Container    Name:       AmpPHP\n");
         printf("PHP          Version:    %s\n", PHP_VERSION);
         printf("Listen       Addr:       :%d\n", $port);
         yield $server->start();

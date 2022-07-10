@@ -68,6 +68,7 @@ define('BASE_PATH', dirname(__DIR__) . '/');
 
 EOT;
     printf("System       Name:       %s\n", strtolower(PHP_OS));
+    printf("Container    Name:       swoole\n");
     printf("PHP          Version:    %s\n", PHP_VERSION);
     printf("Swoole       Version:    %s\n", swoole_version());
     printf("Listen       Addr:       http://%s:%d\n", $host, $port);
