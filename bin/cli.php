@@ -14,12 +14,7 @@ declare(strict_types=1);
 use App\Bootstrap;
 use App\Console\Kernel;
 
-ini_set('display_errors', 'on');
-ini_set('display_startup_errors', 'on');
-ini_set('memory_limit', '1G');
-error_reporting(E_ALL);
-date_default_timezone_set('PRC');
-define('BASE_PATH', dirname(__DIR__) . '/');
+require_once __DIR__ . DIRECTORY_SEPARATOR.'base.php';
 
 (function() {
     $loader = require_once './vendor/autoload.php';
