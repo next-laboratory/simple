@@ -3,12 +3,10 @@
 declare(strict_types=1);
 
 /**
- * This file is part of the Max package.
+ * This file is part of MaxPHP.
  *
- * (c) Cheng Yao <987861463@qq.com>
- *
- * For the full copyright and license information, please view the LICENSE
- * file that was distributed with this source code.
+ * @link     https://github.com/marxphp
+ * @license  https://github.com/marxphp/max/blob/master/LICENSE
  */
 
 namespace App\Http;
@@ -28,10 +26,15 @@ class Response extends \Max\Http\Message\Response
      * Set cookie.
      */
     public function withCookie(
-        string $name, string $value, int $expires = 3600, string $path = '/',
-        string $domain = '', bool $secure = false, bool $httponly = false, string $samesite = ''
-    ): static
-    {
+        string $name,
+        string $value,
+        int $expires = 3600,
+        string $path = '/',
+        string $domain = '',
+        bool $secure = false,
+        bool $httponly = false,
+        string $samesite = ''
+    ): static {
         $cookie = new Cookie(...func_get_args());
         return $this->withAddedHeader('Set-Cookie', $cookie->__toString());
     }
@@ -39,7 +42,7 @@ class Response extends \Max\Http\Message\Response
     /**
      * Create a JSON response.
      *
-     * @param ArrayAccess|array $data
+     * @param array|ArrayAccess $data
      */
     public static function JSON($data, int $status = 200): ResponseInterface
     {
@@ -49,11 +52,11 @@ class Response extends \Max\Http\Message\Response
     /**
      * Create a HTML response.
      *
-     * @param Stringable|string $data
+     * @param string|Stringable $data
      */
     public static function HTML($data, int $status = 200): ResponseInterface
     {
-        return new static($status, ['Content-Type' => 'text/html; charset=utf-8'], (string)$data);
+        return new static($status, ['Content-Type' => 'text/html; charset=utf-8'], (string) $data);
     }
 
     /**
@@ -76,12 +79,12 @@ class Response extends \Max\Http\Message\Response
      */
     public static function download(string $uri, string $name = '', int $offset = 0, int $length = -1): ResponseInterface
     {
-        if (!file_exists($uri)) {
+        if (! file_exists($uri)) {
             throw new FileNotFoundException('File does not exist.');
         }
         if (empty($name)) {
             $extension = Filesystem::extension($uri);
-            if (!empty($extension)) {
+            if (! empty($extension)) {
                 $extension = '.' . $extension;
             }
             $name = Str::random(10) . $extension;
@@ -95,7 +98,7 @@ class Response extends \Max\Http\Message\Response
             //            'Content-Type'              => 'application/vnd.ms-excel',
             'Content-Type'              => 'application/download',
             'Content-Transfer-Encoding' => 'binary',
-            'Content-Disposition'       => sprintf('attachment;filename="%s"', htmlspecialchars($name, ENT_COMPAT))
+            'Content-Disposition'       => sprintf('attachment;filename="%s"', htmlspecialchars($name, ENT_COMPAT)),
         ], new FileStream($uri, $offset, $length));
     }
 }

@@ -3,12 +3,10 @@
 declare(strict_types=1);
 
 /**
- * This file is part of the Max package.
+ * This file is part of MaxPHP.
  *
- * (c) Cheng Yao <987861463@qq.com>
- *
- * For the full copyright and license information, please view the LICENSE
- * file that was distributed with this source code.
+ * @link     https://github.com/marxphp
+ * @license  https://github.com/marxphp/max/blob/master/LICENSE
  */
 
 use App\Bootstrap;
@@ -28,15 +26,14 @@ error_reporting(E_ALL);
 date_default_timezone_set('PRC');
 define('BASE_PATH', dirname(__DIR__) . '/');
 
-(function() {
+(function () {
     $loader = require_once './vendor/autoload.php';
-    if (!class_exists('Swoole\Server')) {
+    if (! class_exists('Swoole\Server')) {
         throw new Exception('You should install the swoole extension before starting.');
     }
     Bootstrap::boot($loader, true);
 
-    run(function() {
-
+    run(function () {
         /**
          * Configuration.
          */
@@ -51,8 +48,8 @@ define('BASE_PATH', dirname(__DIR__) . '/');
          * Start server.
          */
         $server = new Swoole\Coroutine\Http\Server($host, $port);
-        $kernel = Context::getContainer()->make(Kernel::class);;
-        $server->handle('/', function(Request $request, Response $response) use ($kernel) {
+        $kernel = Context::getContainer()->make(Kernel::class);
+        $server->handle('/', function (Request $request, Response $response) use ($kernel) {
             $psrResponse = $kernel->through(ServerRequest::createFromSwooleRequest($request, [
                 'request'  => $request,
                 'response' => $response,
@@ -61,7 +58,7 @@ define('BASE_PATH', dirname(__DIR__) . '/');
         });
 
         $server->set($settings);
-        echo <<<EOT
+        echo <<<'EOT'
 ,--.   ,--.                  ,------. ,--.  ,--.,------.  
 |   `.'   | ,--,--.,--.  ,--.|  .--. '|  '--'  ||  .--. ' 
 |  |'.'|  |' ,-.  | \  `'  / |  '--' ||  .--.  ||  '--' | 
@@ -77,4 +74,3 @@ EOT;
         $server->start();
     });
 })();
-

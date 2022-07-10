@@ -3,12 +3,10 @@
 declare(strict_types=1);
 
 /**
- * This file is part of the Max package.
+ * This file is part of MaxPHP.
  *
- * (c) Cheng Yao <987861463@qq.com>
- *
- * For the full copyright and license information, please view the LICENSE
- * file that was distributed with this source code.
+ * @link     https://github.com/marxphp
+ * @license  https://github.com/marxphp/max/blob/master/LICENSE
  */
 
 use App\Bootstrap;
@@ -24,7 +22,7 @@ error_reporting(E_ALL);
 date_default_timezone_set('PRC');
 define('BASE_PATH', dirname(__DIR__) . '/');
 
-(function() {
+(function () {
     $loader = require_once '../vendor/autoload.php';
     Bootstrap::boot($loader, false);
     /** @var Kernel $kernel */
@@ -32,5 +30,3 @@ define('BASE_PATH', dirname(__DIR__) . '/');
     $response = $kernel->through(ServerRequest::createFromGlobals());
     (new FPMResponseEmitter())->emit($response);
 })();
-
-
