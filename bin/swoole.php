@@ -19,7 +19,7 @@ use Swoole\Http\Request;
 use Swoole\Http\Response;
 use Swoole\Http\Server;
 
-require_once __DIR__ . DIRECTORY_SEPARATOR.'base.php';
+require_once __DIR__ . DIRECTORY_SEPARATOR . 'base.php';
 
 (function () {
     $loader = require_once './vendor/autoload.php';
@@ -31,17 +31,18 @@ require_once __DIR__ . DIRECTORY_SEPARATOR.'base.php';
     /**
      * Configuration.
      */
-    $host     = '0.0.0.0';
-    $port     = 8989;
-    $settings = [
-        Constant::OPTION_WORKER_NUM  => 4,
-        Constant::OPTION_MAX_REQUEST => 100000,
-    ];
-
+    $config = config('server.swoole', [
+        'ports'   => env('APP_PORT', 9000), // 支持多端口监听,也可以只监听一个端口
+        'binds'   => '0.0.0.0', // 绑定ip
+        'settings'=> [
+            Constant::OPTION_WORKER_NUM  => swoole_cpu_num(),
+            Constant::OPTION_MAX_REQUEST => 100000,
+        ],
+    ]);
     /**
      * Start server.
      */
-    $server = new Server($host, $port);
+    $server = new Server($config['binds'], $config['port']);
     /** @var Kernel $kernel */
     $kernel = Context::getContainer()->make(Kernel::class);
     $server->on('request', function (Request $request, Response $response) use ($kernel) {
@@ -51,7 +52,8 @@ require_once __DIR__ . DIRECTORY_SEPARATOR.'base.php';
         ]));
         (new SwooleResponseEmitter())->emit($psrResponse, $response);
     });
-    $server->set($settings);
+    $server->set($config['settings']);
+
     echo <<<'EOT'
 ,--.   ,--.                  ,------. ,--.  ,--.,------.  
 |   `.'   | ,--,--.,--.  ,--.|  .--. '|  '--'  ||  .--. ' 
@@ -64,7 +66,7 @@ EOT;
     printf("Container    Name:       swoole\n");
     printf("PHP          Version:    %s\n", PHP_VERSION);
     printf("Swoole       Version:    %s\n", swoole_version());
-    printf("Listen       Addr:       http://%s:%d\n", $host, $port);
+    printf("Listen       Addr:       http://%s:%d\n", $config['binds'], $config['port']);
 
     $server->start();
 })();
