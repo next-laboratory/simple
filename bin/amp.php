@@ -1,7 +1,12 @@
 <?php
 
+declare(strict_types=1);
+
 /**
- *  Beta.
+ * This file is part of MaxPHP.
+ *
+ * @link     https://github.com/marxphp
+ * @license  https://github.com/marxphp/max/blob/master/LICENSE
  */
 
 use Amp\Http\Server\HttpServer;
@@ -17,9 +22,9 @@ use Max\Http\Server\ResponseEmitter\AmpResponseEmitter;
 
 require_once __DIR__ . DIRECTORY_SEPARATOR.'base.php';
 
-(function() {
+(function () {
     $loader = require_once './vendor/autoload.php';
-    if (!class_exists('Amp\Http\Server\HttpServer')) {
+    if (! class_exists('Amp\Http\Server\HttpServer')) {
         throw new Exception('You should install the amphp/http-server extension before starting.');
     }
     Bootstrap::boot($loader, true);
@@ -28,17 +33,17 @@ require_once __DIR__ . DIRECTORY_SEPARATOR.'base.php';
     $kernel    = $container->make(Kernel::class);
     $logger    = $container->make(Logger::class)->get();
 
-    Amp\Loop::run(function() use ($kernel, $logger) {
+    Amp\Loop::run(function () use ($kernel, $logger) {
         $port    = 8989;
         $sockets = [
             Server::listen("0.0.0.0:{$port}"),
             Server::listen("[::]:{$port}"),
         ];
 
-        $server = new HttpServer($sockets, new CallableRequestHandler(function(Request $request) use ($kernel, $logger) {
+        $server = new HttpServer($sockets, new CallableRequestHandler(function (Request $request) use ($kernel) {
             return (new AmpResponseEmitter())->emit($kernel->through(ServerRequest::createFromAmp($request)));
         }), $logger);
-        echo <<<EOT
+        echo <<<'EOT'
 ,--.   ,--.                  ,------. ,--.  ,--.,------.  
 |   `.'   | ,--,--.,--.  ,--.|  .--. '|  '--'  ||  .--. ' 
 |  |'.'|  |' ,-.  | \  `'  / |  '--' ||  .--.  ||  '--' | 
@@ -54,11 +59,9 @@ EOT;
 
         // Stop the server gracefully when SIGINT is received.
         // This is technically optional, but it is best to call Server::stop().
-        Amp\Loop::onSignal(SIGINT, function(string $watcherId) use ($server) {
+        Amp\Loop::onSignal(SIGINT, function (string $watcherId) use ($server) {
             Amp\Loop::cancel($watcherId);
             yield $server->stop();
         });
     });
 })();
-
-

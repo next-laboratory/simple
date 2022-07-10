@@ -3,12 +3,10 @@
 declare(strict_types=1);
 
 /**
- * This file is part of the Max package.
+ * This file is part of MaxPHP.
  *
- * (c) Cheng Yao <987861463@qq.com>
- *
- * For the full copyright and license information, please view the LICENSE
- * file that was distributed with this source code.
+ * @link     https://github.com/marxphp
+ * @license  https://github.com/marxphp/max/blob/master/LICENSE
  */
 
 namespace App\Http;
@@ -23,11 +21,6 @@ use RuntimeException;
 
 class ServerRequest extends PsrServerRequest
 {
-    /**
-     * @param string $name
-     *
-     * @return string
-     */
     public function header(string $name): string
     {
         return $this->getHeaderLine($name);
@@ -45,8 +38,6 @@ class ServerRequest extends PsrServerRequest
     }
 
     /**
-     * @param string $name
-     *
      * @return ?string
      */
     public function server(string $name): ?string
@@ -54,67 +45,40 @@ class ServerRequest extends PsrServerRequest
         return $this->getServerParams()[strtoupper($name)] ?? null;
     }
 
-    /**
-     * @param string $method
-     *
-     * @return bool
-     */
     public function isMethod(string $method): bool
     {
-        return 0 === strcasecmp($this->getMethod(), $method);
+        return strcasecmp($this->getMethod(), $method) === 0;
     }
 
-    /**
-     * @return string
-     */
     public function url(): string
     {
         return $this->getUri()->__toString();
     }
 
-    /**
-     * @param string $name
-     *
-     * @return string|null
-     */
     public function cookie(string $name): ?string
     {
         return $this->getCookieParams()[strtoupper($name)] ?? null;
     }
 
-    /**
-     * @return bool
-     */
     public function isAjax(): bool
     {
-        return 0 === strcasecmp('XMLHttpRequest', $this->getHeaderLine('X-REQUESTED-WITH'));
+        return strcasecmp('XMLHttpRequest', $this->getHeaderLine('X-REQUESTED-WITH')) === 0;
     }
 
-    /**
-     * @param string $path
-     *
-     * @return bool
-     */
     public function isPath(string $path): bool
     {
         $requestPath = $this->getUri()->getPath();
 
-        return 0 === strcasecmp($requestPath, $path) || preg_match("#^{$path}$#iU", $requestPath);
+        return strcasecmp($requestPath, $path) === 0 || preg_match("#^{$path}$#iU", $requestPath);
     }
 
-    /**
-     * @return string
-     */
     public function raw(): string
     {
         return $this->getBody()->getContents();
     }
 
     /**
-     * @param array|string|null $key
-     * @param mixed|null        $default
-     *
-     * @return mixed
+     * @param null|array|string $key
      */
     public function get(null|array|string $key = null, mixed $default = null): mixed
     {
@@ -122,10 +86,7 @@ class ServerRequest extends PsrServerRequest
     }
 
     /**
-     * @param array|string|null $key
-     * @param mixed|null        $default
-     *
-     * @return mixed
+     * @param null|array|string $key
      */
     public function post(null|array|string $key = null, mixed $default = null): mixed
     {
@@ -133,11 +94,7 @@ class ServerRequest extends PsrServerRequest
     }
 
     /**
-     * @param array|string|null $key
-     * @param mixed|null        $default
-     * @param array|null        $from
-     *
-     * @return mixed
+     * @param null|array|string $key
      */
     public function input(null|array|string $key = null, mixed $default = null, ?array $from = null): mixed
     {
@@ -156,22 +113,6 @@ class ServerRequest extends PsrServerRequest
         return $this->isEmpty($from, $key) ? $default : $from[$key];
     }
 
-    /**
-     * @param array $haystack
-     * @param       $needle
-     *
-     * @return bool
-     */
-    protected function isEmpty(array $haystack, $needle): bool
-    {
-        return !isset($haystack[$needle]) || '' === $haystack[$needle];
-    }
-
-    /**
-     * @param string $field
-     *
-     * @return UploadedFile|null
-     */
     public function file(string $field): ?UploadedFile
     {
         return Arr::get($this->files(), $field);
@@ -185,9 +126,6 @@ class ServerRequest extends PsrServerRequest
         return $this->getUploadedFiles();
     }
 
-    /**
-     * @return array
-     */
     public function all(): array
     {
         return $this->getQueryParams() + $this->getParsedBody();
@@ -199,5 +137,10 @@ class ServerRequest extends PsrServerRequest
     public function user(): ?Authenticatable
     {
         return $this->getAttribute(User::class);
+    }
+
+    protected function isEmpty(array $haystack, $needle): bool
+    {
+        return !isset($haystack[$needle]) || $haystack[$needle] === '';
     }
 }

@@ -1,5 +1,14 @@
 <?php
 
+declare(strict_types=1);
+
+/**
+ * This file is part of MaxPHP.
+ *
+ * @link     https://github.com/marxphp
+ * @license  https://github.com/marxphp/max/blob/master/LICENSE
+ */
+
 namespace App\Exceptions\Handlers;
 
 use App\Http\Response;
@@ -19,7 +28,7 @@ class AppExceptionHandler implements ExceptionHandlerInterface, StoppableExcepti
                 'status'  => false,
                 'code'    => 500,
                 'data'    => $throwable->getTrace(),
-                'message' => 'Internal service error.'
+                'message' => 'Internal service error.',
             ]);
         }
         return Response::HTML(sprintf(

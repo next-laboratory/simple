@@ -3,12 +3,10 @@
 declare(strict_types=1);
 
 /**
- * This file is part of the Max package.
+ * This file is part of MaxPHP.
  *
- * (c) Cheng Yao <987861463@qq.com>
- *
- * For the full copyright and license information, please view the LICENSE
- * file that was distributed with this source code.
+ * @link     https://github.com/marxphp
+ * @license  https://github.com/marxphp/max/blob/master/LICENSE
  */
 
 use App\Bootstrap;
@@ -22,9 +20,9 @@ use Workerman\Worker;
 
 require_once __DIR__ . DIRECTORY_SEPARATOR.'base.php';
 
-(function() {
+(function () {
     $loader = require_once './vendor/autoload.php';
-    if (!class_exists('Workerman\Worker')) {
+    if (! class_exists('Workerman\Worker')) {
         throw new Exception('You should install the workerman using `composer require workerman/workerman` before starting.');
     }
     Bootstrap::boot($loader, true);
@@ -40,7 +38,7 @@ require_once __DIR__ . DIRECTORY_SEPARATOR.'base.php';
      */
     $worker            = new Worker($protocol);
     $kernel            = Context::getContainer()->make(Kernel::class);
-    $worker->onMessage = function(TcpConnection $connection, Request $request) use ($kernel) {
+    $worker->onMessage = function (TcpConnection $connection, Request $request) use ($kernel) {
         $psrResponse = $kernel->through(ServerRequest::createFromWorkermanRequest($request, [
             'TcpConnection' => $connection,
             'request'       => $request,
@@ -49,7 +47,7 @@ require_once __DIR__ . DIRECTORY_SEPARATOR.'base.php';
     };
     $worker->count     = $workerNum;
 
-    echo <<<EOT
+    echo <<<'EOT'
 ,--.   ,--.                  ,------. ,--.  ,--.,------.  
 |   `.'   | ,--,--.,--.  ,--.|  .--. '|  '--'  ||  .--. ' 
 |  |'.'|  |' ,-.  | \  `'  / |  '--' ||  .--.  ||  '--' | 
@@ -60,4 +58,3 @@ EOT;
 
     Worker::runAll();
 })();
-

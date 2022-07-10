@@ -3,12 +3,10 @@
 declare(strict_types=1);
 
 /**
- * This file is part of the Max package.
+ * This file is part of MaxPHP.
  *
- * (c) Cheng Yao <987861463@qq.com>
- *
- * For the full copyright and license information, please view the LICENSE
- * file that was distributed with this source code.
+ * @link     https://github.com/marxphp
+ * @license  https://github.com/marxphp/max/blob/master/LICENSE
  */
 
 use App\Bootstrap;
@@ -23,9 +21,9 @@ use Swoole\Http\Server;
 
 require_once __DIR__ . DIRECTORY_SEPARATOR.'base.php';
 
-(function() {
+(function () {
     $loader = require_once './vendor/autoload.php';
-    if (!class_exists('Swoole\Server')) {
+    if (! class_exists('Swoole\Server')) {
         throw new Exception('You should install the swoole extension before starting.');
     }
     Bootstrap::boot($loader, true);
@@ -46,7 +44,7 @@ require_once __DIR__ . DIRECTORY_SEPARATOR.'base.php';
     $server = new Server($host, $port);
     /** @var Kernel $kernel */
     $kernel = Context::getContainer()->make(Kernel::class);
-    $server->on('request', function(Request $request, Response $response) use ($kernel) {
+    $server->on('request', function (Request $request, Response $response) use ($kernel) {
         $psrResponse = $kernel->through(ServerRequest::createFromSwooleRequest($request, [
             'request'  => $request,
             'response' => $response,
@@ -54,7 +52,7 @@ require_once __DIR__ . DIRECTORY_SEPARATOR.'base.php';
         (new SwooleResponseEmitter())->emit($psrResponse, $response);
     });
     $server->set($settings);
-    echo <<<EOT
+    echo <<<'EOT'
 ,--.   ,--.                  ,------. ,--.  ,--.,------.  
 |   `.'   | ,--,--.,--.  ,--.|  .--. '|  '--'  ||  .--. ' 
 |  |'.'|  |' ,-.  | \  `'  / |  '--' ||  .--.  ||  '--' | 
@@ -70,4 +68,3 @@ EOT;
 
     $server->start();
 })();
-

@@ -3,12 +3,10 @@
 declare(strict_types=1);
 
 /**
- * This file is part of the Max package.
+ * This file is part of MaxPHP.
  *
- * (c) Cheng Yao <987861463@qq.com>
- *
- * For the full copyright and license information, please view the LICENSE
- * file that was distributed with this source code.
+ * @link     https://github.com/marxphp
+ * @license  https://github.com/marxphp/max/blob/master/LICENSE
  */
 
 namespace App;
@@ -21,6 +19,7 @@ class Logger implements LoggerInterface
 {
     /** @var string 默认log */
     protected string $default = 'app';
+
     /** @var array 所有log */
     protected array $logger = [];
 
@@ -35,11 +34,9 @@ class Logger implements LoggerInterface
     }
 
     /**
-     * 返回一个logger
+     * 返回一个logger.
      *
      * @param string $name 注册的名字
-     *
-     * @return MonoLogger
      */
     public function get(string $name = ''): MonoLogger
     {
@@ -47,73 +44,73 @@ class Logger implements LoggerInterface
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
-    public function emergency($message, array $context = array()): void
+    public function emergency($message, array $context = []): void
     {
         $this->get()->emergency($message, $context);
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
-    public function alert($message, array $context = array()): void
+    public function alert($message, array $context = []): void
     {
         $this->get()->alert($message, $context);
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
-    public function critical($message, array $context = array()): void
+    public function critical($message, array $context = []): void
     {
         $this->get()->critical($message, $context);
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
-    public function error($message, array $context = array()): void
+    public function error($message, array $context = []): void
     {
         $this->get()->error($message, $context);
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
-    public function warning($message, array $context = array()): void
+    public function warning($message, array $context = []): void
     {
         $this->get()->warning($message, $context);
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
-    public function notice($message, array $context = array()): void
+    public function notice($message, array $context = []): void
     {
         $this->get()->notice($message, $context);
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
-    public function info($message, array $context = array()): void
+    public function info($message, array $context = []): void
     {
         $this->get()->info($message, $context);
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
-    public function debug($message, array $context = array()): void
+    public function debug($message, array $context = []): void
     {
         $this->get()->debug($message, $context);
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
-    public function log($level, $message, array $context = array()): void
+    public function log($level, $message, array $context = []): void
     {
         $this->get()->log($level, $message, $context);
     }

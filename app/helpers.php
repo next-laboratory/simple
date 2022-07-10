@@ -3,27 +3,26 @@
 declare(strict_types=1);
 
 /**
- * This file is part of the Max package.
+ * This file is part of MaxPHP.
  *
- * (c) Cheng Yao <987861463@qq.com>
- *
- * For the full copyright and license information, please view the LICENSE
- * file that was distributed with this source code.
+ * @link     https://github.com/marxphp
+ * @license  https://github.com/marxphp/max/blob/master/LICENSE
  */
 
 use Max\Config\Repository;
 use Max\Di\Context;
 use Psr\Container\ContainerExceptionInterface;
 
-if (false === function_exists('base_path')) {
+if (function_exists('base_path') === false) {
     function base_path(string $path = ''): string
     {
         return BASE_PATH . ltrim($path, '/');
     }
 }
 
-if (false === function_exists('config')) {
+if (function_exists('config') === false) {
     /**
+     * @param  null|mixed                  $default
      * @throws ContainerExceptionInterface
      * @throws ReflectionException
      */
@@ -35,7 +34,7 @@ if (false === function_exists('config')) {
     }
 }
 
-if (false === function_exists('env')) {
+if (function_exists('env') === false) {
     function env(string $key, $default = null): mixed
     {
         $value = getenv($key);

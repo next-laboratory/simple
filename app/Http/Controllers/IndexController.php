@@ -3,12 +3,10 @@
 declare(strict_types=1);
 
 /**
- * This file is part of the Max package.
+ * This file is part of MaxPHP.
  *
- * (c) Cheng Yao <987861463@qq.com>
- *
- * For the full copyright and license information, please view the LICENSE
- * file that was distributed with this source code.
+ * @link     https://github.com/marxphp
+ * @license  https://github.com/marxphp/max/blob/master/LICENSE
  */
 
 namespace App\Http\Controllers;
@@ -20,7 +18,7 @@ use Psr\Http\Message\ServerRequestInterface;
 class IndexController
 {
     /**
-     * 注意： 如果需要使用请求变量，切记变量名为$request，否则不能注入
+     * 注意： 如果需要使用请求变量，切记变量名为$request，否则不能注入.
      */
     public function index(ServerRequestInterface $request): ResponseInterface
     {

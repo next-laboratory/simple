@@ -3,12 +3,10 @@
 declare(strict_types=1);
 
 /**
- * This file is part of the Max package.
+ * This file is part of MaxPHP.
  *
- * (c) Cheng Yao <987861463@qq.com>
- *
- * For the full copyright and license information, please view the LICENSE
- * file that was distributed with this source code.
+ * @link     https://github.com/marxphp
+ * @license  https://github.com/marxphp/max/blob/master/LICENSE
  */
 
 namespace App;
@@ -28,10 +26,6 @@ use ReflectionException;
 class Bootstrap
 {
     /**
-     * @param ClassLoader $loader
-     * @param bool        $enable
-     *
-     * @return void
      * @throws ContainerExceptionInterface
      * @throws ReflectionException
      */
@@ -39,7 +33,7 @@ class Bootstrap
     {
         $container = Context::getContainer();
 
-        /**
+        /*
          * Initialize environment variables and configurations.
          *
          * @var Repository $repository
@@ -52,21 +46,21 @@ class Bootstrap
         $repository->scan(base_path('./config'));
 
         /**
-         * @var LoggerInterface $logger
-         * Initialize loggers.
+         * @var loggerInterface $logger
+         *                      Initialize loggers
          */
         $logger = $container->make(Logger::class);
         if ('cli' === PHP_SAPI) {
             $logger->debug('Server started.');
         }
-        /**
+        /*
          * Initialize scanner if it is enabled.
          */
         if ($enable) {
             Scanner::init($loader, new ScannerConfig($repository->get('di.aop')));
         }
 
-        /**
+        /*
          * Initialize bindings.
          */
         foreach ($repository->get('di.bindings') as $id => $value) {

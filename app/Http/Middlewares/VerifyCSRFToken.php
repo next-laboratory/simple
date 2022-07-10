@@ -3,12 +3,10 @@
 declare(strict_types=1);
 
 /**
- * This file is part of the Max package.
+ * This file is part of MaxPHP.
  *
- * (c) Cheng Yao <987861463@qq.com>
- *
- * For the full copyright and license information, please view the LICENSE
- * file that was distributed with this source code.
+ * @link     https://github.com/marxphp
+ * @license  https://github.com/marxphp/max/blob/master/LICENSE
  */
 
 namespace App\Http\Middlewares;
@@ -26,7 +24,7 @@ class VerifyCSRFToken implements MiddlewareInterface
      * 排除，不校验CSRF Token.
      */
     protected array $except = [
-//        '/'
+        //        '/'
     ];
 
     /**
@@ -35,7 +33,7 @@ class VerifyCSRFToken implements MiddlewareInterface
      */
     public function process(ServerRequestInterface $request, RequestHandlerInterface $handler): ResponseInterface
     {
-        if ($request->isMethod('POST') && !in_array($request->getUri()->getPath(), $this->except)) {
+        if ($request->isMethod('POST') && ! in_array($request->getUri()->getPath(), $this->except)) {
             $previousToken = $request->getCookieParams()['X-XSRF-TOKEN'] ?? null;
             if (is_null($previousToken)) {
                 $this->abort();
