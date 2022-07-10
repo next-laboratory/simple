@@ -20,7 +20,7 @@ use App\Logger;
 use Max\Di\Context;
 use Max\Http\Server\ResponseEmitter\AmpResponseEmitter;
 
-require_once __DIR__ . DIRECTORY_SEPARATOR.'base.php';
+require_once __DIR__ . DIRECTORY_SEPARATOR . 'base.php';
 
 (function () {
     $loader = require_once './vendor/autoload.php';
@@ -40,9 +40,9 @@ require_once __DIR__ . DIRECTORY_SEPARATOR.'base.php';
             Server::listen("[::]:{$port}"),
         ];
 
-        $server = new HttpServer($sockets, new CallableRequestHandler(function (Request $request) use ($kernel) {
-            return (new AmpResponseEmitter())->emit($kernel->through(ServerRequest::createFromAmp($request)));
-        }), $logger);
+        $server = new HttpServer($sockets, new CallableRequestHandler(
+            fn (Request $request) => (new AmpResponseEmitter())->emit($kernel->through(ServerRequest::createFromAmp($request)))
+        ), $logger);
         echo <<<'EOT'
 ,--.   ,--.                  ,------. ,--.  ,--.,------.  
 |   `.'   | ,--,--.,--.  ,--.|  .--. '|  '--'  ||  .--. ' 
