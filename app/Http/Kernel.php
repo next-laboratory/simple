@@ -19,9 +19,7 @@ use Psr\Http\Message\ServerRequestInterface;
 class Kernel extends HttpKernel
 {
     /**
-     * Global middleware, executed before routing matches.
-     *
-     * @var string[]
+     * Global middleware.
      */
     protected array $middlewares = [
         'App\Http\Middlewares\ExceptionHandleMiddleware',

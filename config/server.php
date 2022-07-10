@@ -12,10 +12,10 @@ declare(strict_types=1);
 use Swoole\Constant;
 
 return [
-    'swoole'=> [
-        'port'    => env('APP_PORT', 9000), // 支持多端口监听,也可以只监听一个端口
-        'binds'   => '0.0.0.0', // 绑定ip
-        'settings'=> [
+    'swoole' => [
+        'port'     => (int) env('APP_PORT', 9000), // 支持多端口监听,也可以只监听一个端口
+        'binds'    => '0.0.0.0', // 绑定ip
+        'settings' => [
             Constant::OPTION_WORKER_NUM  => swoole_cpu_num(),
             Constant::OPTION_MAX_REQUEST => 100000,
         ],

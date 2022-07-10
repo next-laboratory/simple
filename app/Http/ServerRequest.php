@@ -26,9 +26,6 @@ class ServerRequest extends PsrServerRequest
         return $this->getHeaderLine($name);
     }
 
-    /**
-     * @return ?Session
-     */
     public function session(): ?Session
     {
         if ($session = $this->getAttribute('Max\Session\Session')) {
@@ -37,14 +34,14 @@ class ServerRequest extends PsrServerRequest
         throw new RuntimeException('Session is invalid.');
     }
 
-    /**
-     * @return ?string
-     */
     public function server(string $name): ?string
     {
         return $this->getServerParams()[strtoupper($name)] ?? null;
     }
 
+    /**
+     * Example: $request->isMethod('GET').
+     */
     public function isMethod(string $method): bool
     {
         return strcasecmp($this->getMethod(), $method) === 0;
@@ -55,6 +52,9 @@ class ServerRequest extends PsrServerRequest
         return $this->getUri()->__toString();
     }
 
+    /**
+     * Example: $request->cookie('session_id').
+     */
     public function cookie(string $name): ?string
     {
         return $this->getCookieParams()[strtoupper($name)] ?? null;
@@ -77,25 +77,16 @@ class ServerRequest extends PsrServerRequest
         return $this->getBody()->getContents();
     }
 
-    /**
-     * @param null|array|string $key
-     */
     public function get(null|array|string $key = null, mixed $default = null): mixed
     {
         return $this->input($key, $default, $this->getQueryParams());
     }
 
-    /**
-     * @param null|array|string $key
-     */
     public function post(null|array|string $key = null, mixed $default = null): mixed
     {
         return $this->input($key, $default, $this->getParsedBody());
     }
 
-    /**
-     * @param null|array|string $key
-     */
     public function input(null|array|string $key = null, mixed $default = null, ?array $from = null): mixed
     {
         $from ??= $this->all();
@@ -141,6 +132,6 @@ class ServerRequest extends PsrServerRequest
 
     protected function isEmpty(array $haystack, $needle): bool
     {
-        return !isset($haystack[$needle]) || $haystack[$needle] === '';
+        return ! isset($haystack[$needle]) || $haystack[$needle] === '';
     }
 }
