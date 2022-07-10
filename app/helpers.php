@@ -16,11 +16,6 @@ use Max\Di\Context;
 use Psr\Container\ContainerExceptionInterface;
 
 if (false === function_exists('base_path')) {
-    /**
-     * @param string $path
-     *
-     * @return string
-     */
     function base_path(string $path = ''): string
     {
         return BASE_PATH . ltrim($path, '/');
@@ -41,12 +36,6 @@ if (false === function_exists('config')) {
 }
 
 if (false === function_exists('env')) {
-    /**
-     * @param string $key
-     * @param        $default
-     *
-     * @return array|bool|mixed|string|null
-     */
     function env(string $key, $default = null): mixed
     {
         $value = getenv($key);
