@@ -20,7 +20,6 @@ use Max\Di\Context;
 use Max\Event\ListenerCollector;
 use Max\Event\ListenerProvider;
 use Psr\Container\ContainerExceptionInterface;
-use Psr\Log\LoggerInterface;
 use ReflectionException;
 
 class Bootstrap
@@ -33,45 +32,30 @@ class Bootstrap
     {
         $container = Context::getContainer();
 
-        /*
-         * Initialize environment variables and configurations.
-         *
-         * @var Repository $repository
-         */
+        // Initialize environment variables and configurations
         if (file_exists(base_path('.env'))) {
             Dotenv::createUnsafeImmutable(BASE_PATH)->load();
         }
-
         $repository = $container->make(Repository::class);
         $repository->scan(base_path('./config'));
 
-        /**
-         * @var loggerInterface $logger
-         *                      Initialize loggers
-         */
+        // Initialize loggers
         $logger = $container->make(Logger::class);
         if ('cli' === PHP_SAPI) {
             $logger->debug('Server started.');
         }
-        /*
-         * Initialize scanner if it is enabled.
-         */
+
+        // Initialize scanner if it is enabled
         if ($enable) {
             Scanner::init($loader, new ScannerConfig($repository->get('di.aop')));
         }
 
-        /*
-         * Initialize bindings.
-         */
+        // Initialize bindings
         foreach ($repository->get('di.bindings') as $id => $value) {
             $container->bind($id, $value);
         }
 
-        /**
-         * Initialize event listeners.
-         *
-         * @var ListenerProvider $listenerProvider
-         */
+        // Initialize event listeners
         $listenerProvider = $container->make(ListenerProvider::class);
         $listeners        = $repository->get('listeners');
         foreach (array_unique(array_merge(ListenerCollector::getListeners(), $listeners)) as $listener) {
