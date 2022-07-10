@@ -41,9 +41,7 @@ define('BASE_PATH', dirname(__DIR__) . '/');
         ];
 
         $server = new HttpServer($sockets, new CallableRequestHandler(function(Request $request) use ($kernel, $logger) {
-            $psrRequest  = ServerRequest::createFromAmp($request);
-            $psrResponse = $kernel->through($psrRequest);
-            return (new AmpResponseEmitter())->emit($psrResponse);
+            return (new AmpResponseEmitter())->emit($kernel->through(ServerRequest::createFromAmp($request)));
         }), $logger);
         echo <<<EOT
 ,--.   ,--.                  ,------. ,--.  ,--.,------.  
