@@ -21,7 +21,7 @@ require_once __DIR__ . DIRECTORY_SEPARATOR.'base.php';
 (function () {
     $loader = require './vendor/autoload.php';
     if (! class_exists('React\Http\HttpServer')) {
-        throw new Exception('You should install the react/react extension before starting.');
+        throw new Exception('You should install the react/react package before starting.');
     }
     Bootstrap::boot($loader, true);
 
