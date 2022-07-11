@@ -1,7 +1,15 @@
 <?php
 
-namespace Psr\Http\Message {
+declare(strict_types=1);
 
+/**
+ * This file is part of MaxPHP.
+ *
+ * @link     https://github.com/marxphp
+ * @license  https://github.com/marxphp/max/blob/master/LICENSE
+ */
+
+namespace Psr\Http\Message {
     use App\Http\Response;
     use App\Http\ServerRequest;
 
@@ -17,12 +25,10 @@ namespace Psr\Http\Message {
      */
     interface ResponseInterface
     {
-
     }
 }
 
 namespace Psr\Container {
-
     use Max\Di\Container;
 
     /**
@@ -34,7 +40,6 @@ namespace Psr\Container {
 }
 
 namespace Psr\SimpleCache {
-
     use Max\Cache\Cache;
 
     /**
@@ -46,7 +51,6 @@ namespace Psr\SimpleCache {
 }
 
 namespace Psr\Log {
-
     use App\Logger;
 
     /**
