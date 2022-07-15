@@ -10,20 +10,15 @@ declare(strict_types=1);
  */
 
 return [
-    'default' => 'blade',
-    'engines' => [
-        'blade' => [
-            'engine'  => 'Max\View\Engines\Blade',
-            'options' => [
-                // 模板目录
-                'path'       => __DIR__ . '/../views/',
-                // 编译和缓存目录
-                'compileDir' => __DIR__ . '/../runtime/cache/views/',
-                // 模板缓存
-                'cache'      => false,
-                // 模板后缀
-                'suffix'     => '.blade.php',
-            ],
-        ],
+    'engine'  => 'Max\View\Engines\Blade',
+    'options' => [
+        // 模板目录
+        'path'       => __DIR__ . '/../views/',
+        // 编译和缓存目录
+        'compileDir' => __DIR__ . '/../runtime/cache/views/',
+        // 模板缓存
+        'cache'      => false,
+        // 模板后缀
+        'suffix'     => '.blade.php',
     ],
 ];

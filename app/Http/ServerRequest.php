@@ -17,6 +17,7 @@ use Max\Http\Message\UploadedFile;
 use Max\JWT\Contracts\Authenticatable;
 use Max\Session\Session;
 use Max\Utils\Arr;
+use Max\View\Renderer;
 use RuntimeException;
 
 class ServerRequest extends PsrServerRequest
@@ -128,6 +129,11 @@ class ServerRequest extends PsrServerRequest
     public function user(): ?Authenticatable
     {
         return $this->getAttribute(User::class);
+    }
+
+    public function renderer()
+    {
+        return $this->getAttribute(Renderer::class);
     }
 
     protected function isEmpty(array $haystack, $needle): bool
