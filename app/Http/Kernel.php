@@ -25,7 +25,8 @@ class Kernel extends HttpKernel
         'App\Http\Middlewares\ExceptionHandleMiddleware',
         //        'App\Http\Middlewares\AllowCrossDomain',
         'Max\Http\Server\Middlewares\RoutingMiddleware',
-        //        'App\Http\Middlewares\SessionMiddleware',
+        'App\Http\Middlewares\SessionMiddleware',
+        'App\Http\Middlewares\ViewMiddleware',
         //        'App\Http\Middlewares\VerifyCSRFToken',
     ];
 
