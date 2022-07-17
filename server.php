@@ -14,4 +14,4 @@ if (is_file($_SERVER['DOCUMENT_ROOT'] . $_SERVER['SCRIPT_NAME'])) {
 }
 $_SERVER['SCRIPT_FILENAME'] = __DIR__ . '/public/index.php';
 
-require __DIR__ . 'public/index.php';
+require __DIR__ . '/public/index.php';
