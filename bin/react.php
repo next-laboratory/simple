@@ -16,14 +16,14 @@ use Psr\Http\Message\ServerRequestInterface;
 use React\Http\HttpServer;
 use React\Socket\SocketServer;
 
-require_once __DIR__ . DIRECTORY_SEPARATOR.'base.php';
+require_once __DIR__ . DIRECTORY_SEPARATOR . 'base.php';
 
 (function () {
-    $loader = require './vendor/autoload.php';
+    require './vendor/autoload.php';
     if (! class_exists('React\Http\HttpServer')) {
         throw new Exception('You should install the react/react package before starting.');
     }
-    Bootstrap::boot($loader, true);
+    Bootstrap::boot(true);
 
     $kernel = make(Kernel::class);
     $http   = new HttpServer(function (ServerRequestInterface $request) use ($kernel) {

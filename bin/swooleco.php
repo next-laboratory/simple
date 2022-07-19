@@ -19,23 +19,23 @@ use Swoole\Http\Request;
 use Swoole\Http\Response;
 use function Swoole\Coroutine\run;
 
-require_once __DIR__ . DIRECTORY_SEPARATOR.'base.php';
+require_once __DIR__ . DIRECTORY_SEPARATOR . 'base.php';
 
 (function () {
-    $loader = require_once './vendor/autoload.php';
+    require_once './vendor/autoload.php';
     if (! class_exists('Swoole\Server')) {
         throw new Exception('You should install the swoole extension before starting.');
     }
-    Bootstrap::boot($loader, true);
+    Bootstrap::boot(true);
 
     run(function () {
         /**
          * Configuration.
          */
-        $config = config('server.swoole', [
-            'ports'   => env('APP_PORT', 9000), // 支持多端口监听,也可以只监听一个端口
-            'binds'   => '0.0.0.0', // 绑定ip
-            'settings'=> [
+        $config   = config('server.swoole', [
+            'ports'    => env('APP_PORT', 9000), // 支持多端口监听,也可以只监听一个端口
+            'binds'    => '0.0.0.0', // 绑定ip
+            'settings' => [
                 Constant::OPTION_WORKER_NUM  => swoole_cpu_num(),
                 Constant::OPTION_MAX_REQUEST => 100000,
             ],

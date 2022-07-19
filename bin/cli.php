@@ -12,10 +12,10 @@ declare(strict_types=1);
 use App\Bootstrap;
 use App\Console\Kernel;
 
-require_once __DIR__ . DIRECTORY_SEPARATOR.'base.php';
+require_once __DIR__ . DIRECTORY_SEPARATOR . 'base.php';
 
 (function () {
-    $loader = require_once './vendor/autoload.php';
-    Bootstrap::boot($loader, true);
+    require_once './vendor/autoload.php';
+    Bootstrap::boot(true);
     (new Kernel())->run();
 })();

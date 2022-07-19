@@ -21,12 +21,12 @@ use Swoole\Http\Server;
 
 require_once __DIR__ . DIRECTORY_SEPARATOR . 'base.php';
 
-(function() {
-    $loader = require_once './vendor/autoload.php';
-    if (!class_exists('Swoole\Server')) {
+(function () {
+    require_once './vendor/autoload.php';
+    if (! class_exists('Swoole\Server')) {
         throw new Exception('You should install the swoole extension before starting.');
     }
-    Bootstrap::boot($loader, true);
+    Bootstrap::boot(true);
 
     // Configuration.
     $port     = 8989;
@@ -39,7 +39,7 @@ require_once __DIR__ . DIRECTORY_SEPARATOR . 'base.php';
     // Start server
     $server = new Server($host, $port);
     $kernel = Context::getContainer()->make(Kernel::class);
-    $server->on('request', function(Request $request, Response $response) use ($kernel) {
+    $server->on('request', function (Request $request, Response $response) use ($kernel) {
         $psrResponse = $kernel->through(ServerRequest::createFromSwooleRequest($request, [
             'request'  => $request,
             'response' => $response,
