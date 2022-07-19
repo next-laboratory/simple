@@ -139,26 +139,25 @@ class ServerRequest extends PsrServerRequest
         return $this->getAttribute(Renderer::class);
     }
 
-    protected function isEmpty(array $haystack, $needle): bool
-    {
-        return !isset($haystack[$needle]) || $haystack[$needle] === '';
-    }
-
     /**
-     * 获取客户端真实IP
-     *
-     * @return string
+     * 获取客户端真实IP.
      */
     public function getRealIp(): string
     {
         $headers = $this->getHeaders();
-        if (isset($headers['x-forwarded-for'][0]) && !empty($headers['x-forwarded-for'][0])) {
+        if (isset($headers['x-forwarded-for'][0]) && ! empty($headers['x-forwarded-for'][0])) {
             return $headers['x-forwarded-for'][0];
-        } else if (isset($headers['x-real-ip'][0]) && !empty($headers['x-real-ip'][0])) {
+        }
+        if (isset($headers['x-real-ip'][0]) && ! empty($headers['x-real-ip'][0])) {
             return $headers['x-real-ip'][0];
         }
         $serverParams = $this->getServerParams();
 
         return $serverParams['remote_addr'] ?? '';
+    }
+
+    protected function isEmpty(array $haystack, $needle): bool
+    {
+        return ! isset($haystack[$needle]) || $haystack[$needle] === '';
     }
 }
