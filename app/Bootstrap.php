@@ -11,7 +11,6 @@ declare(strict_types=1);
 
 namespace App;
 
-use Composer\Autoload\ClassLoader;
 use Dotenv\Dotenv;
 use Max\Aop\Scanner;
 use Max\Aop\ScannerConfig;
@@ -28,7 +27,7 @@ class Bootstrap
      * @throws ContainerExceptionInterface
      * @throws ReflectionException
      */
-    public static function boot(ClassLoader $loader, bool $enable = false): void
+    public static function boot(bool $enable = false): void
     {
         $container = Context::getContainer();
 
@@ -47,7 +46,7 @@ class Bootstrap
 
         // Initialize scanner if it is enabled
         if ($enable) {
-            Scanner::init($loader, new ScannerConfig($repository->get('di.aop')));
+            Scanner::init(new ScannerConfig($repository->get('di.aop')));
         }
 
         // Initialize bindings

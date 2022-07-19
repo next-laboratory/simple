@@ -23,11 +23,11 @@ use Max\Http\Server\ResponseEmitter\AmpResponseEmitter;
 require_once __DIR__ . DIRECTORY_SEPARATOR . 'base.php';
 
 (function () {
-    $loader = require_once './vendor/autoload.php';
+    require_once './vendor/autoload.php';
     if (! class_exists('Amp\Http\Server\HttpServer')) {
         throw new Exception('You should install the amphp/http-server package before starting.');
     }
-    Bootstrap::boot($loader, true);
+    Bootstrap::boot(true);
 
     $container = Context::getContainer();
     $kernel    = $container->make(Kernel::class);

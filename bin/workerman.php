@@ -18,14 +18,14 @@ use Workerman\Connection\TcpConnection;
 use Workerman\Protocols\Http\Request;
 use Workerman\Worker;
 
-require_once __DIR__ . DIRECTORY_SEPARATOR.'base.php';
+require_once __DIR__ . DIRECTORY_SEPARATOR . 'base.php';
 
 (function () {
-    $loader = require_once './vendor/autoload.php';
+    require_once './vendor/autoload.php';
     if (! class_exists('Workerman\Worker')) {
         throw new Exception('You should install the workerman using `composer require workerman/workerman` before starting.');
     }
-    Bootstrap::boot($loader, true);
+    Bootstrap::boot(true);
 
     /**
      * Configuration.
