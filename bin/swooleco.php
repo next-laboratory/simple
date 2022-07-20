@@ -29,24 +29,15 @@ require_once __DIR__ . DIRECTORY_SEPARATOR . 'base.php';
     Bootstrap::boot(true);
 
     run(function () {
-        /**
-         * Configuration.
-         */
-        $config   = config('server.swoole', [
-            'ports'    => env('APP_PORT', 9000), // 支持多端口监听,也可以只监听一个端口
-            'binds'    => '0.0.0.0', // 绑定ip
-            'settings' => [
-                Constant::OPTION_WORKER_NUM  => swoole_cpu_num(),
-                Constant::OPTION_MAX_REQUEST => 100000,
-            ],
-        ]);
-        $host     = $config['binds'];
-        $port     = $config['port'];
-        $settings = $config['settings'];
+        // Configuration.
+        $host     = '0.0.0.0';
+        $port     = 8989;
+        $settings = [
+            Constant::OPTION_WORKER_NUM  => swoole_cpu_num(),
+            Constant::OPTION_MAX_REQUEST => 100000,
+        ];
 
-        /**
-         * Start server.
-         */
+        // Start server.
         $server = new Swoole\Coroutine\Http\Server($host, $port);
         $kernel = Context::getContainer()->make(Kernel::class);
         $server->handle('/', function (Request $request, Response $response) use ($kernel) {
