@@ -11,6 +11,7 @@ declare(strict_types=1);
 
 namespace App\Http\Middlewares;
 
+use Max\Di\Context;
 use Max\Http\Message\Cookie;
 use Max\Session\SessionManager;
 use Psr\Http\Message\ResponseInterface;
@@ -35,8 +36,9 @@ class SessionMiddleware implements MiddlewareInterface
 
     protected bool $secure = true;
 
-    public function __construct(protected SessionManager $sessionManager)
+    public function __construct()
     {
+        $this->sessionManager = Context::getContainer()->make(SessionManager::class, ['config' => config('session')]);
     }
 
     public function process(ServerRequestInterface $request, RequestHandlerInterface $handler): ResponseInterface
