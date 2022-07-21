@@ -10,7 +10,7 @@ declare(strict_types=1);
  */
 
 return [
-    'default' => 'file',
+    'default' => 'redis',
     'stores'  => [
         'file'  => [
             'handler' => 'Max\Session\Handlers\FileHandler',
@@ -25,7 +25,9 @@ return [
             'handler' => 'Max\Session\Handlers\RedisHandler',
             'options' => [
                 'connector' => 'Max\Redis\Connectors\BaseConnector',
-                'config' => [],
+                'host'      => '127.0.0.1',
+                'port'      => 6379,
+                'expire'    => 3600,
             ],
         ],
     ],
