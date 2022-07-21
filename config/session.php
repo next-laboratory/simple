@@ -24,8 +24,8 @@ return [
         'redis' => [
             'handler' => 'Max\Session\Handlers\RedisHandler',
             'options' => [
-                'connection' => 'redis',
-                'expire'     => 3600,
+                'connector' => 'Max\Redis\Connectors\BaseConnector',
+                'config' => [],
             ],
         ],
     ],

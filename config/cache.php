@@ -23,7 +23,8 @@ return [
         'redis' => [
             'handler' => 'Max\Cache\Handlers\RedisHandler',
             'options' => [
-                'connection' => 'redis',
+                'connector' => 'Max\Redis\Connectors\BaseConnector',
+                'config' => [],
             ],
         ],
         // memcached缓存
