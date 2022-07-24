@@ -13,7 +13,7 @@ namespace App\Console;
 
 use Exception;
 use Max\Aop\Scanner;
-use Max\Framework\Console\CommandCollector;
+use Max\Console\CommandCollector;
 use Symfony\Component\Console\Application;
 
 class Kernel

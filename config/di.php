@@ -18,7 +18,7 @@ return [
         'collectors' => [
             'Max\Http\Server\RouteCollector',
             'Max\Event\ListenerCollector',
-            'Max\Framework\Console\CommandCollector',
+            'Max\Console\CommandCollector',
         ],
         'runtimeDir' => './runtime',
     ],

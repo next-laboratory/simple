@@ -11,9 +11,9 @@ declare(strict_types=1);
 
 namespace App\Http\Middlewares;
 
-use Max\Framework\Exceptions\Handlers\VarDumperAbortHandler;
-use Max\Framework\Exceptions\Handlers\WhoopsExceptionHandler;
-use Max\Framework\Exceptions\VarDumperAbort;
+use Max\Exceptions\Handlers\VarDumperAbortHandler;
+use Max\Exceptions\Handlers\WhoopsExceptionHandler;
+use Max\Exceptions\VarDumperAbort;
 use Max\Http\Server\Middlewares\ExceptionHandleMiddleware as HttpExceptionHandleMiddleware;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
