@@ -14,10 +14,12 @@ namespace App\Http\Middlewares;
 use Max\Di\Context;
 use Max\Http\Message\Cookie;
 use Max\Session\SessionManager;
+use Psr\Container\ContainerExceptionInterface;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Server\MiddlewareInterface;
 use Psr\Http\Server\RequestHandlerInterface;
+use ReflectionException;
 
 class SessionMiddleware implements MiddlewareInterface
 {
@@ -36,6 +38,12 @@ class SessionMiddleware implements MiddlewareInterface
 
     protected bool $secure = true;
 
+    protected SessionManager $sessionManager;
+
+    /**
+     * @throws ContainerExceptionInterface
+     * @throws ReflectionException
+     */
     public function __construct()
     {
         $this->sessionManager = Context::getContainer()->make(SessionManager::class, ['config' => config('session')]);

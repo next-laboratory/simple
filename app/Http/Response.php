@@ -70,10 +70,10 @@ class Response extends \Max\Http\Message\Response
     /**
      * Create a file download response.
      *
-     * @param string $uri 文件路径
-     * @param string $name 文件名（留空则自动生成文件名）
-     * @param int $offset 偏移量
-     * @param int $length 长度
+     * @param string $uri    文件路径
+     * @param string $name   文件名（留空则自动生成文件名）
+     * @param int    $offset 偏移量
+     * @param int    $length 长度
      *
      * @throws FileNotFoundException
      * @throws Exception
