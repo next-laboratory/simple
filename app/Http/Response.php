@@ -12,10 +12,10 @@ declare(strict_types=1);
 namespace App\Http;
 
 use ArrayAccess;
+use Exception;
 use Max\Http\Message\Cookie;
 use Max\Http\Message\Stream\FileStream;
 use Max\Utils\Exceptions\FileNotFoundException;
-use Max\Utils\Filesystem;
 use Max\Utils\Str;
 use Psr\Http\Message\ResponseInterface;
 use Stringable;
@@ -70,12 +70,13 @@ class Response extends \Max\Http\Message\Response
     /**
      * Create a file download response.
      *
-     * @param string $uri    文件路径
-     * @param string $name   文件名（留空则自动生成文件名）
-     * @param int    $offset 偏移量
-     * @param int    $length 长度
+     * @param string $uri 文件路径
+     * @param string $name 文件名（留空则自动生成文件名）
+     * @param int $offset 偏移量
+     * @param int $length 长度
      *
      * @throws FileNotFoundException
+     * @throws Exception
      */
     public static function download(string $uri, string $name = '', int $offset = 0, int $length = -1): ResponseInterface
     {
@@ -83,7 +84,7 @@ class Response extends \Max\Http\Message\Response
             throw new FileNotFoundException('File does not exist.');
         }
         if (empty($name)) {
-            $extension = Filesystem::extension($uri);
+            $extension = pathinfo($uri, PATHINFO_EXTENSION);
             if (! empty($extension)) {
                 $extension = '.' . $extension;
             }
