@@ -24,8 +24,7 @@ class ExceptionHandleMiddleware extends HttpExceptionHandleMiddleware
 {
     public function __construct(
         protected LoggerInterface $logger
-    )
-    {
+    ) {
     }
 
     protected function renderException(Throwable $throwable, ServerRequestInterface $request): ResponseInterface
@@ -39,10 +38,10 @@ class ExceptionHandleMiddleware extends HttpExceptionHandleMiddleware
     protected function reportException(Throwable $throwable, ServerRequestInterface $request): void
     {
         $this->logger->error($throwable->getMessage(), [
-            'file' => $throwable->getFile(),
-            'line' => $throwable->getLine(),
+            'file'    => $throwable->getFile(),
+            'line'    => $throwable->getLine(),
             'request' => $request,
-            'trace' => $throwable->getTrace(),
+            'trace'   => $throwable->getTrace(),
         ]);
     }
 }

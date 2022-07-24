@@ -35,10 +35,10 @@ class Kernel extends HttpKernel
      */
     protected function map(Router $router): void
     {
-        $router->group(function(Router $router) {
+        $router->group(function (Router $router) {
             $router->request('/', [IndexController::class, 'index']);
             $router->get('/welcome', 'App\Http\Controllers\IndexController@index');
-            $router->get('/test', function(ServerRequestInterface $request) {
+            $router->get('/test', function (ServerRequestInterface $request) {
                 return Response::HTML('test');
             });
         });
