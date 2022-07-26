@@ -14,7 +14,6 @@ namespace App\Http;
 use App\Http\Controllers\IndexController;
 use Max\Http\Server\Kernel as HttpKernel;
 use Max\Routing\Router;
-use Psr\Http\Message\ServerRequestInterface;
 
 class Kernel extends HttpKernel
 {
@@ -23,11 +22,23 @@ class Kernel extends HttpKernel
      */
     protected array $middlewares = [
         'App\Http\Middlewares\ExceptionHandleMiddleware',
-        //        'App\Http\Middlewares\AllowCrossDomain',
         'Max\Http\Server\Middlewares\RoutingMiddleware',
+    ];
+
+    /**
+     * Web middlewares.
+     */
+    protected array $webMiddlewares = [
         'App\Http\Middlewares\SessionMiddleware',
         'App\Http\Middlewares\ViewMiddleware',
-        //        'App\Http\Middlewares\VerifyCSRFToken',
+        'App\Http\Middlewares\VerifyCSRFToken',
+    ];
+
+    /**
+     * Api middlewares.
+     */
+    protected array $apiMiddlewares = [
+        'App\Http\Middlewares\AllowCrossDomain',
     ];
 
     /**
@@ -35,12 +46,11 @@ class Kernel extends HttpKernel
      */
     protected function map(Router $router): void
     {
-        $router->group(function (Router $router) {
+        $router->middleware(...$this->webMiddlewares)->group(function (Router $router) {
             $router->request('/', [IndexController::class, 'index']);
-            $router->get('/welcome', 'App\Http\Controllers\IndexController@index');
-            $router->get('/test', function (ServerRequestInterface $request) {
-                return Response::HTML('test');
-            });
+        });
+        $router->middleware(...$this->apiMiddlewares)->prefix('api')->group(function (Router $router) {
+            $router->get('/', 'App\Http\Controllers\IndexController@api');
         });
     }
 }
