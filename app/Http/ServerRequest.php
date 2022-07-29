@@ -12,6 +12,7 @@ declare(strict_types=1);
 namespace App\Http;
 
 use App\Models\User;
+use Exception;
 use Max\Http\Message\ServerRequest as PsrServerRequest;
 use Max\Http\Message\UploadedFile;
 use Max\JWT\Contracts\Authenticatable;
@@ -27,12 +28,15 @@ class ServerRequest extends PsrServerRequest
         return $this->getHeaderLine($name);
     }
 
+    /**
+     * @throws Exception
+     */
     public function session(): ?Session
     {
         if ($session = $this->getAttribute('Max\Session\Session')) {
             return $session;
         }
-        return null;
+        throw new Exception('Session is not started');
     }
 
     public function server(string $name): ?string
@@ -145,10 +149,10 @@ class ServerRequest extends PsrServerRequest
     public function getRealIp(): string
     {
         $headers = $this->getHeaders();
-        if (isset($headers['x-forwarded-for'][0]) && ! empty($headers['x-forwarded-for'][0])) {
+        if (isset($headers['x-forwarded-for'][0]) && !empty($headers['x-forwarded-for'][0])) {
             return $headers['x-forwarded-for'][0];
         }
-        if (isset($headers['x-real-ip'][0]) && ! empty($headers['x-real-ip'][0])) {
+        if (isset($headers['x-real-ip'][0]) && !empty($headers['x-real-ip'][0])) {
             return $headers['x-real-ip'][0];
         }
         $serverParams = $this->getServerParams();
@@ -158,6 +162,6 @@ class ServerRequest extends PsrServerRequest
 
     protected function isEmpty(array $haystack, $needle): bool
     {
-        return ! isset($haystack[$needle]) || $haystack[$needle] === '';
+        return !isset($haystack[$needle]) || $haystack[$needle] === '';
     }
 }
