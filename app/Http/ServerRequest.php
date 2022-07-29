@@ -32,7 +32,7 @@ class ServerRequest extends PsrServerRequest
         if ($session = $this->getAttribute('Max\Session\Session')) {
             return $session;
         }
-        throw new RuntimeException('Session is invalid.');
+        return null;
     }
 
     public function server(string $name): ?string
