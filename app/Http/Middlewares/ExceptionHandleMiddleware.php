@@ -14,6 +14,7 @@ namespace App\Http\Middlewares;
 use Max\Exceptions\Handlers\VarDumperAbortHandler;
 use Max\Exceptions\Handlers\WhoopsExceptionHandler;
 use Max\Exceptions\VarDumperAbort;
+use Max\Http\Message\Exceptions\HttpException;
 use Max\Http\Server\Middlewares\ExceptionHandleMiddleware as HttpExceptionHandleMiddleware;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
@@ -32,7 +33,14 @@ class ExceptionHandleMiddleware extends HttpExceptionHandleMiddleware
         if ($throwable instanceof VarDumperAbort) {
             return (new VarDumperAbortHandler())->handle($throwable, $request);
         }
-        return (new WhoopsExceptionHandler())->handle($throwable, $request);
+        if (env('APP_DEBUG')) {
+            $response = (new WhoopsExceptionHandler())->handle($throwable, $request);
+            if ($throwable instanceof HttpException) {
+                $response = $response->withStatus($throwable->getCode());
+            }
+            return $response;
+        }
+        return parent::renderException($throwable, $request);
     }
 
     protected function reportException(Throwable $throwable, ServerRequestInterface $request): void
