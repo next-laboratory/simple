@@ -17,21 +17,11 @@ use Psr\Http\Message\ServerRequestInterface;
 
 class IndexController
 {
-    public function index(): ResponseInterface
-    {
-        return Response::HTML('Hello, world.');
-    }
-
     /**
      * 注意： 如果需要使用请求变量，切记变量名为$request，否则不能注入.
      */
-    public function api(ServerRequestInterface $request): ResponseInterface
+    public function index(ServerRequestInterface $request): ResponseInterface
     {
-        return Response::JSON([
-            'code'    => 0,
-            'status'  => true,
-            'message' => 'Hello, ' . $request->get('name', 'MaxPHP') . '!',
-            'data'    => [],
-        ]);
+        return Response::text(sprintf('Hello, %s.', $request->get('name', 'world')));
     }
 }

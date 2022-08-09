@@ -11,7 +11,6 @@ declare(strict_types=1);
 
 namespace App\Http\Middlewares;
 
-use Max\Di\Context;
 use Max\View\Renderer;
 use Max\View\ViewFactory;
 use Psr\Http\Message\ResponseInterface;
@@ -21,11 +20,9 @@ use Psr\Http\Server\RequestHandlerInterface;
 
 class ViewMiddleware implements MiddlewareInterface
 {
-    protected ViewFactory $viewFactory;
-
-    public function __construct()
-    {
-        $this->viewFactory = Context::getContainer()->make(ViewFactory::class, ['config' => config('view')]);
+    public function __construct(
+        protected ViewFactory $viewFactory
+    ) {
     }
 
     public function process(ServerRequestInterface $request, RequestHandlerInterface $handler): ResponseInterface

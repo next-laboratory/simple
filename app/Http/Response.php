@@ -14,14 +14,23 @@ namespace App\Http;
 use ArrayAccess;
 use Exception;
 use Max\Http\Message\Cookie;
+use Max\Http\Message\Response as PsrResponse;
 use Max\Http\Message\Stream\FileStream;
 use Max\Utils\Exceptions\FileNotFoundException;
 use Max\Utils\Str;
 use Psr\Http\Message\ResponseInterface;
 use Stringable;
 
-class Response extends \Max\Http\Message\Response
+class Response extends PsrResponse
 {
+    protected const DEFAULT_DOWNLOAD_HEADERS = [
+        'Pragma'                    => 'public', // Public指示响应可被任何缓存区缓存
+        'Expires'                   => '0', // 浏览器不会响应缓存
+        'Cache-Control'             => 'must-revalidate, post-check=0, pre-check=0',
+        'Content-Type'              => 'application/download',
+        'Content-Transfer-Encoding' => 'binary',
+    ];
+
     /**
      * Set cookie.
      */
@@ -33,7 +42,7 @@ class Response extends \Max\Http\Message\Response
         string $domain = '',
         bool $secure = false,
         bool $httponly = false,
-        string $samesite = ''
+        string $sameSite = ''
     ): static {
         $cookie = new Cookie(...func_get_args());
         return $this->withAddedHeader('Set-Cookie', $cookie->__toString());
@@ -60,6 +69,14 @@ class Response extends \Max\Http\Message\Response
     }
 
     /**
+     * Create a text response.
+     */
+    public static function text(string $content, int $status = 200): ResponseInterface
+    {
+        return new static($status, ['Content-Type' => 'text/plain; charset=utf-8'], $content);
+    }
+
+    /**
      * Create a redirect response.
      */
     public static function redirect(string $url, int $status = 302): ResponseInterface
@@ -78,7 +95,7 @@ class Response extends \Max\Http\Message\Response
      * @throws FileNotFoundException
      * @throws Exception
      */
-    public static function download(string $uri, string $name = '', int $offset = 0, int $length = -1): ResponseInterface
+    public static function download(string $uri, string $name = '', array $headers = [], int $offset = 0, int $length = -1): ResponseInterface
     {
         if (! file_exists($uri)) {
             throw new FileNotFoundException('File does not exist.');
@@ -90,16 +107,8 @@ class Response extends \Max\Http\Message\Response
             }
             $name = Str::random(10) . $extension;
         }
-        return new static(200, [
-            'Pragma'                    => 'public', // Public指示响应可被任何缓存区缓存
-            'Expires'                   => '0', // 浏览器不会响应缓存
-            'Cache-Control'             => 'must-revalidate, post-check=0, pre-check=0',
-            //            'Content-Type'              => 'application/force-download', // 请求该页面就出现下载保存窗口
-            //            'Content-Type'              => 'application/octet-stream', // 二进制流，不知道下载文件类型
-            //            'Content-Type'              => 'application/vnd.ms-excel',
-            'Content-Type'              => 'application/download',
-            'Content-Transfer-Encoding' => 'binary',
-            'Content-Disposition'       => sprintf('attachment;filename="%s"', htmlspecialchars($name, ENT_COMPAT)),
-        ], new FileStream($uri, $offset, $length));
+        $headers['Content-Disposition'] = sprintf('attachment;filename="%s"', htmlspecialchars($name, ENT_COMPAT));
+        $headers                        = array_merge(static::DEFAULT_DOWNLOAD_HEADERS, $headers);
+        return new static(200, $headers, new FileStream($uri, $offset, $length));
     }
 }

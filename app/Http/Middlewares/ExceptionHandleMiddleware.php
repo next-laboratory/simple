@@ -43,12 +43,13 @@ class ExceptionHandleMiddleware extends HttpExceptionHandleMiddleware
         }
         $message = $throwable->getMessage();
         $code    = $this->getStatusCode($throwable);
-        return Response::HTML(<<<ETO
+        return Response::HTML(
+            <<<ETO
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Error $code</title>
+    <title>Error {$code}</title>
     <style>
         body, html {
             margin: 0;
@@ -134,10 +135,10 @@ class ExceptionHandleMiddleware extends HttpExceptionHandleMiddleware
 <body>
     <div class="box">
         <header>
-            <h1>Error $code</h1>
+            <h1>Error {$code}</h1>
         </header>
         <main>
-            <p>$message</p>
+            <p>{$message}</p>
             <ul>
                 <li>Try again later.</li>
                 <li>Check if you visited the correct URL.</li>

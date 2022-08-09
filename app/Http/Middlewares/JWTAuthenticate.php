@@ -21,8 +21,9 @@ use Psr\Http\Server\RequestHandlerInterface;
 
 class JWTAuthenticate implements MiddlewareInterface
 {
-    public function __construct(protected JWTAuth $JWTAuth)
-    {
+    public function __construct(
+        protected JWTAuth $JWTAuth
+    ) {
     }
 
     /**

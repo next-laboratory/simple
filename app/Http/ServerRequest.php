@@ -11,15 +11,12 @@ declare(strict_types=1);
 
 namespace App\Http;
 
-use App\Models\User;
 use Exception;
 use Max\Http\Message\ServerRequest as PsrServerRequest;
 use Max\Http\Message\UploadedFile;
-use Max\JWT\Contracts\Authenticatable;
 use Max\Session\Session;
 use Max\Utils\Arr;
 use Max\View\Renderer;
-use RuntimeException;
 
 class ServerRequest extends PsrServerRequest
 {
@@ -82,16 +79,25 @@ class ServerRequest extends PsrServerRequest
         return $this->getBody()->getContents();
     }
 
+    /**
+     * @param null|array|string $key
+     */
     public function get(null|array|string $key = null, mixed $default = null): mixed
     {
         return $this->input($key, $default, $this->getQueryParams());
     }
 
+    /**
+     * @param null|array|string $key
+     */
     public function post(null|array|string $key = null, mixed $default = null): mixed
     {
         return $this->input($key, $default, $this->getParsedBody());
     }
 
+    /**
+     * @param null|array|string $key
+     */
     public function input(null|array|string $key = null, mixed $default = null, ?array $from = null): mixed
     {
         $from ??= $this->all();
@@ -128,19 +134,11 @@ class ServerRequest extends PsrServerRequest
     }
 
     /**
-     * @return ?User
+     * @throws Exception
      */
-    public function user(): ?Authenticatable
+    public function renderer(): Renderer
     {
-        return $this->getAttribute(User::class);
-    }
-
-    /**
-     * @return Renderer
-     */
-    public function renderer()
-    {
-        return $this->getAttribute(Renderer::class);
+        return $this->getAttribute(Renderer::class) ?: throw new Exception('View is not initialized');
     }
 
     /**
@@ -149,10 +147,10 @@ class ServerRequest extends PsrServerRequest
     public function getRealIp(): string
     {
         $headers = $this->getHeaders();
-        if (isset($headers['x-forwarded-for'][0]) && !empty($headers['x-forwarded-for'][0])) {
+        if (isset($headers['x-forwarded-for'][0]) && ! empty($headers['x-forwarded-for'][0])) {
             return $headers['x-forwarded-for'][0];
         }
-        if (isset($headers['x-real-ip'][0]) && !empty($headers['x-real-ip'][0])) {
+        if (isset($headers['x-real-ip'][0]) && ! empty($headers['x-real-ip'][0])) {
             return $headers['x-real-ip'][0];
         }
         $serverParams = $this->getServerParams();
@@ -160,8 +158,11 @@ class ServerRequest extends PsrServerRequest
         return $serverParams['remote_addr'] ?? '';
     }
 
+    /**
+     * @param $needle
+     */
     protected function isEmpty(array $haystack, $needle): bool
     {
-        return !isset($haystack[$needle]) || $haystack[$needle] === '';
+        return ! isset($haystack[$needle]) || $haystack[$needle] === '';
     }
 }
