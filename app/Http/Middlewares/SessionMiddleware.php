@@ -11,54 +11,6 @@ declare(strict_types=1);
 
 namespace App\Http\Middlewares;
 
-use Max\Di\Context;
-use Max\Http\Message\Cookie;
-use Max\Session\SessionManager;
-use Psr\Container\ContainerExceptionInterface;
-use Psr\Http\Message\ResponseInterface;
-use Psr\Http\Message\ServerRequestInterface;
-use Psr\Http\Server\MiddlewareInterface;
-use Psr\Http\Server\RequestHandlerInterface;
-use ReflectionException;
-
-class SessionMiddleware implements MiddlewareInterface
+class SessionMiddleware extends \Max\Session\SessionMiddleware
 {
-    /**
-     * Cookie 过期时间【+9小时，实际1小时后过期，和时区有关】.
-     */
-    protected int $expires = 9 * 3600;
-
-    protected string $name = 'MAXPHP_SESSION_ID';
-
-    protected bool $httponly = true;
-
-    protected string $path = '/';
-
-    protected string $domain = '';
-
-    protected bool $secure = true;
-
-    protected SessionManager $sessionManager;
-
-    /**
-     * @throws ContainerExceptionInterface
-     * @throws ReflectionException
-     */
-    public function __construct()
-    {
-        $this->sessionManager = Context::getContainer()->make(SessionManager::class, ['config' => config('session')]);
-    }
-
-    public function process(ServerRequestInterface $request, RequestHandlerInterface $handler): ResponseInterface
-    {
-        $session = $this->sessionManager->create();
-        $session->start($request->getCookieParams()[strtoupper($this->name)] ?? null);
-        $request  = $request->withAttribute('Max\Session\Session', $session);
-        $response = $handler->handle($request);
-        $session->save();
-        $session->close();
-        $cookie = new Cookie($this->name, $session->getId(), time() + $this->expires, $this->path, $this->domain, $this->secure, $this->httponly);
-
-        return $response->withAddedHeader('Set-Cookie', $cookie->__toString());
-    }
 }
