@@ -24,7 +24,7 @@ return [
     ],
     'bindings' => [
         'Psr\EventDispatcher\EventDispatcherInterface' => 'Max\Event\EventDispatcher',
-        'Max\Config\Contracts\ConfigInterface'         => 'Max\Config\Repository',
+        'Max\Config\Contract\ConfigInterface'          => 'Max\Config\Repository',
         'Psr\Log\LoggerInterface'                      => 'App\Logger',
     ],
 ];
