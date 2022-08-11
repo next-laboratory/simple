@@ -13,21 +13,21 @@ return [
     'default' => 'file',
     'stores'  => [
         'file'      => [
-            'driver'  => 'Max\Cache\Driver\FileDriver',
-            'options' => [
+            'driver' => 'Max\Cache\Driver\FileDriver',
+            'config' => [
                 'path' => __DIR__ . '/../runtime/cache/app',
             ],
         ],
         'redis'     => [
-            'driver'  => 'Max\Cache\Driver\RedisDriver',
-            'options' => [
+            'driver' => 'Max\Cache\Driver\RedisDriver',
+            'config' => [
                 'connector' => 'Max\Redis\Connector\BaseConnector',
                 'config'    => [],
             ],
         ],
         'memcached' => [
-            'driver'  => 'Max\Cache\Driver\MemcachedDriver',
-            'options' => [
+            'driver' => 'Max\Cache\Driver\MemcachedDriver',
+            'config' => [
                 'host' => '127.0.0.1', // 主机
                 'port' => 11211,        // 端口
             ],
