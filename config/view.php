@@ -10,7 +10,7 @@ declare(strict_types=1);
  */
 
 return [
-    'engine'  => 'Max\View\Engines\Blade',
+    'engine'  => 'Max\View\Engine\Blade',
     'options' => [
         // 模板目录
         'path'       => __DIR__ . '/../views/',

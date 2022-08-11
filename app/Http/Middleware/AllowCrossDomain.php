@@ -9,9 +9,9 @@ declare(strict_types=1);
  * @license  https://github.com/marxphp/max/blob/master/LICENSE
  */
 
-namespace App\Http\Middlewares;
+namespace App\Http\Middleware;
 
-use Max\Http\Server\Middlewares\AllowCrossDomain as BaseAllowCrossDomain;
+use Max\Http\Server\Middleware\AllowCrossDomain as BaseAllowCrossDomain;
 
 class AllowCrossDomain extends BaseAllowCrossDomain
 {

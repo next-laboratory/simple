@@ -22,7 +22,7 @@ error_reporting(E_ALL);
 date_default_timezone_set('PRC');
 define('BASE_PATH', dirname(__DIR__) . '/');
 
-(function() {
+(function () {
     require_once __DIR__ . '/../vendor/autoload.php';
     Bootstrap::boot(false);
     /** @var Kernel $kernel */

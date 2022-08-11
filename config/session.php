@@ -10,25 +10,18 @@ declare(strict_types=1);
  */
 
 return [
-    'default' => 'file',
-    'stores'  => [
-        'file'  => [
-            'handler' => 'Max\Session\Handlers\FileHandler',
-            'options' => [
-                'path'          => __DIR__ . '/../runtime/session',
-                'gcDivisor'     => 100,
-                'gcProbability' => 1,
-                'gcMaxLifetime' => 1440,
-            ],
-        ],
-        'redis' => [
-            'handler' => 'Max\Session\Handlers\RedisHandler',
-            'options' => [
-                'connector' => 'Max\Redis\Connectors\BaseConnector',
-                'host'      => '127.0.0.1',
-                'port'      => 6379,
-                'expire'    => 3600,
-            ],
-        ],
+    'handler' => 'Max\Session\Handler\FileHandler',
+    'options' => [
+        'path'          => __DIR__ . '/../runtime/session',
+        'gcDivisor'     => 100,
+        'gcProbability' => 1,
+        'gcMaxLifetime' => 1440,
     ],
+    //    'handler' => 'Max\Session\Handler\RedisHandler',
+    //    'options' => [
+    //        'connector' => 'Max\Redis\Connector\BaseConnector',
+    //        'host'      => '127.0.0.1',
+    //        'port'      => 6379,
+    //        'expire'    => 3600,
+    //    ],
 ];

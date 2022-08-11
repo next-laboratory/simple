@@ -9,7 +9,7 @@ declare(strict_types=1);
  * @license  https://github.com/marxphp/max/blob/master/LICENSE
  */
 
-namespace App\Http\Controllers;
+namespace App\Http\Controller;
 
 use App\Http\Response;
 use Psr\Http\Message\ResponseInterface;

@@ -9,14 +9,16 @@ declare(strict_types=1);
  * @license  https://github.com/marxphp/max/blob/master/LICENSE
  */
 
-namespace App\Http\Middlewares;
+namespace App\Http\Middleware;
 
-use App\Exceptions\CSRFException;
+use App\Exception\CSRFException;
 use Exception;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Server\MiddlewareInterface;
 use Psr\Http\Server\RequestHandlerInterface;
+
+use function Max\Utils\collect;
 
 class VerifyCSRFToken implements MiddlewareInterface
 {
@@ -33,24 +35,21 @@ class VerifyCSRFToken implements MiddlewareInterface
      */
     public function process(ServerRequestInterface $request, RequestHandlerInterface $handler): ResponseInterface
     {
-        if ($request->isMethod('POST') && ! in_array($request->getUri()->getPath(), $this->except)) {
-            $previousToken = $request->getCookieParams()['X-XSRF-TOKEN'] ?? null;
-            if (is_null($previousToken)) {
+        if ($request->isMethod('POST') && !collect($this->except)->first(function ($pattern) use ($request) {
+                return $request->is($pattern);
+            })) {
+            if (is_null($previousToken = $request->getCookieParams()['X-XSRF-TOKEN'] ?? null)) {
                 $this->abort();
             }
 
-            $token = $request->getHeaderLine('X-CSRF-Token')
-                ?: $request->getHeaderLine('X-XSRF-TOKEN')
-                    ?: ($request->getParsedBody()['_token'] ?? null);
+            $token = $request->getHeaderLine('X-CSRF-TOKEN') ?: $request->getHeaderLine('X-XSRF-TOKEN') ?: ($request->getParsedBody()['_token'] ?? null);
+
             if (is_null($token) || $token !== $previousToken) {
                 $this->abort();
             }
         }
-        $response = $handler->handle($request);
-        if ($request->isMethod('GET')) {
-            $response = $response->withCookie('X-XSRF-TOKEN', bin2hex(random_bytes(32)), time() + 9 * 3600);
-        }
-        return $response;
+
+        return $handler->handle($request)->withCookie('X-XSRF-TOKEN', bin2hex(random_bytes(32)), time() + 9 * 3600);
     }
 
     /**

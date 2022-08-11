@@ -16,7 +16,7 @@ use Exception;
 use Max\Http\Message\Cookie;
 use Max\Http\Message\Response as PsrResponse;
 use Max\Http\Message\Stream\FileStream;
-use Max\Utils\Exceptions\FileNotFoundException;
+use Max\Utils\Exception\FileNotFoundException;
 use Max\Utils\Str;
 use Psr\Http\Message\ResponseInterface;
 use Stringable;

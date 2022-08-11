@@ -9,7 +9,7 @@ declare(strict_types=1);
  * @license  https://github.com/marxphp/max/blob/master/LICENSE
  */
 
-namespace App\Models;
+namespace App\Model;
 
 use Max\Database\Eloquent\Model;
 use Max\JWT\Contracts\Authenticatable;

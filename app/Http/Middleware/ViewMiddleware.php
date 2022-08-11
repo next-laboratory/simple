@@ -9,7 +9,7 @@ declare(strict_types=1);
  * @license  https://github.com/marxphp/max/blob/master/LICENSE
  */
 
-namespace App\Http\Middlewares;
+namespace App\Http\Middleware;
 
 use Max\View\Renderer;
 use Max\View\ViewFactory;

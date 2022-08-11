@@ -9,10 +9,10 @@ declare(strict_types=1);
  * @license  https://github.com/marxphp/max/blob/master/LICENSE
  */
 
-namespace App\Listeners;
+namespace App\Listener;
 
 use Max\Database\Events\QueryExecuted;
-use Max\Event\Contracts\EventListenerInterface;
+use Max\Event\Contract\EventListenerInterface;
 use Psr\Log\LoggerInterface;
 
 class DatabaseQueryListener implements EventListenerInterface
