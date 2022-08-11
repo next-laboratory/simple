@@ -12,24 +12,21 @@ declare(strict_types=1);
 return [
     'default' => 'file',
     'stores'  => [
-        // 文件缓存
-        'file' => [
-            'handler' => 'Max\Cache\Handlers\FileHandler',
+        'file'      => [
+            'driver'  => 'Max\Cache\Driver\FileDriver',
             'options' => [
                 'path' => __DIR__ . '/../runtime/cache/app',
             ],
         ],
-        // redis缓存
-        'redis' => [
-            'handler' => 'Max\Cache\Handlers\RedisHandler',
+        'redis'     => [
+            'driver'  => 'Max\Cache\Driver\RedisDriver',
             'options' => [
-                'connector' => 'Max\Redis\Connectors\BaseConnector',
-                'config' => [],
+                'connector' => 'Max\Redis\Connector\BaseConnector',
+                'config'    => [],
             ],
         ],
-        // memcached缓存
         'memcached' => [
-            'handler' => 'Max\Cache\Handlers\MemcachedHandler',
+            'driver'  => 'Max\Cache\Driver\MemcachedDriver',
             'options' => [
                 'host' => '127.0.0.1', // 主机
                 'port' => 11211,        // 端口

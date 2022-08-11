@@ -9,8 +9,8 @@ declare(strict_types=1);
  * @license  https://github.com/marxphp/max/blob/master/LICENSE
  */
 
-namespace App\Http\Middlewares;
+namespace App\Http\Middleware;
 
-class SessionMiddleware extends \Max\Session\SessionMiddleware
+class SessionMiddleware extends \Max\Http\Server\Middleware\SessionMiddleware
 {
 }

@@ -16,6 +16,7 @@ use Max\Http\Message\ServerRequest as PsrServerRequest;
 use Max\Http\Message\UploadedFile;
 use Max\Session\Session;
 use Max\Utils\Arr;
+use Max\Utils\Str;
 use Max\View\Renderer;
 
 class ServerRequest extends PsrServerRequest
@@ -65,6 +66,11 @@ class ServerRequest extends PsrServerRequest
     public function isAjax(): bool
     {
         return strcasecmp('XMLHttpRequest', $this->getHeaderLine('X-REQUESTED-WITH')) === 0;
+    }
+
+    public function is(string $pattern): bool
+    {
+        return Str::is($pattern, $this->getUri()->getPath());
     }
 
     public function isPath(string $path): bool

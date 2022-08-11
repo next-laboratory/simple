@@ -9,9 +9,9 @@ declare(strict_types=1);
  * @license  https://github.com/marxphp/max/blob/master/LICENSE
  */
 
-namespace App\Http\Middlewares;
+namespace App\Http\Middleware;
 
-use App\Exceptions\CSRFException;
+use App\Exception\CSRFException;
 use Exception;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;

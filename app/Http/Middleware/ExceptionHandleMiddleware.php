@@ -9,14 +9,14 @@ declare(strict_types=1);
  * @license  https://github.com/marxphp/max/blob/master/LICENSE
  */
 
-namespace App\Http\Middlewares;
+namespace App\Http\Middleware;
 
 use App\Http\Response;
 use Max\Exceptions\Handlers\VarDumperAbortHandler;
 use Max\Exceptions\Handlers\WhoopsExceptionHandler;
 use Max\Exceptions\VarDumperAbort;
-use Max\Http\Message\Exceptions\HttpException;
-use Max\Http\Server\Middlewares\ExceptionHandleMiddleware as HttpExceptionHandleMiddleware;
+use Max\Http\Message\Exception\HttpException;
+use Max\Http\Server\Middleware\ExceptionHandleMiddleware as HttpExceptionHandleMiddleware;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use Psr\Log\LoggerInterface;
@@ -64,7 +64,6 @@ class ExceptionHandleMiddleware extends HttpExceptionHandleMiddleware
         }
 
         .box {
-            margin: 30px;
             background: #fff;
             border-radius: 3px;
             padding: 20px 30px;
@@ -79,7 +78,6 @@ class ExceptionHandleMiddleware extends HttpExceptionHandleMiddleware
         h1 {
             color: #111;
             font-size: 20px;
-            /* border-bottom: 2px solid #08e; */
             padding: 0 0 0 0;
             margin: 10px 0 8px 0;
         }
@@ -151,6 +149,8 @@ class ExceptionHandleMiddleware extends HttpExceptionHandleMiddleware
 </body>
 </html>
 ETO
+            ,
+            $code
         );
     }
 
