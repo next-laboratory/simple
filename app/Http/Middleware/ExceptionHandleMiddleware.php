@@ -31,18 +31,18 @@ class ExceptionHandleMiddleware extends HttpExceptionHandleMiddleware
 
     protected function renderException(Throwable $throwable, ServerRequestInterface $request): ResponseInterface
     {
+        $code    = $this->getStatusCode($throwable);
         if ($throwable instanceof VarDumperAbort) {
             return (new VarDumperAbortHandler())->handle($throwable, $request);
         }
         if (env('APP_DEBUG')) {
             $response = (new WhoopsExceptionHandler())->handle($throwable, $request);
             if ($throwable instanceof HttpException) {
-                $response = $response->withStatus($throwable->getCode());
+                $response = $response->withStatus($code);
             }
             return $response;
         }
         $message = $throwable->getMessage();
-        $code    = $this->getStatusCode($throwable);
         return Response::HTML(
             <<<ETO
 <!DOCTYPE html>
