@@ -161,7 +161,7 @@ class ServerRequest extends PsrServerRequest
         }
         $serverParams = $this->getServerParams();
 
-        return $serverParams['remote_addr'] ?? '';
+        return $serverParams['remote_addr'] ?? '127.0.0.1';
     }
 
     /**
