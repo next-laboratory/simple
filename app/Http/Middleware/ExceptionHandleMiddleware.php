@@ -12,9 +12,9 @@ declare(strict_types=1);
 namespace App\Http\Middleware;
 
 use App\Http\Response;
-use Max\Exceptions\Handlers\VarDumperAbortHandler;
-use Max\Exceptions\Handlers\WhoopsExceptionHandler;
-use Max\Exceptions\VarDumperAbort;
+use Max\Exception\Handler\VarDumperAbortHandler;
+use Max\Exception\Handler\WhoopsExceptionHandler;
+use Max\Exception\VarDumperAbort;
 use Max\Http\Message\Exception\HttpException;
 use Max\Http\Server\Middleware\ExceptionHandleMiddleware as HttpExceptionHandleMiddleware;
 use Psr\Http\Message\ResponseInterface;
