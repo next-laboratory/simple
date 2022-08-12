@@ -103,3 +103,7 @@ $router->middleware(TestMiddleware::class)->group(function(Router $router) {
 ## 参与开发
 
 欢迎有兴趣的朋友参与开发
+
+## 致谢
+
+感谢PHP最好用IDE: <a href="https://www.jetbrains.com/?from=marxphp">PHPStorm</a>
