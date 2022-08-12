@@ -13,7 +13,6 @@ namespace App\Http;
 
 use ArrayAccess;
 use Exception;
-use Max\Http\Message\Cookie;
 use Max\Http\Message\Response as PsrResponse;
 use Max\Http\Message\Stream\FileStream;
 use Max\Utils\Exception\FileNotFoundException;
@@ -30,23 +29,6 @@ class Response extends PsrResponse
         'Content-Type'              => 'application/download',
         'Content-Transfer-Encoding' => 'binary',
     ];
-
-    /**
-     * Set cookie.
-     */
-    public function withCookie(
-        string $name,
-        string $value,
-        int $expires = 3600,
-        string $path = '/',
-        string $domain = '',
-        bool $secure = false,
-        bool $httponly = false,
-        string $sameSite = ''
-    ): static {
-        $cookie = new Cookie(...func_get_args());
-        return $this->withAddedHeader('Set-Cookie', $cookie->__toString());
-    }
 
     /**
      * Create a JSON response.

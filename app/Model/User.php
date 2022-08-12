@@ -12,7 +12,7 @@ declare(strict_types=1);
 namespace App\Model;
 
 use Max\Database\Eloquent\Model;
-use Max\JWT\Contracts\Authenticatable;
+use Max\JWT\Contract\Authenticatable;
 
 /**
  * @property int $id
