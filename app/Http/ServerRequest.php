@@ -70,14 +70,7 @@ class ServerRequest extends PsrServerRequest
 
     public function is(string $pattern): bool
     {
-        return Str::is($pattern, $this->getUri()->getPath());
-    }
-
-    public function isPath(string $path): bool
-    {
-        $requestPath = $this->getUri()->getPath();
-
-        return strcasecmp($requestPath, $path) === 0 || preg_match("#^{$path}$#iU", $requestPath);
+        return Str::is($pattern, trim($this->getUri()->getPath(), '/'));
     }
 
     public function raw(): string
@@ -85,25 +78,16 @@ class ServerRequest extends PsrServerRequest
         return $this->getBody()->getContents();
     }
 
-    /**
-     * @param null|array|string $key
-     */
     public function get(null|array|string $key = null, mixed $default = null): mixed
     {
         return $this->input($key, $default, $this->getQueryParams());
     }
 
-    /**
-     * @param null|array|string $key
-     */
     public function post(null|array|string $key = null, mixed $default = null): mixed
     {
         return $this->input($key, $default, $this->getParsedBody());
     }
 
-    /**
-     * @param null|array|string $key
-     */
     public function input(null|array|string $key = null, mixed $default = null, ?array $from = null): mixed
     {
         $from ??= $this->all();
@@ -153,10 +137,10 @@ class ServerRequest extends PsrServerRequest
     public function getRealIp(): string
     {
         $headers = $this->getHeaders();
-        if (isset($headers['x-forwarded-for'][0]) && ! empty($headers['x-forwarded-for'][0])) {
+        if (isset($headers['x-forwarded-for'][0]) && !empty($headers['x-forwarded-for'][0])) {
             return $headers['x-forwarded-for'][0];
         }
-        if (isset($headers['x-real-ip'][0]) && ! empty($headers['x-real-ip'][0])) {
+        if (isset($headers['x-real-ip'][0]) && !empty($headers['x-real-ip'][0])) {
             return $headers['x-real-ip'][0];
         }
         $serverParams = $this->getServerParams();
@@ -164,11 +148,8 @@ class ServerRequest extends PsrServerRequest
         return $serverParams['remote_addr'] ?? '127.0.0.1';
     }
 
-    /**
-     * @param $needle
-     */
     protected function isEmpty(array $haystack, $needle): bool
     {
-        return ! isset($haystack[$needle]) || $haystack[$needle] === '';
+        return !isset($haystack[$needle]) || $haystack[$needle] === '';
     }
 }
