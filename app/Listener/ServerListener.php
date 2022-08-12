@@ -36,7 +36,7 @@ class ServerListener implements EventListenerInterface
                 (microtime(true) - $event->requestedAt) * 1000,
                 $request->getRealIp(),
                 $request->getMethod(),
-                $request->getUri()->getPath()
+                $request->url(),
             );
         }
     }
