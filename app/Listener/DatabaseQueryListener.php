@@ -11,7 +11,7 @@ declare(strict_types=1);
 
 namespace App\Listener;
 
-use Max\Database\Events\QueryExecuted;
+use Max\Database\Event\QueryExecuted;
 use Max\Event\Contract\EventListenerInterface;
 use Psr\Log\LoggerInterface;
 

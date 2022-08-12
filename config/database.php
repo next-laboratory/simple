@@ -9,7 +9,7 @@ declare(strict_types=1);
  * @license  https://github.com/marxphp/max/blob/master/LICENSE
  */
 
-use Max\Database\Connectors\AutoConnector;
+use Max\Database\Connector\AutoConnector;
 use Max\Database\DatabaseConfig;
 
 return [
