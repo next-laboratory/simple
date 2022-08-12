@@ -39,7 +39,7 @@ require_once __DIR__ . DIRECTORY_SEPARATOR . 'base.php';
     $worker            = new Worker($protocol);
     $kernel            = Context::getContainer()->make(Kernel::class);
     $worker->onMessage = function (TcpConnection $connection, Request $request) use ($kernel) {
-        $psrResponse = $kernel->through(ServerRequest::createFromWorkermanRequest($request, [
+        $psrResponse = $kernel->through(ServerRequest::createFromWorkerManRequest($request, [
             'TcpConnection' => $connection,
             'request'       => $request,
         ]));

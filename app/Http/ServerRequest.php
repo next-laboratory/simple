@@ -13,10 +13,7 @@ namespace App\Http;
 
 use Exception;
 use Max\Http\Message\ServerRequest as PsrServerRequest;
-use Max\Http\Message\UploadedFile;
 use Max\Session\Session;
-use Max\Utils\Arr;
-use Max\Utils\Str;
 use Max\View\Renderer;
 
 class ServerRequest extends PsrServerRequest
@@ -40,37 +37,6 @@ class ServerRequest extends PsrServerRequest
     public function server(string $name): ?string
     {
         return $this->getServerParams()[strtoupper($name)] ?? null;
-    }
-
-    /**
-     * Example: $request->isMethod('GET').
-     */
-    public function isMethod(string $method): bool
-    {
-        return strcasecmp($this->getMethod(), $method) === 0;
-    }
-
-    public function url(): string
-    {
-        return $this->getUri()->__toString();
-    }
-
-    /**
-     * Example: $request->cookie('session_id').
-     */
-    public function cookie(string $name): ?string
-    {
-        return $this->getCookieParams()[strtoupper($name)] ?? null;
-    }
-
-    public function isAjax(): bool
-    {
-        return strcasecmp('XMLHttpRequest', $this->getHeaderLine('X-REQUESTED-WITH')) === 0;
-    }
-
-    public function is(string $pattern): bool
-    {
-        return Str::is($pattern, trim($this->getUri()->getPath(), '/'));
     }
 
     public function raw(): string
@@ -105,19 +71,6 @@ class ServerRequest extends PsrServerRequest
         return $this->isEmpty($from, $key) ? $default : $from[$key];
     }
 
-    public function file(string $field): ?UploadedFile
-    {
-        return Arr::get($this->files(), $field);
-    }
-
-    /**
-     * @return UploadedFile[]
-     */
-    public function files(): array
-    {
-        return $this->getUploadedFiles();
-    }
-
     public function all(): array
     {
         return $this->getQueryParams() + $this->getParsedBody();
@@ -129,23 +82,6 @@ class ServerRequest extends PsrServerRequest
     public function renderer(): Renderer
     {
         return $this->getAttribute(Renderer::class) ?: throw new Exception('View is not initialized');
-    }
-
-    /**
-     * 获取客户端真实IP.
-     */
-    public function getRealIp(): string
-    {
-        $headers = $this->getHeaders();
-        if (isset($headers['x-forwarded-for'][0]) && !empty($headers['x-forwarded-for'][0])) {
-            return $headers['x-forwarded-for'][0];
-        }
-        if (isset($headers['x-real-ip'][0]) && !empty($headers['x-real-ip'][0])) {
-            return $headers['x-real-ip'][0];
-        }
-        $serverParams = $this->getServerParams();
-
-        return $serverParams['remote_addr'] ?? '127.0.0.1';
     }
 
     protected function isEmpty(array $haystack, $needle): bool
