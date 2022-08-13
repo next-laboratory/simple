@@ -12,7 +12,7 @@ declare(strict_types=1);
 use App\Bootstrap;
 use App\Console\Kernel;
 
-require_once __DIR__ . DIRECTORY_SEPARATOR . 'base.php';
+require_once __DIR__ . '/base.php';
 
 (function () {
     require_once './vendor/autoload.php';

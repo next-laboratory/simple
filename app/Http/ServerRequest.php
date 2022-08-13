@@ -14,7 +14,6 @@ namespace App\Http;
 use Exception;
 use Max\Http\Message\ServerRequest as PsrServerRequest;
 use Max\Session\Session;
-use Max\View\Renderer;
 
 class ServerRequest extends PsrServerRequest
 {
@@ -74,14 +73,6 @@ class ServerRequest extends PsrServerRequest
     public function all(): array
     {
         return $this->getQueryParams() + $this->getParsedBody();
-    }
-
-    /**
-     * @throws Exception
-     */
-    public function renderer(): Renderer
-    {
-        return $this->getAttribute(Renderer::class) ?: throw new Exception('View is not initialized');
     }
 
     protected function isEmpty(array $haystack, $needle): bool

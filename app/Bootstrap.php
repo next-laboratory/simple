@@ -38,12 +38,6 @@ class Bootstrap
         $repository = $container->make(Repository::class);
         $repository->scan(base_path('./config'));
 
-        // Initialize loggers
-        $logger = $container->make(Logger::class);
-        if ('cli' === PHP_SAPI) {
-            $logger->debug('Server started.');
-        }
-
         // Initialize scanner if it is enabled
         if ($enable) {
             Scanner::init(new ScannerConfig($repository->get('di.aop')));

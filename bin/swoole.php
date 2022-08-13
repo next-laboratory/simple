@@ -19,7 +19,7 @@ use Swoole\Http\Request;
 use Swoole\Http\Response;
 use Swoole\Http\Server;
 
-require_once __DIR__ . DIRECTORY_SEPARATOR . 'base.php';
+require_once __DIR__ . '/base.php';
 
 (function () {
     require_once './vendor/autoload.php';

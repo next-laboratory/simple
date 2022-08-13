@@ -31,7 +31,6 @@ class Kernel extends HttpKernel
      */
     protected array $webMiddlewares = [
         'App\Http\Middleware\SessionMiddleware',
-        'App\Http\Middleware\ViewMiddleware',
         'App\Http\Middleware\VerifyCSRFToken',
     ];
 
@@ -48,14 +47,14 @@ class Kernel extends HttpKernel
     protected function map(Router $router): void
     {
         $router->middleware(...$this->webMiddlewares)
-            ->group(function (Router $router) {
+               ->group(function(Router $router) {
                    $router->request('/', [IndexController::class, 'index']);
                    $router->request('/test', [IndexController::class, 'test']);
                });
         $router->middleware(...$this->apiMiddlewares)
-            ->prefix('api')
-            ->group(function (Router $router) {
-                   $router->get('/', function (ServerRequestInterface $request) {
+               ->prefix('api')
+               ->group(function(Router $router) {
+                   $router->get('/', function(ServerRequestInterface $request) {
                        return Response::JSON([
                            'statue'  => true,
                            'code'    => 0,

@@ -20,7 +20,7 @@ use App\Logger;
 use Max\Di\Context;
 use Max\Http\Server\ResponseEmitter\AmpResponseEmitter;
 
-require_once __DIR__ . DIRECTORY_SEPARATOR . 'base.php';
+require_once __DIR__ . '/base.php';
 
 (function () {
     require_once './vendor/autoload.php';

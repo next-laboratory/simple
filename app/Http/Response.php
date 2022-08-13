@@ -17,7 +17,9 @@ use Max\Http\Message\Response as PsrResponse;
 use Max\Http\Message\Stream\FileStream;
 use Max\Utils\Exception\FileNotFoundException;
 use Max\Utils\Str;
+use Max\View\ViewFactory;
 use Psr\Http\Message\ResponseInterface;
+use Psr\Http\Message\ServerRequestInterface;
 use Stringable;
 
 class Response extends PsrResponse
@@ -47,7 +49,7 @@ class Response extends PsrResponse
      */
     public static function HTML($data, int $status = 200): ResponseInterface
     {
-        return new static($status, ['Content-Type' => 'text/html; charset=utf-8'], (string) $data);
+        return new static($status, ['Content-Type' => 'text/html; charset=utf-8'], (string)$data);
     }
 
     /**
@@ -56,6 +58,16 @@ class Response extends PsrResponse
     public static function text(string $content, int $status = 200): ResponseInterface
     {
         return new static($status, ['Content-Type' => 'text/plain; charset=utf-8'], $content);
+    }
+
+    /**
+     * 渲染视图
+     */
+    public static function view(ServerRequestInterface $request, string $view, array $arguments = []): ResponseInterface
+    {
+        $renderer = make(ViewFactory::class)->getRenderer();
+        $renderer->assign('request', $request);
+        return Response::HTML($renderer->render($view, $arguments));
     }
 
     /**
@@ -79,12 +91,12 @@ class Response extends PsrResponse
      */
     public static function download(string $uri, string $name = '', array $headers = [], int $offset = 0, int $length = -1): ResponseInterface
     {
-        if (! file_exists($uri)) {
+        if (!file_exists($uri)) {
             throw new FileNotFoundException('File does not exist.');
         }
         if (empty($name)) {
             $extension = pathinfo($uri, PATHINFO_EXTENSION);
-            if (! empty($extension)) {
+            if (!empty($extension)) {
                 $extension = '.' . $extension;
             }
             $name = Str::random(10) . $extension;

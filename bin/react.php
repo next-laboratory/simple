@@ -16,7 +16,7 @@ use Psr\Http\Message\ServerRequestInterface;
 use React\Http\HttpServer;
 use React\Socket\SocketServer;
 
-require_once __DIR__ . DIRECTORY_SEPARATOR . 'base.php';
+require_once __DIR__ . '/base.php';
 
 (function () {
     require './vendor/autoload.php';
