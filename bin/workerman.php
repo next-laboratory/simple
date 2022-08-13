@@ -18,7 +18,7 @@ use Workerman\Connection\TcpConnection;
 use Workerman\Protocols\Http\Request;
 use Workerman\Worker;
 
-require_once __DIR__ . DIRECTORY_SEPARATOR . 'base.php';
+require_once __DIR__ . '/base.php';
 
 (function () {
     require_once './vendor/autoload.php';
