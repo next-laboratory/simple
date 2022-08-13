@@ -10,8 +10,8 @@ declare(strict_types=1);
  */
 
 return [
-    'engine'  => 'Max\View\Engine\Blade',
-    'options' => [
+    'engine' => 'Max\View\Engine\BladeEngine',
+    'config' => [
         // 模板目录
         'path'       => __DIR__ . '/../views/',
         // 编译和缓存目录
@@ -21,4 +21,11 @@ return [
         // 模板后缀
         'suffix'     => '.blade.php',
     ],
+    //    'engine' => 'Max\View\Engine\PhpEngine',
+    //    'config' => [
+    //        // 模板目录
+    //        'path'   => __DIR__ . '/../views/',
+    //        // 模板后缀
+    //        'suffix' => '.blade.php',
+    //    ],
 ];
