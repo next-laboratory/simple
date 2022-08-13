@@ -22,11 +22,12 @@ if (function_exists('base_path') === false) {
 
 if (function_exists('config') === false) {
     /**
-     * @param  null|mixed                  $default
+     * @param mixed|null $default
+     *
      * @throws ContainerExceptionInterface
      * @throws ReflectionException
      */
-    function config(string $key, $default = null): mixed
+    function config(string $key, mixed $default = null): mixed
     {
         /** @var Repository $config */
         $config = Context::getContainer()->make(Repository::class);
