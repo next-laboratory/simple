@@ -16,15 +16,15 @@ return [
             './app',
         ],
         'collectors' => [
-            'Max\Http\Server\RouteCollector',
-            'Max\Event\ListenerCollector',
-            'Max\Console\CommandCollector',
+            \Max\Http\Server\RouteCollector::class,
+            \Max\Event\ListenerCollector::class,
+            \Max\Console\CommandCollector::class,
         ],
         'runtimeDir' => './runtime',
     ],
     'bindings' => [
-        'Psr\EventDispatcher\EventDispatcherInterface' => 'Max\Event\EventDispatcher',
-        'Max\Config\Contract\ConfigInterface'          => 'Max\Config\Repository',
-        'Psr\Log\LoggerInterface'                      => 'App\Logger',
+        \Psr\EventDispatcher\EventDispatcherInterface::class => \Max\Event\EventDispatcher::class,
+        \Max\Config\Contract\ConfigInterface::class          => \Max\Config\Repository::class,
+        \Psr\Log\LoggerInterface::class                      => \App\Logger::class,
     ],
 ];

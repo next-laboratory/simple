@@ -10,16 +10,16 @@ declare(strict_types=1);
  */
 
 return [
-    'handler' => 'Max\Session\Handler\FileHandler',
+    'handler' => \Max\Session\Handler\FileHandler::class,
     'options' => [
         'path'          => __DIR__ . '/../runtime/session',
         'gcDivisor'     => 100,
         'gcProbability' => 1,
         'gcMaxLifetime' => 1440,
     ],
-    //    'handler' => 'Max\Session\Handler\RedisHandler',
+    //    'handler' => \Max\Session\Handler\RedisHandler::class,
     //    'options' => [
-    //        'connector' => 'Max\Redis\Connector\BaseConnector',
+    //        'connector' => \Max\Redis\Connector\BaseConnector::class,
     //        'host'      => '127.0.0.1',
     //        'port'      => 6379,
     //        'expire'    => 3600,

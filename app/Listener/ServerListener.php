@@ -29,10 +29,12 @@ class ServerListener implements EventListenerInterface
     {
         if ($event instanceof OnRequest) {
             $request    = $event->request;
-            $statusCode = $event->response->getStatusCode();
+            $response   = $event->response;
+            $statusCode = $response->getStatusCode();
+            $option     = $response->isSuccessful() ? 42 : ($response->isRedirect() ? 43 : 41);
             echo sprintf("[MaxPHP] %s |%s|%10.3fms| %15s|\033[44m%7s\033[0m| \"%s\"\n",
                 date('Y/m/d H:i:s'),
-                ($statusCode == 200 ? "\033[42m" : "\033[41m") . $statusCode . "\033[0m",
+                sprintf("\033[%dm%6s\033[0m", $option, $statusCode),
                 (microtime(true) - $event->requestedAt) * 1000,
                 $request->getRealIp(),
                 $request->getMethod(),

@@ -10,7 +10,7 @@ declare(strict_types=1);
  */
 
 return [
-    'engine' => 'Max\View\Engine\BladeEngine',
+    'engine' => \Max\View\Engine\BladeEngine::class,
     'config' => [
         // 模板目录
         'path'       => __DIR__ . '/../views/',
@@ -21,7 +21,7 @@ return [
         // 模板后缀
         'suffix'     => '.blade.php',
     ],
-    //    'engine' => 'Max\View\Engine\PhpEngine',
+    //    'engine' => \Max\View\Engine\PhpEngine::class,
     //    'config' => [
     //        // 模板目录
     //        'path'   => __DIR__ . '/../views/',

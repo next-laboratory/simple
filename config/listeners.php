@@ -10,5 +10,5 @@ declare(strict_types=1);
  */
 
 return [
-    'App\Listener\DatabaseQueryListener',
+    \App\Listener\DatabaseQueryListener::class,
 ];
