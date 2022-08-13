@@ -31,7 +31,7 @@ class ServerListener implements EventListenerInterface
             $request    = $event->request;
             $response   = $event->response;
             $statusCode = $response->getStatusCode();
-            $option     = $response->isSuccessful() ? 42 : ($response->isClientError() ? 41 : 43);
+            $option     = $response->isSuccessful() ? 42 : ($response->isRedirect() ? 43 : 41);
             echo sprintf("[MaxPHP] %s |%s|%10.3fms| %15s|\033[44m%7s\033[0m| \"%s\"\n",
                 date('Y/m/d H:i:s'),
                 sprintf("\033[%dm%6s\033[0m", $option, $statusCode),
