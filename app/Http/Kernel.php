@@ -22,23 +22,23 @@ class Kernel extends HttpKernel
      * Global middleware.
      */
     protected array $middlewares = [
-        'App\Http\Middleware\ExceptionHandleMiddleware',
-        'Max\Http\Server\Middleware\RoutingMiddleware',
+        \App\Http\Middleware\ExceptionHandleMiddleware::class,
+        \Max\Http\Server\Middleware\RoutingMiddleware::class,
     ];
 
     /**
      * Web middlewares.
      */
     protected array $webMiddlewares = [
-        'App\Http\Middleware\SessionMiddleware',
-        'App\Http\Middleware\VerifyCSRFToken',
+        \App\Http\Middleware\SessionMiddleware::class,
+        \App\Http\Middleware\VerifyCSRFToken::class,
     ];
 
     /**
      * Api middlewares.
      */
     protected array $apiMiddlewares = [
-        'App\Http\Middleware\AllowCrossDomain',
+        \App\Http\Middleware\AllowCrossDomain::class,
     ];
 
     /**
