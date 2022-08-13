@@ -42,6 +42,19 @@ class Response extends PsrResponse
         return new static($status, ['Content-Type' => 'application/json; charset=utf-8'], json_encode($data, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES));
     }
 
+    public static function JSONP(ServerRequestInterface $request, $data, int $status = 200): ResponseInterface
+    {
+        $callback = $request->input('callback');
+        if (empty($callback)) {
+            return static::JSON($data, $status);
+        }
+        return new static(
+            $status,
+            ['Content-Type' => 'application/javascript; charset=utf-8'],
+            sprintf('%s(%s)', $callback, json_encode($data, JSON_UNESCAPED_UNICODE))
+        );
+    }
+
     /**
      * Create a HTML response.
      *
