@@ -13,6 +13,7 @@ namespace App\Http\Middleware;
 
 use App\Exception\CSRFException;
 use Exception;
+use Max\Http\Message\Contract\RequestMethodInterface;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Server\MiddlewareInterface;
@@ -29,7 +30,14 @@ class VerifyCSRFToken implements MiddlewareInterface
         '/'
     ];
 
-    protected array $shouldVerifyMethods = ['POST', 'PUT', 'PATCH'];
+    /**
+     * 需要被验证的请求方法
+     */
+    protected array $shouldVerifyMethods = [
+        RequestMethodInterface::METHOD_POST,
+        RequestMethodInterface::METHOD_PUT,
+        RequestMethodInterface::METHOD_PATCH
+    ];
 
     /**
      * @throws CSRFException

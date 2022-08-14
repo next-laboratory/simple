@@ -11,6 +11,7 @@ declare(strict_types=1);
 
 namespace App\Http\Middleware;
 
+use Max\Http\Message\Contract\RequestMethodInterface;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Server\MiddlewareInterface;
@@ -21,11 +22,20 @@ use Psr\Http\Server\RequestHandlerInterface;
  */
 class ParseBodyMiddleware implements MiddlewareInterface
 {
+    /**
+     * 下面方法的请求体需要被解析
+     */
+    protected array $shouldParseMethods = [
+        RequestMethodInterface::METHOD_POST,
+        RequestMethodInterface::METHOD_PUT,
+        RequestMethodInterface::METHOD_PATCH
+    ];
+
     public function process(ServerRequestInterface $request, RequestHandlerInterface $handler): ResponseInterface
     {
         if (
             in_array($request->getMethod(), ['POST', 'PUT', 'PATCH'])
-            && str_starts_with($request->getHeaderLine('Content-Type'), 'application/json')
+            && str_contains($request->getHeaderLine('Content-Type'), 'application/json')
         ) {
             if ($body = $request->getBody()?->getContents()) {
                 $request = $request->withParsedBody(array_replace_recursive($request->getParsedBody(), json_decode($body, true) ?? []));
