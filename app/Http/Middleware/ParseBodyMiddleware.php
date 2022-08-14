@@ -11,6 +11,7 @@ declare(strict_types=1);
 
 namespace App\Http\Middleware;
 
+use Max\Http\Message\Contract\HeaderInterface;
 use Max\Http\Message\Contract\RequestMethodInterface;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
@@ -23,25 +24,39 @@ use Psr\Http\Server\RequestHandlerInterface;
 class ParseBodyMiddleware implements MiddlewareInterface
 {
     /**
-     * 下面方法的请求体需要被解析
+     * 下面方法的请求体需要被解析.
      */
     protected array $shouldParseMethods = [
         RequestMethodInterface::METHOD_POST,
         RequestMethodInterface::METHOD_PUT,
-        RequestMethodInterface::METHOD_PATCH
+        RequestMethodInterface::METHOD_PATCH,
     ];
 
+    /**
+     * 解析后替换parsedBody.
+     */
     public function process(ServerRequestInterface $request, RequestHandlerInterface $handler): ResponseInterface
     {
-        if (
-            in_array($request->getMethod(), ['POST', 'PUT', 'PATCH'])
-            && str_contains($request->getHeaderLine('Content-Type'), 'application/json')
-        ) {
-            if ($body = $request->getBody()?->getContents()) {
-                $request = $request->withParsedBody(array_replace_recursive($request->getParsedBody(), json_decode($body, true) ?? []));
+        if ($this->shouldParseBody($request)) {
+            $contentType = $request->getHeaderLine(HeaderInterface::HEADER_CONTENT_TYPE);
+            if ($content = $request->getBody()?->getContents()) {
+                if (str_contains($contentType, 'application/json')) {
+                    $request = $request->withParsedBody(json_decode($content, true) ?? []);
+                } elseif (str_contains($contentType, 'application/xml')) {
+                    $xmlElements = simplexml_load_string($content);
+                    $request     = $request->withParsedBody(json_decode(json_encode($xmlElements), true));
+                }
             }
         }
 
         return $handler->handle($request);
+    }
+
+    /**
+     * 是否需要解析.
+     */
+    protected function shouldParseBody(ServerRequestInterface $request): bool
+    {
+        return in_array($request->getMethod(), $this->shouldParseMethods);
     }
 }
