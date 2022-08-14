@@ -13,6 +13,7 @@ namespace App\Http\Middleware;
 
 use App\Exception\CSRFException;
 use Exception;
+use Max\Http\Message\Contract\RequestMethodInterface;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Server\MiddlewareInterface;
@@ -26,10 +27,17 @@ class VerifyCSRFToken implements MiddlewareInterface
      * 排除，不校验CSRF Token.
      */
     protected array $except = [
-        '/'
+        '/',
     ];
 
-    protected array $shouldVerifyMethods = ['POST', 'PUT', 'PATCH'];
+    /**
+     * 需要被验证的请求方法.
+     */
+    protected array $shouldVerifyMethods = [
+        RequestMethodInterface::METHOD_POST,
+        RequestMethodInterface::METHOD_PUT,
+        RequestMethodInterface::METHOD_PATCH,
+    ];
 
     /**
      * @throws CSRFException
@@ -37,21 +45,17 @@ class VerifyCSRFToken implements MiddlewareInterface
      */
     public function process(ServerRequestInterface $request, RequestHandlerInterface $handler): ResponseInterface
     {
-        if (in_array($request->getMethod(), $this->shouldVerifyMethods)) {
-            $ignored = collect($this->except)->first(function($pattern) use ($request) {
-                return $request->is($pattern);
-            });
-            if (!$ignored) {
-                if (is_null($previousToken = $request->getCookieParams()['X-XSRF-TOKEN'] ?? null)) {
-                    $this->abort();
-                }
-                $token = $request->getHeaderLine('X-CSRF-TOKEN') ?: $request->getHeaderLine('X-XSRF-TOKEN') ?: ($request->getParsedBody()['_token'] ?? null);
+        if ($this->shouldVerify($request)) {
+            if (is_null($previousToken = $request->getCookieParams()['X-XSRF-TOKEN'] ?? null)) {
+                $this->abort();
+            }
+            $token = $request->getHeaderLine('X-CSRF-TOKEN') ?: $request->getHeaderLine('X-XSRF-TOKEN') ?: ($request->getParsedBody()['_token'] ?? null);
 
-                if (is_null($token) || $token !== $previousToken) {
-                    $this->abort();
-                }
+            if (is_null($token) || $token !== $previousToken) {
+                $this->abort();
             }
         }
+
         return $handler->handle($request)->withCookie('X-XSRF-TOKEN', bin2hex(random_bytes(32)), time() + 9 * 3600);
     }
 
@@ -61,5 +65,18 @@ class VerifyCSRFToken implements MiddlewareInterface
     protected function abort()
     {
         throw new CSRFException('CSRF token is invalid', 419);
+    }
+
+    /**
+     * 是否需要验证
+     */
+    protected function shouldVerify(ServerRequestInterface $request): bool
+    {
+        if (in_array($request->getMethod(), $this->shouldVerifyMethods)) {
+            return (bool) collect($this->except)->first(function ($pattern) use ($request) {
+                return $request->is($pattern);
+            });
+        }
+        return false;
     }
 }
