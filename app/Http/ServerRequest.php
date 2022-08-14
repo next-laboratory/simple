@@ -77,6 +77,6 @@ class ServerRequest extends PsrServerRequest
 
     protected function isEmpty(array $haystack, $needle): bool
     {
-        return !isset($haystack[$needle]) || $haystack[$needle] === '';
+        return ! isset($haystack[$needle]) || $haystack[$needle] === '';
     }
 }

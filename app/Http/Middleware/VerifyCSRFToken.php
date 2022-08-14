@@ -31,6 +31,11 @@ class VerifyCSRFToken implements MiddlewareInterface
     ];
 
     /**
+     * 过期时间
+     */
+    protected int $expires = 9 * 3600;
+
+    /**
      * 需要被验证的请求方法.
      */
     protected array $shouldVerifyMethods = [
@@ -49,6 +54,8 @@ class VerifyCSRFToken implements MiddlewareInterface
             if (is_null($previousToken = $request->getCookieParams()['X-XSRF-TOKEN'] ?? null)) {
                 $this->abort();
             }
+
+            // 从头部获取CSRF/XSRF Token，如果都不存在则获取表单提交的参数为__token的值
             $token = $request->getHeaderLine('X-CSRF-TOKEN') ?: $request->getHeaderLine('X-XSRF-TOKEN') ?: ($request->getParsedBody()['_token'] ?? null);
 
             if (is_null($token) || $token !== $previousToken) {
@@ -56,7 +63,17 @@ class VerifyCSRFToken implements MiddlewareInterface
             }
         }
 
-        return $handler->handle($request)->withCookie('X-XSRF-TOKEN', bin2hex(random_bytes(32)), time() + 9 * 3600);
+        return $handler->handle($request)->withCookie('X-XSRF-TOKEN', $this->newCSRFToken(), time() + $this->expires);
+    }
+
+    /**
+     * 生成CSRF Token
+     *
+     * @throws Exception
+     */
+    protected function newCSRFToken(): string
+    {
+        return bin2hex((random_bytes(32)));
     }
 
     /**
@@ -73,7 +90,7 @@ class VerifyCSRFToken implements MiddlewareInterface
     protected function shouldVerify(ServerRequestInterface $request): bool
     {
         if (in_array($request->getMethod(), $this->shouldVerifyMethods)) {
-            return (bool) collect($this->except)->first(function ($pattern) use ($request) {
+            return (bool)collect($this->except)->first(function($pattern) use ($request) {
                 return $request->is($pattern);
             });
         }
