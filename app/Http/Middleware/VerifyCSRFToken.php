@@ -90,7 +90,7 @@ class VerifyCSRFToken implements MiddlewareInterface
     protected function shouldVerify(ServerRequestInterface $request): bool
     {
         if (in_array($request->getMethod(), $this->shouldVerifyMethods)) {
-            return (bool)collect($this->except)->first(function($pattern) use ($request) {
+            return !collect($this->except)->first(function($pattern) use ($request) {
                 return $request->is($pattern);
             });
         }
