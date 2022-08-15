@@ -37,15 +37,13 @@ class ParseBodyMiddleware implements MiddlewareInterface
      */
     public function process(ServerRequestInterface $request, RequestHandlerInterface $handler): ResponseInterface
     {
-        if ($this->shouldParseBody($request)) {
+        if ($this->shouldParseBody($request) && $content = $request->getBody()?->getContents()) {
             $contentType = $request->getHeaderLine(HeaderInterface::HEADER_CONTENT_TYPE);
-            if ($content = $request->getBody()?->getContents()) {
-                if (str_contains($contentType, 'application/json')) {
-                    $request = $request->withParsedBody(json_decode($content, true) ?? []);
-                } elseif (str_contains($contentType, 'application/xml')) {
-                    $xmlElements = simplexml_load_string($content);
-                    $request     = $request->withParsedBody(json_decode(json_encode($xmlElements), true));
-                }
+            if (str_contains($contentType, 'application/json')) {
+                $request = $request->withParsedBody(json_decode($content, true) ?? []);
+            } else if (str_contains($contentType, 'application/xml')) {
+                $xmlElements = simplexml_load_string($content);
+                $request     = $request->withParsedBody(json_decode(json_encode($xmlElements), true));
             }
         }
 

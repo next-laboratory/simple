@@ -69,7 +69,7 @@ class Response extends PsrResponse
      */
     public static function HTML($data, int $status = 200): ResponseInterface
     {
-        return new static($status, [HeaderInterface::HEADER_CONTENT_TYPE => 'text/html; charset=utf-8'], (string)$data);
+        return new static($status, [HeaderInterface::HEADER_CONTENT_TYPE => 'text/html; charset=utf-8'], (string) $data);
     }
 
     /**
@@ -93,7 +93,7 @@ class Response extends PsrResponse
     }
 
     /**
-     * 渲染视图
+     * 渲染视图.
      */
     public static function view(ServerRequestInterface $request, string $view, array $arguments = []): ResponseInterface
     {
@@ -123,12 +123,12 @@ class Response extends PsrResponse
      */
     public static function download(string $uri, string $name = '', array $headers = [], int $offset = 0, int $length = -1): ResponseInterface
     {
-        if (!file_exists($uri)) {
+        if (! file_exists($uri)) {
             throw new FileNotFoundException('File does not exist.');
         }
         if (empty($name)) {
             $extension = pathinfo($uri, PATHINFO_EXTENSION);
-            if (!empty($extension)) {
+            if (! empty($extension)) {
                 $extension = '.' . $extension;
             }
             $name = Str::random(10) . $extension;

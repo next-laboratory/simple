@@ -29,7 +29,7 @@ class Kernel
     public function run(): void
     {
         $config      = Scanner::scanConfig(base_path('vendor/composer/installed.json'));
-        $application = new Application();
+        $application = new Application('MaxPHP', 'dev');
         $commands    = array_merge($this->commands, $config['commands'], CommandCollector::all());
         foreach ($commands as $command) {
             $application->add(new $command());

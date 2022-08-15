@@ -11,6 +11,8 @@ declare(strict_types=1);
 
 namespace App\Http\Middleware;
 
-class SessionMiddleware extends \Max\Http\Server\Middleware\SessionMiddleware
+use Max\Http\Server\Middleware\SessionMiddleware as HttpSessionMiddleware;
+
+class SessionMiddleware extends HttpSessionMiddleware
 {
 }
