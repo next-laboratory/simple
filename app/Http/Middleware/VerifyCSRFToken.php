@@ -55,15 +55,32 @@ class VerifyCSRFToken implements MiddlewareInterface
                 $this->abort();
             }
 
-            // 从头部获取CSRF/XSRF Token，如果都不存在则获取表单提交的参数为__token的值
-            $token = $request->getHeaderLine('X-CSRF-TOKEN') ?: $request->getHeaderLine('X-XSRF-TOKEN') ?: ($request->getParsedBody()['_token'] ?? null);
+            $token = $this->parseToken($request);
 
-            if (is_null($token) || $token !== $previousToken) {
+            if ('' === $token || $token !== $previousToken) {
                 $this->abort();
             }
         }
 
-        return $handler->handle($request)->withCookie('X-XSRF-TOKEN', $this->newCSRFToken(), time() + $this->expires);
+        return $this->addCookieToResponse($handler->handle($request));
+    }
+
+    /**
+     * 从头部获取CSRF/XSRF Token，如果都不存在则获取表单提交的参数为__token的值
+     */
+    protected function parseToken(ServerRequestInterface $request): string
+    {
+        return $request->getHeaderLine('X-CSRF-TOKEN') ?: $request->getHeaderLine('X-XSRF-TOKEN') ?: ($request->getParsedBody()['__token'] ?? '');
+    }
+
+    /**
+     * 将token添加到cookie中
+     *
+     * @throws Exception
+     */
+    protected function addCookieToResponse(ResponseInterface $response): ResponseInterface
+    {
+        return $response->withCookie('X-XSRF-TOKEN', $this->newCSRFToken(), time() + $this->expires);
     }
 
     /**

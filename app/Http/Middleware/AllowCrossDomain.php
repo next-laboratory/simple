@@ -16,5 +16,5 @@ use Max\Http\Server\Middleware\AllowCrossDomain as BaseAllowCrossDomain;
 class AllowCrossDomain extends BaseAllowCrossDomain
 {
     /** {@inheritdoc} */
-    protected array $allowOrigin = [];
+    protected array $allowOrigin = ['*'];
 }

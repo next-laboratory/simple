@@ -39,6 +39,7 @@ class Kernel extends HttpKernel
      */
     protected array $apiMiddlewares = [
         \App\Http\Middleware\AllowCrossDomain::class,
+        \App\Http\Middleware\ParseBodyMiddleware::class,
     ];
 
     /**
