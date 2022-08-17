@@ -11,7 +11,6 @@ declare(strict_types=1);
 
 namespace App\Http;
 
-use App\Http\Controller\IndexController;
 use Max\Http\Server\Kernel as HttpKernel;
 use Max\Routing\Router;
 use Psr\Http\Message\ServerRequestInterface;
@@ -30,7 +29,7 @@ class Kernel extends HttpKernel
      * Web middlewares.
      */
     protected array $webMiddlewares = [
-        \App\Http\Middleware\SessionMiddleware::class,
+        \Max\Http\Server\Middleware\SessionMiddleware::class,
         \App\Http\Middleware\VerifyCSRFToken::class,
     ];
 
@@ -49,8 +48,7 @@ class Kernel extends HttpKernel
     {
         $router->middleware(...$this->webMiddlewares)
             ->group(function (Router $router) {
-                   $router->request('/', [IndexController::class, 'index']);
-                   $router->request('/test', [IndexController::class, 'test']);
+                   $router->request('/', [\App\Http\Controller\IndexController::class, 'index']);
                });
         $router->middleware(...$this->apiMiddlewares)
             ->prefix('api')
