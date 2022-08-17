@@ -11,14 +11,14 @@ declare(strict_types=1);
 
 return [
     'handler' => \Max\Session\Handler\FileHandler::class,
-    'options' => [
+    'config'  => [
         'path'          => __DIR__ . '/../runtime/session',
         'gcDivisor'     => 100,
         'gcProbability' => 1,
         'gcMaxLifetime' => 1440,
     ],
     //    'handler' => \Max\Session\Handler\RedisHandler::class,
-    //    'options' => [
+    //    'config'  => [
     //        'connector' => \Max\Redis\Connector\BaseConnector::class,
     //        'host'      => '127.0.0.1',
     //        'port'      => 6379,
