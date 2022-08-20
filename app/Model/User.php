@@ -12,12 +12,11 @@ declare(strict_types=1);
 namespace App\Model;
 
 use Max\Database\Eloquent\Model;
-use Max\JWT\Contract\Authenticatable;
 
 /**
  * @property int $id
  */
-class User extends Model implements Authenticatable
+class User extends Model
 {
     protected string $table    = 'users';
 
@@ -30,14 +29,4 @@ class User extends Model implements Authenticatable
         'name',
         'nickname',
     ];
-
-    public function getClaims(): array
-    {
-        return $this->getAttributes();
-    }
-
-    public function getIdentifier(): int
-    {
-        return $this->id;
-    }
 }
