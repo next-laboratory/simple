@@ -41,7 +41,7 @@ class ParseBodyMiddleware implements MiddlewareInterface
             $contentType = $request->getHeaderLine(HeaderInterface::HEADER_CONTENT_TYPE);
             if (str_contains($contentType, 'application/json')) {
                 $request = $request->withParsedBody(json_decode($content, true) ?? []);
-            } else if (str_contains($contentType, 'application/xml')) {
+            } elseif (str_contains($contentType, 'application/xml')) {
                 $xmlElements = simplexml_load_string($content);
                 $request     = $request->withParsedBody(json_decode(json_encode($xmlElements), true));
             }

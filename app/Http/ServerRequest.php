@@ -12,6 +12,7 @@ declare(strict_types=1);
 namespace App\Http;
 
 use Exception;
+use Max\Http\Message\Contract\HeaderInterface;
 use Max\Http\Message\ServerRequest as PsrServerRequest;
 use Max\Session\Session;
 
@@ -73,6 +74,22 @@ class ServerRequest extends PsrServerRequest
     public function all(): array
     {
         return $this->getQueryParams() + $this->getParsedBody();
+    }
+
+    /**
+     * 获取客户端真实IP.
+     */
+    public function getRealIp(): string
+    {
+        if ($xForwardedFor = $this->getHeaderLine(HeaderInterface::HEADER_X_FORWARDED_FOR)) {
+            $ips = explode(',', $xForwardedFor);
+            return trim($ips[0]);
+        }
+        if ($xRealIp = $this->getHeaderLine('X-Real-IP')) {
+            return $xRealIp;
+        }
+        $serverParams = $this->getServerParams();
+        return $serverParams['remote_addr'] ?? '127.0.0.1';
     }
 
     protected function isEmpty(array $haystack, $needle): bool
