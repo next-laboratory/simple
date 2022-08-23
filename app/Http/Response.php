@@ -95,10 +95,12 @@ class Response extends PsrResponse
     /**
      * 渲染视图.
      */
-    public static function view(ServerRequestInterface $request, string $view, array $arguments = []): ResponseInterface
+    public static function view(string $view, array $arguments = [], ?ServerRequestInterface $request = null): ResponseInterface
     {
         $renderer = make(ViewFactory::class)->getRenderer();
-        $renderer->assign('request', $request);
+        if (!is_null($request)) {
+            $renderer->assign('request', $request);
+        }
         return Response::HTML($renderer->render($view, $arguments));
     }
 
