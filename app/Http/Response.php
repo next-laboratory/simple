@@ -11,11 +11,11 @@ declare(strict_types=1);
 
 namespace App\Http;
 
-use ArrayAccess;
 use Exception;
 use Max\Http\Message\Contract\HeaderInterface;
 use Max\Http\Message\Response as PsrResponse;
 use Max\Http\Message\Stream\FileStream;
+use Max\Utils\Contract\Arrayable;
 use Max\Utils\Exception\FileNotFoundException;
 use Max\Utils\Str;
 use Max\View\ViewFactory;
@@ -38,26 +38,29 @@ class Response extends PsrResponse
     /**
      * Create a JSON response.
      *
-     * @param array|ArrayAccess $data
+     * @param array|Arrayable|string $data
      */
     public static function JSON($data, int $status = 200): ResponseInterface
     {
-        return new static($status, ['Content-Type' => 'application/json; charset=utf-8'], json_encode($data, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES));
+        if (! is_string($data)) {
+            $data = json_encode($data, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES);
+        }
+
+        return new static($status, ['Content-Type' => 'application/json; charset=utf-8'], $data);
     }
 
     /**
      * Create a JSONP response.
      *
-     * @param array|ArrayAccess $data
+     * @param array|Arrayable $data
      */
     public static function JSONP(ServerRequestInterface $request, $data, int $status = 200): ResponseInterface
     {
-        if ($callback = $request->input('callback')) {
-            return new static(
-                $status,
-                [HeaderInterface::HEADER_CONTENT_TYPE => 'application/javascript; charset=utf-8'],
-                sprintf('%s(%s)', $callback, json_encode($data, JSON_UNESCAPED_UNICODE))
-            );
+        if ($callback = $request->query('callback')) {
+            if (! is_string($data)) {
+                $data = json_encode($data, JSON_UNESCAPED_UNICODE);
+            }
+            return new static($status, [HeaderInterface::HEADER_CONTENT_TYPE => 'application/javascript; charset=utf-8'], sprintf('%s(%s)', $callback, $data));
         }
         return static::JSON($data, $status);
     }
@@ -83,7 +86,7 @@ class Response extends PsrResponse
     /**
      * Create a XML response.
      */
-    public static function XML(iterable $data, string $encoding = 'utf-8', string $root = 'root', int $status = 200): ResponseInterface
+    public static function XML(iterable $data, string $root = 'root', string $encoding = 'utf-8', int $status = 200): ResponseInterface
     {
         $xml = '<?xml version="1.0" encoding="' . $encoding . '"?>';
         $xml .= '<' . $root . '>';
@@ -95,10 +98,12 @@ class Response extends PsrResponse
     /**
      * 渲染视图.
      */
-    public static function view(ServerRequestInterface $request, string $view, array $arguments = []): ResponseInterface
+    public static function view(string $view, array $arguments = [], ?ServerRequestInterface $request = null): ResponseInterface
     {
         $renderer = make(ViewFactory::class)->getRenderer();
-        $renderer->assign('request', $request);
+        if (isset($request)) {
+            $renderer->assign('request', $request);
+        }
         return Response::HTML($renderer->render($view, $arguments));
     }
 

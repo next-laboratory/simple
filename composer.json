@@ -38,7 +38,6 @@
         "max/cache": "^1.0",
         "max/database": "^1.0",
         "max/framework": "^1.0",
-        "max/context": "^1.0",
         "vlucas/phpdotenv": "^5.4",
         "monolog/monolog": "^2.7"
     },
