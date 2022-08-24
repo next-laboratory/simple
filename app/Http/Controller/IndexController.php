@@ -22,6 +22,6 @@ class IndexController
      */
     public function index(ServerRequestInterface $request): ResponseInterface
     {
-        return Response::text(sprintf('Hello, %s.', $request->get('name', 'world')));
+        return Response::text(sprintf('Hello, %s.', $request->query('name', 'world')));
     }
 }

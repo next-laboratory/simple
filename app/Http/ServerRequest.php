@@ -44,7 +44,15 @@ class ServerRequest extends PsrServerRequest
         return $this->getBody()->getContents();
     }
 
+    /**
+     * @deprecated
+     */
     public function get(null|array|string $key = null, mixed $default = null): mixed
+    {
+        return $this->query(...func_get_args());
+    }
+
+    public function query(null|array|string $key = null, mixed $default = null): mixed
     {
         return $this->input($key, $default, $this->getQueryParams());
     }
