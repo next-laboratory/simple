@@ -50,9 +50,10 @@ class Bootstrap
 
         // Initialize event listeners
         $listenerProvider = $container->make(ListenerProvider::class);
-        $listeners        = $repository->get('listeners');
-        foreach (array_unique(array_merge(ListenerCollector::getListeners(), $listeners)) as $listener) {
-            $listenerProvider->addListener($container->make($listener));
+        if (!empty($listeners = $repository->get('listeners', []))) {
+            foreach ($listeners as $listener) {
+                $listenerProvider->addListener($container->make($listener));
+            }
         }
     }
 }
