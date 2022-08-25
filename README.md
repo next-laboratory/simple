@@ -26,7 +26,7 @@ PHP >= 8.0
 ### 安装
 
 ```shell
-composer create-project max/simple:dev-master max
+composer create-project max/simple
 ```
 
 ### 启动服务
