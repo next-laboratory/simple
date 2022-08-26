@@ -38,11 +38,9 @@
         "max/cache": "^1.0",
         "max/database": "^1.0",
         "max/framework": "^1.0",
-        "vlucas/phpdotenv": "^5.4",
         "monolog/monolog": "^2.7"
     },
     "require-dev": {
-        "max/watcher": "*",
         "swoole/ide-helper": "*",
         "friendsofphp/php-cs-fixer": "^3.8",
         "phpstan/phpstan": "^1.7",

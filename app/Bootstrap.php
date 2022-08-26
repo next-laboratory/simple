@@ -11,15 +11,15 @@ declare(strict_types=1);
 
 namespace App;
 
-use Dotenv\Dotenv;
 use Max\Aop\Scanner;
 use Max\Aop\ScannerConfig;
 use Max\Config\Repository;
 use Max\Di\Context;
-use Max\Event\ListenerCollector;
 use Max\Event\ListenerProvider;
 use Psr\Container\ContainerExceptionInterface;
 use ReflectionException;
+
+use function putenv;
 
 class Bootstrap
 {
@@ -32,8 +32,11 @@ class Bootstrap
         $container = Context::getContainer();
 
         // Initialize environment variables and configurations
-        if (file_exists(base_path('.env'))) {
-            Dotenv::createUnsafeImmutable(BASE_PATH)->load();
+        if (file_exists($envFile = base_path('.env'))) {
+            $variables = parse_ini_file($envFile, false, INI_SCANNER_RAW);
+            foreach ($variables as $key => $value) {
+                putenv(sprintf('%s=%s', $key, $value));
+            }
         }
         $repository = $container->make(Repository::class);
         $repository->scan(base_path('./config'));
@@ -50,9 +53,10 @@ class Bootstrap
 
         // Initialize event listeners
         $listenerProvider = $container->make(ListenerProvider::class);
-        $listeners        = $repository->get('listeners');
-        foreach (array_unique(array_merge(ListenerCollector::getListeners(), $listeners)) as $listener) {
-            $listenerProvider->addListener($container->make($listener));
+        if (! empty($listeners = $repository->get('listeners', []))) {
+            foreach ($listeners as $listener) {
+                $listenerProvider->addListener($container->make($listener));
+            }
         }
     }
 }
