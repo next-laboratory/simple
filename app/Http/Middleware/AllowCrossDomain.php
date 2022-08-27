@@ -11,9 +11,9 @@ declare(strict_types=1);
 
 namespace App\Http\Middleware;
 
-use Max\Http\Server\Middleware\AllowCrossDomain as BaseAllowCrossDomain;
+use Max\Http\Server\Middleware\AllowCrossDomain as Middleware;
 
-class AllowCrossDomain extends BaseAllowCrossDomain
+class AllowCrossDomain extends Middleware
 {
     /** {@inheritdoc} */
     protected array $allowOrigin = ['*'];

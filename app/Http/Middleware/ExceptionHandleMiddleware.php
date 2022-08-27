@@ -16,13 +16,13 @@ use Max\Exception\Handler\VarDumperAbortHandler;
 use Max\Exception\Handler\WhoopsExceptionHandler;
 use Max\Exception\VarDumperAbort;
 use Max\Http\Message\Exception\HttpException;
-use Max\Http\Server\Middleware\ExceptionHandleMiddleware as HttpExceptionHandleMiddleware;
+use Max\Http\Server\Middleware\ExceptionHandleMiddleware as Middleware;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use Psr\Log\LoggerInterface;
 use Throwable;
 
-class ExceptionHandleMiddleware extends HttpExceptionHandleMiddleware
+class ExceptionHandleMiddleware extends Middleware
 {
     public function __construct(
         protected LoggerInterface $logger
