@@ -70,22 +70,54 @@ class ServerRequest extends PsrServerRequest
 
     public function isSecure($httpsAgentName = ''): bool
     {
-        if ($this->server('HTTPS') && ('1' == $this->server('HTTPS') || 'on' == strtolower($this->server('HTTPS')))) {
+        if ($this->getServer('HTTPS') && ('1' == $this->getServer('HTTPS') || 'on' == strtolower($this->getServer('HTTPS')))) {
             return true;
         }
-        if ('https' == $this->server('REQUEST_SCHEME')) {
+        if ('https' == $this->getServer('REQUEST_SCHEME')) {
             return true;
         }
-        if ('443' == $this->server('SERVER_PORT')) {
+        if ('443' == $this->getServer('SERVER_PORT')) {
             return true;
         }
         if ('https' == $this->getHeaderLine('HTTP_X_FORWARDED_PROTO')) {
             return true;
         }
-        if ($httpsAgentName && $this->server($httpsAgentName)) {
+        if ($httpsAgentName && $this->getServer($httpsAgentName)) {
             return true;
         }
 
         return false;
+    }
+
+    public function post(null|array|string $key = null, mixed $default = null): mixed
+    {
+        return $this->input($key, $default, $this->getParsedBody());
+    }
+
+    public function input(null|array|string $key = null, mixed $default = null, ?array $from = null): mixed
+    {
+        $from ??= $this->all();
+        if (is_null($key)) {
+            return $from ?? [];
+        }
+        if (is_array($key)) {
+            $return = [];
+            foreach ($key as $value) {
+                $return[$value] = $this->isEmpty($from, $value) ? ($default[$value] ?? null) : $from[$value];
+            }
+
+            return $return;
+        }
+        return $this->isEmpty($from, $key) ? $default : $from[$key];
+    }
+
+    public function all(): array
+    {
+        return $this->getQueryParams() + $this->getParsedBody();
+    }
+
+    public function query(null|array|string $key = null, mixed $default = null): mixed
+    {
+        return $this->input($key, $default, $this->getQueryParams());
     }
 }
