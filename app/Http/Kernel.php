@@ -57,7 +57,7 @@ class Kernel extends HttpKernel
                     return Response::JSON([
                         'statue'  => true,
                         'code'    => 0,
-                        'message' => sprintf('Hello, %s.', $request->get('name', 'world')),
+                        'message' => sprintf('Hello, %s.', $request->query('name', 'world')),
                         'data'    => [],
                     ]);
                 });
