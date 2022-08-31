@@ -14,6 +14,8 @@ namespace App;
 use Max\Aop\Scanner;
 use Max\Aop\ScannerConfig;
 use Max\Config\Repository;
+use Max\Database\DBConfig;
+use Max\Database\Manager;
 use Max\Di\Context;
 use Max\Event\ListenerProvider;
 use Psr\Container\ContainerExceptionInterface;
@@ -57,6 +59,13 @@ class Bootstrap
             foreach ($listeners as $listener) {
                 $listenerProvider->addListener($container->make($listener));
             }
+        }
+
+        $database = $repository->get('database');
+        $manager  = make(Manager::class);
+        $manager->setDefault($database['default']);
+        foreach ($database['connections'] as $name => $config) {
+            $manager->addConnection($name, new DBConfig($config));
         }
     }
 }

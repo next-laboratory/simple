@@ -13,16 +13,11 @@ namespace App\Http;
 
 use Exception;
 use Max\Http\Message\Contract\HeaderInterface;
-use Max\Http\Message\ServerRequest as PsrServerRequest;
+use Max\Http\Server\ServerRequest as PsrServerRequest;
 use Max\Session\Session;
 
 class ServerRequest extends PsrServerRequest
 {
-    public function header(string $name): string
-    {
-        return $this->getHeaderLine($name);
-    }
-
     /**
      * @throws Exception
      */
@@ -34,27 +29,64 @@ class ServerRequest extends PsrServerRequest
         throw new Exception('Session is not started');
     }
 
-    public function server(string $name): ?string
-    {
-        return $this->getServerParams()[strtoupper($name)] ?? null;
-    }
-
-    public function raw(): string
-    {
-        return $this->getBody()->getContents();
-    }
-
     /**
-     * @deprecated
+     * 获取客户端真实IP.
      */
-    public function get(null|array|string $key = null, mixed $default = null): mixed
+    public function getRealIp(): string
     {
-        return $this->query(...func_get_args());
+        if ($xForwardedFor = $this->getHeaderLine(HeaderInterface::HEADER_X_FORWARDED_FOR)) {
+            $ips = explode(',', $xForwardedFor);
+            return trim($ips[0]);
+        }
+        if ($xRealIp = $this->getHeaderLine('X-Real-IP')) {
+            return $xRealIp;
+        }
+        $serverParams = $this->getServerParams();
+        return $serverParams['remote_addr'] ?? '127.0.0.1';
     }
 
-    public function query(null|array|string $key = null, mixed $default = null): mixed
+    public function isPjax(bool $pjax = false, string $headerName = 'X-Pjax', string $pjaxVar = '_pjax'): bool
     {
-        return $this->input($key, $default, $this->getQueryParams());
+        $headerExists = (bool)$this->getHeaderLine($headerName);
+        if ($headerExists === $pjax) {
+            return $headerExists;
+        }
+
+        return $this->query($pjaxVar) ? true : $headerExists;
+    }
+
+    protected function isEmpty(array $haystack, $needle): bool
+    {
+        return !isset($haystack[$needle]) || $haystack[$needle] === '';
+    }
+
+    public function isMobile(): bool
+    {
+        return (($userAgent = $this->getHeaderLine('User-Agent')) && preg_match('/(blackberry|configuration\/cldc|hp |hp-|htc |htc_|htc-|iemobile|kindle|midp|mmp|motorola|mobile|nokia|opera mini|opera |Googlebot-Mobile|YahooSeeker\/M1A1-R2D2|android|iphone|ipod|mobi|palm|palmos|pocket|portalmmm|ppc;|smartphone|sonyericsson|sqh|spv|symbian|treo|up.browser|up.link|vodafone|windows ce|xda |xda_)/i', $userAgent))
+            || ($via = $this->getHeaderLine('Via')) && stristr($via, 'wap')
+            || (($accept = $this->getHeaderLine('Accept')) && strpos(strtoupper($accept), 'VND.WAP.WML'))
+            || (($this->getHeaderLine('X-Wap-Profile') && $this->getHeaderLine('Profile')));
+    }
+
+    public function isSecure($httpsAgentName = ''): bool
+    {
+        if ($this->getServer('HTTPS') && ('1' == $this->getServer('HTTPS') || 'on' == strtolower($this->getServer('HTTPS')))) {
+            return true;
+        }
+        if ('https' == $this->getServer('REQUEST_SCHEME')) {
+            return true;
+        }
+        if ('443' == $this->getServer('SERVER_PORT')) {
+            return true;
+        }
+        if ('https' == $this->getHeaderLine('HTTP_X_FORWARDED_PROTO')) {
+            return true;
+        }
+        if ($httpsAgentName && $this->getServer($httpsAgentName)) {
+            return true;
+        }
+
+        return false;
     }
 
     public function post(null|array|string $key = null, mixed $default = null): mixed
@@ -84,24 +116,8 @@ class ServerRequest extends PsrServerRequest
         return $this->getQueryParams() + $this->getParsedBody();
     }
 
-    /**
-     * 获取客户端真实IP.
-     */
-    public function getRealIp(): string
+    public function query(null|array|string $key = null, mixed $default = null): mixed
     {
-        if ($xForwardedFor = $this->getHeaderLine(HeaderInterface::HEADER_X_FORWARDED_FOR)) {
-            $ips = explode(',', $xForwardedFor);
-            return trim($ips[0]);
-        }
-        if ($xRealIp = $this->getHeaderLine('X-Real-IP')) {
-            return $xRealIp;
-        }
-        $serverParams = $this->getServerParams();
-        return $serverParams['remote_addr'] ?? '127.0.0.1';
-    }
-
-    protected function isEmpty(array $haystack, $needle): bool
-    {
-        return ! isset($haystack[$needle]) || $haystack[$needle] === '';
+        return $this->input($key, $default, $this->getQueryParams());
     }
 }

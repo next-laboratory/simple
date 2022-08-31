@@ -11,14 +11,12 @@ declare(strict_types=1);
 
 namespace App\Http\Middleware;
 
-use Max\Http\Server\Middleware\VerifyCSRFToken as HttpVerifyCSRFToken;
+use Max\Http\Server\Middleware\VerifyCSRFToken as Middleware;
 
-class VerifyCSRFToken extends HttpVerifyCSRFToken
+class VerifyCSRFToken extends Middleware
 {
     /**
      * 排除，不校验CSRF Token.
      */
-    protected array $except = [
-        '/',
-    ];
+    protected array $except = ['/'];
 }
