@@ -11,22 +11,50 @@ declare(strict_types=1);
 
 namespace App\Http;
 
-use Exception;
 use Max\Http\Message\Contract\HeaderInterface;
 use Max\Http\Server\ServerRequest as PsrServerRequest;
 use Max\Session\Session;
+use RuntimeException;
 
 class ServerRequest extends PsrServerRequest
 {
-    /**
-     * @throws Exception
-     */
     public function session(): ?Session
     {
         if ($session = $this->getAttribute('Max\Session\Session')) {
             return $session;
         }
-        throw new Exception('Session is not started');
+        throw new RuntimeException('Session is not started');
+    }
+
+    public function query(?string $key = null, mixed $default = null): mixed
+    {
+        return $this->input($key, $default, $this->getQueryParams());
+    }
+
+    public function post(?string $key = null, mixed $default = null): mixed
+    {
+        return $this->input($key, $default, $this->getParsedBody());
+    }
+
+    public function input(?string $key = null, mixed $default = null, ?array $from = null): mixed
+    {
+        $from ??= $this->all();
+        return is_null($key) ? $from : ($from[$key] ?? $default);
+    }
+
+    public function all(): array
+    {
+        return $this->getQueryParams() + $this->getParsedBody();
+    }
+
+    public function exists(string $key): bool
+    {
+        return array_key_exists($key, $this->all());
+    }
+
+    public function has(string $key): bool
+    {
+        return !empty($this->input($key));
     }
 
     /**
@@ -53,11 +81,6 @@ class ServerRequest extends PsrServerRequest
         }
 
         return $this->query($pjaxVar) ? true : $headerExists;
-    }
-
-    protected function isEmpty(array $haystack, $needle): bool
-    {
-        return !isset($haystack[$needle]) || $haystack[$needle] === '';
     }
 
     public function isMobile(): bool
@@ -87,37 +110,5 @@ class ServerRequest extends PsrServerRequest
         }
 
         return false;
-    }
-
-    public function post(null|array|string $key = null, mixed $default = null): mixed
-    {
-        return $this->input($key, $default, $this->getParsedBody());
-    }
-
-    public function input(null|array|string $key = null, mixed $default = null, ?array $from = null): mixed
-    {
-        $from ??= $this->all();
-        if (is_null($key)) {
-            return $from ?? [];
-        }
-        if (is_array($key)) {
-            $return = [];
-            foreach ($key as $value) {
-                $return[$value] = $this->isEmpty($from, $value) ? ($default[$value] ?? null) : $from[$value];
-            }
-
-            return $return;
-        }
-        return $this->isEmpty($from, $key) ? $default : $from[$key];
-    }
-
-    public function all(): array
-    {
-        return $this->getQueryParams() + $this->getParsedBody();
-    }
-
-    public function query(null|array|string $key = null, mixed $default = null): mixed
-    {
-        return $this->input($key, $default, $this->getQueryParams());
     }
 }
