@@ -17,6 +17,7 @@ use Max\Config\Repository;
 use Max\Database\DBConfig;
 use Max\Database\Manager;
 use Max\Di\Context;
+use Max\Event\EventDispatcher;
 use Max\Event\ListenerProvider;
 use Psr\Container\ContainerExceptionInterface;
 use ReflectionException;
@@ -65,7 +66,11 @@ class Bootstrap
         $manager  = make(Manager::class);
         $manager->setDefault($database['default']);
         foreach ($database['connections'] as $name => $config) {
-            $manager->addConnection($name, new DBConfig($config));
+            $connector = $config['connector'];
+            $options   = $config['options'];
+            $manager->addConnector($name, new $connector(new DBConfig($options)));
         }
+        $manager->setEventDispatcher(make(EventDispatcher::class));
+        $manager->bootEloquent();
     }
 }
