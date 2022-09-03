@@ -23,8 +23,9 @@ return [
         'runtimeDir' => './runtime',
     ],
     'bindings' => [
-        \Psr\EventDispatcher\EventDispatcherInterface::class => \Max\Event\EventDispatcher::class,
-        \Max\Config\Contract\ConfigInterface::class          => \Max\Config\Repository::class,
-        \Psr\Log\LoggerInterface::class                      => \App\Logger::class,
+        \Psr\EventDispatcher\EventDispatcherInterface::class    => \Max\Event\EventDispatcher::class,
+        \Max\Http\Server\Contract\RouteResolverInterface::class => \Max\Http\Server\RouteResolver::class,
+        \Max\Config\Contract\ConfigInterface::class             => \Max\Config\Repository::class,
+        \Psr\Log\LoggerInterface::class                         => \App\Logger::class,
     ],
 ];
