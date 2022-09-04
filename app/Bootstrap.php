@@ -62,6 +62,7 @@ class Bootstrap
             }
         }
 
+        // Initialize database.
         $database = $repository->get('database');
         $manager  = $container->make(Manager::class);
         $manager->setDefault($database['default']);
