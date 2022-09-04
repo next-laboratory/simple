@@ -63,14 +63,14 @@ class Bootstrap
         }
 
         $database = $repository->get('database');
-        $manager  = make(Manager::class);
+        $manager  = $container->make(Manager::class);
         $manager->setDefault($database['default']);
         foreach ($database['connections'] as $name => $config) {
             $connector = $config['connector'];
             $options   = $config['options'];
             $manager->addConnector($name, new $connector(new DBConfig($options)));
         }
-        $manager->setEventDispatcher(make(EventDispatcher::class));
+        $manager->setEventDispatcher($container->make(EventDispatcher::class));
         $manager->bootEloquent();
     }
 }
