@@ -39,11 +39,6 @@ require_once __DIR__ . '/base.php';
     $server    = new Server($host, $port);
     $container = Context::getContainer();
     $kernel    = $container->make(Kernel::class);
-
-    $server->on('workerStart', function(Server $server, int $workerId) use ($container) {
-        $container->set(\Godruoyi\Snowflake\Snowflake::class, new \Godruoyi\Snowflake\Snowflake(workerid: $workerId));
-    });
-
     $server->on('request', function(Request $request, Response $response) use ($kernel) {
         $psrResponse = $kernel->through(ServerRequest::createFromSwooleRequest($request, [
             'request'  => $request,
