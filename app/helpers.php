@@ -20,6 +20,13 @@ if (function_exists('base_path') === false) {
     }
 }
 
+if (function_exists('public_path') === false) {
+    function public_path(string $path = ''): string
+    {
+        return base_path('public/' . ltrim($path, '/'));
+    }
+}
+
 if (function_exists('config') === false) {
     /**
      * @param mixed|null $default
