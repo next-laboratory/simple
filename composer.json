@@ -21,7 +21,7 @@
     },
     "autoload-dev": {
         "psr-4": {
-            "Test\\": "./test/"
+            "Tests\\": "./tests/"
         }
     },
     "authors": [
@@ -62,7 +62,7 @@
         "post-root-package-install": [
             "@php -r \"file_exists('.env') || copy('.example.env', '.env');\""
         ],
-        "test": "co-phpunit --prepend test/bootstrap.php -c phpunit.xml --colors=always",
+        "test": "phpunit --prepend test/bootstrap.php -c phpunit.xml --colors=always",
         "cs-fix": "php-cs-fixer fix $1",
         "analyse": "phpstan analyse --memory-limit 300M -l 0 -c phpstan.neon $1",
         "swoole-start": [
