@@ -11,15 +11,13 @@ declare(strict_types=1);
 
 namespace App\Http;
 
-use Exception;
 use Max\Http\Message\Contract\HeaderInterface;
-use Max\Http\Message\Stream\FileStream;
+use Max\Http\Message\Stream\StandardStream;
 use Max\Http\Server\Response as PsrResponse;
-use Max\Utils\Exception\FileNotFoundException;
-use Max\Utils\Str;
 use Max\View\ViewFactory;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
+use Psr\Http\Message\StreamInterface;
 
 class Response extends PsrResponse
 {
@@ -46,28 +44,16 @@ class Response extends PsrResponse
     /**
      * Create a file download response.
      *
-     * @param string $uri    文件路径
-     * @param string $name   文件名（留空则自动生成文件名）
-     * @param int    $offset 偏移量
-     * @param int    $length 长度
+     * @param string|StreamInterface|resource $file
+     * @param string                          $name 文件名（留空则自动生成文件名）
+     * @param array                           $headers
      *
-     * @throws FileNotFoundException
-     * @throws Exception
+     * @return ResponseInterface
      */
-    public static function download(string $uri, string $name = '', array $headers = [], int $offset = 0, int $length = -1): ResponseInterface
+    public static function download($file, string $name, array $headers = []): ResponseInterface
     {
-        if (! file_exists($uri)) {
-            throw new FileNotFoundException('File does not exist.');
-        }
-        if (empty($name)) {
-            $extension = pathinfo($uri, PATHINFO_EXTENSION);
-            if (! empty($extension)) {
-                $extension = '.' . $extension;
-            }
-            $name = Str::random(10) . $extension;
-        }
         $headers[HeaderInterface::HEADER_CONTENT_DISPOSITION] = sprintf('attachment;filename="%s"', htmlspecialchars($name, ENT_COMPAT));
         $headers                                              = array_merge(static::DEFAULT_DOWNLOAD_HEADERS, $headers);
-        return new static(200, $headers, new FileStream($uri, $offset, $length));
+        return new static(200, $headers, StandardStream::create($file));
     }
 }
