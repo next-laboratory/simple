@@ -15,7 +15,6 @@ use App\Console\Kernel;
 require_once __DIR__ . '/base.php';
 
 (function () {
-    require_once './vendor/autoload.php';
     Bootstrap::boot(true);
     (new Kernel())->run();
 })();

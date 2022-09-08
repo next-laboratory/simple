@@ -23,7 +23,6 @@ use Max\Http\Server\ResponseEmitter\AmpResponseEmitter;
 require_once __DIR__ . '/base.php';
 
 (function () {
-    require_once './vendor/autoload.php';
     if (! class_exists('Amp\Http\Server\HttpServer')) {
         throw new Exception('You should install the amphp/http-server package before starting.');
     }

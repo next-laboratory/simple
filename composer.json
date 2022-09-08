@@ -19,6 +19,11 @@
             "app/helpers.php"
         ]
     },
+    "autoload-dev": {
+        "psr-4": {
+            "Tests\\": "tests/"
+        }
+    },
     "authors": [
         {
             "name": "chengyao",
@@ -27,17 +32,18 @@
     ],
     "require": {
         "php": "^8.0",
-        "max/aop": "dev-master",
-        "max/di": "dev-master",
-        "max/http-server": "dev-master",
-        "max/config": "dev-master",
-        "max/event": "dev-master",
-        "max/view": "dev-master",
-        "max/session": "dev-master",
-        "max/redis": "dev-master",
-        "max/cache": "dev-master",
-        "max/database": "dev-master",
-        "max/framework": "dev-master",
+        "max/aop": "^1.0",
+        "max/di": "^1.0",
+        "max/http-server": "^1.0",
+        "max/config": "^1.0",
+        "max/event": "^1.0",
+        "max/view": "^1.0",
+        "max/session": "^1.0",
+        "max/redis": "^1.0",
+        "max/cache": "^1.0",
+        "max/database": "^1.0",
+        "max/framework": "^1.0",
+        "max/var-dumper": "^1.0",
         "monolog/monolog": "^2.7"
     },
     "require-dev": {
@@ -57,7 +63,7 @@
         "post-root-package-install": [
             "@php -r \"file_exists('.env') || copy('.example.env', '.env');\""
         ],
-        "test": "co-phpunit --prepend test/bootstrap.php -c phpunit.xml --colors=always",
+        "test": "phpunit --prepend tests/bootstrap.php -c phpunit.xml --colors=always",
         "cs-fix": "php-cs-fixer fix $1",
         "analyse": "phpstan analyse --memory-limit 300M -l 0 -c phpstan.neon $1",
         "swoole-start": [

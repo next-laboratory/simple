@@ -79,7 +79,7 @@ class IndexController
     #[GetMapping(path: '/')]
     public function index(ServerRequestInterface $request): ResponseInterface
     {
-        return Response::HTML('Hello, ' . $request->get('name', 'MaxPHP!'));
+        return Response::HTML('Hello, ' . $request->query('name', 'MaxPHP!'));
     }
 }
 

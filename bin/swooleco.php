@@ -22,7 +22,6 @@ use function Swoole\Coroutine\run;
 require_once __DIR__ . '/base.php';
 
 (function () {
-    require_once './vendor/autoload.php';
     if (! class_exists('Swoole\Server')) {
         throw new Exception('You should install the swoole extension before starting.');
     }

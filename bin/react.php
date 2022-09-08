@@ -19,7 +19,6 @@ use React\Socket\SocketServer;
 require_once __DIR__ . '/base.php';
 
 (function () {
-    require './vendor/autoload.php';
     if (! class_exists('React\Http\HttpServer')) {
         throw new Exception('You should install the react/react package before starting.');
     }
