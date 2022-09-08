@@ -12,11 +12,12 @@ declare(strict_types=1);
 namespace App\Http\Middleware;
 
 use App\Http\Response;
-use Max\Exception\Handler\VarDumperAbortHandler;
+use ErrorException;
 use Max\Exception\Handler\WhoopsExceptionHandler;
-use Max\Exception\VarDumperAbort;
 use Max\Http\Message\Exception\HttpException;
 use Max\Http\Server\Middleware\ExceptionHandleMiddleware as Middleware;
+use Max\VarDumper\Abort;
+use Max\VarDumper\AbortHandler;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use Psr\Log\LoggerInterface;
@@ -24,16 +25,18 @@ use Throwable;
 
 class ExceptionHandleMiddleware extends Middleware
 {
+    use AbortHandler;
+
     public function __construct(
         protected LoggerInterface $logger
     ) {
     }
 
-    protected function renderException(Throwable $throwable, ServerRequestInterface $request): ResponseInterface
+    protected function render(Throwable $throwable, ServerRequestInterface $request): ResponseInterface
     {
         $code    = $this->getStatusCode($throwable);
-        if ($throwable instanceof VarDumperAbort) {
-            return (new VarDumperAbortHandler())->handle($throwable, $request);
+        if ($throwable instanceof Abort) {
+            return Response::HTML($this->convertToHtml($throwable));
         }
         if (env('APP_DEBUG')) {
             $response = (new WhoopsExceptionHandler())->handle($throwable, $request);
@@ -154,7 +157,7 @@ ETO
         );
     }
 
-    protected function reportException(Throwable $throwable, ServerRequestInterface $request): void
+    protected function report(Throwable $throwable, ServerRequestInterface $request): void
     {
         $this->logger->error($throwable->getMessage(), [
             'file'    => $throwable->getFile(),
