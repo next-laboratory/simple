@@ -28,8 +28,7 @@ class DownloadCacheMiddleware implements MiddlewareInterface
         if ($modifiedSince = $request->getHeaderLine('if-modified-since')) {
             $body = $response->getBody();
             if ($body instanceof FileStream) {
-                $path         = $body->getMetadata('uri');
-                $lastModified = date('D, d M Y H:i:s', filemtime($path)) . ' ' . date_default_timezone_get();
+                $lastModified = date('D, d M Y H:i:s', filemtime($body->getFilename())) . ' ' . date_default_timezone_get();
                 if ($lastModified === $modifiedSince) {
                     return new Response(304);
                 }
