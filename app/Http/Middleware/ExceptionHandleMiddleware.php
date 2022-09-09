@@ -12,7 +12,6 @@ declare(strict_types=1);
 namespace App\Http\Middleware;
 
 use App\Http\Response;
-use ErrorException;
 use Max\Exception\Handler\WhoopsExceptionHandler;
 use Max\Http\Message\Exception\HttpException;
 use Max\Http\Server\Middleware\ExceptionHandleMiddleware as Middleware;
@@ -34,10 +33,10 @@ class ExceptionHandleMiddleware extends Middleware
 
     protected function render(Throwable $throwable, ServerRequestInterface $request): ResponseInterface
     {
-        $code    = $this->getStatusCode($throwable);
         if ($throwable instanceof Abort) {
             return Response::HTML($this->convertToHtml($throwable));
         }
+        $code = $this->getStatusCode($throwable);
         if (env('APP_DEBUG')) {
             $response = (new WhoopsExceptionHandler())->handle($throwable, $request);
             if ($throwable instanceof HttpException) {
