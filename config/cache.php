@@ -32,5 +32,9 @@ return [
                 'port' => 11211,        // 端口
             ],
         ],
+        'apcu'      => [
+            'driver' => \Max\Cache\Driver\ApcDriver::class,
+            'config' => [],
+        ],
     ],
 ];
