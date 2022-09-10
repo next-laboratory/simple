@@ -22,6 +22,7 @@ class Kernel extends HttpKernel
      */
     protected array $middlewares = [
         \App\Http\Middleware\ExceptionHandleMiddleware::class,
+        \App\Http\Middleware\AllowCrossDomain::class,
         \Max\Http\Server\Middleware\RoutingMiddleware::class,
     ];
 
@@ -29,7 +30,7 @@ class Kernel extends HttpKernel
      * Web middlewares.
      */
     protected array $webMiddlewares = [
-        //        \Max\Http\Server\Middleware\SessionMiddleware::class,
+        \Max\Http\Server\Middleware\SessionMiddleware::class,
         \App\Http\Middleware\VerifyCSRFToken::class,
     ];
 
@@ -37,8 +38,7 @@ class Kernel extends HttpKernel
      * Api middlewares.
      */
     protected array $apiMiddlewares = [
-        //        \App\Http\Middleware\AllowCrossDomain::class,
-        //        \App\Http\Middleware\ParseBodyMiddleware::class,
+        \App\Http\Middleware\ParseBodyMiddleware::class,
     ];
 
     /**
