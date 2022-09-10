@@ -1,0 +1,30 @@
+version: '3.7'
+services:
+  maxphp:
+    image: $REGISTRY_URL/$PROJECT_NAME:test
+    environment:
+      - "APP_PROJECT=maxphp"
+      - "APP_ENV=test"
+    ports:
+      - 8989:8989
+    deploy:
+      replicas: 1
+      restart_policy:
+        condition: on-failure
+        delay: 5s
+        max_attempts: 5
+      update_config:
+        parallelism: 2
+        delay: 5s
+        order: start-first
+    networks:
+      - maxphp_net
+    configs:
+      - source: maxphp_1.0
+        target: /www/.env
+configs:
+  maxphp_1.0:
+    external: true
+networks:
+  maxphp_net:
+    external: true
