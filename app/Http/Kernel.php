@@ -47,20 +47,20 @@ class Kernel extends HttpKernel
     protected function map(Router $router): void
     {
         $router->middleware(...$this->webMiddlewares)
-               ->group(function(Router $router) {
-                   $router->request('/', [\App\Http\Controller\IndexController::class, 'index']);
-               });
+            ->group(function (Router $router) {
+                $router->request('/', [\App\Http\Controller\IndexController::class, 'index']);
+            });
         $router->middleware(...$this->apiMiddlewares)
-               ->prefix('api')
-               ->group(function(Router $router) {
-                   $router->get('/', function(ServerRequestInterface $request) {
-                       return Response::JSON([
-                           'statue'  => true,
-                           'code'    => 0,
-                           'message' => sprintf('Hello, %s.', $request->query('name', 'world')),
-                           'data'    => [],
-                       ]);
-                   });
-               });
+            ->prefix('api')
+            ->group(function (Router $router) {
+                $router->get('/', function (ServerRequestInterface $request) {
+                    return Response::JSON([
+                        'statue'  => true,
+                        'code'    => 0,
+                        'message' => sprintf('Hello, %s.', $request->query('name', 'world')),
+                        'data'    => [],
+                    ]);
+                });
+            });
     }
 }

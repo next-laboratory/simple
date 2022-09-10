@@ -43,12 +43,9 @@ class Response extends PsrResponse
     /**
      * Create a file download response.
      *
-     * @param string $file
      * @param string $name   文件名（留空则自动生成文件名）
      * @param int    $offset 偏移量
      * @param int    $length 长度
-     *
-     * @return ResponseInterface
      */
     public static function download(string $file, string $name = '', int $offset = 0, int $length = 0): ResponseInterface
     {

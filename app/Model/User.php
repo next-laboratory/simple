@@ -19,6 +19,8 @@ use Max\Database\Eloquent\Model;
 class User extends Model
 {
     protected static string $table    = 'users';
+
     protected static array  $hidden   = ['password'];
+
     protected static array  $fillable = ['id', 'name', 'nickname'];
 }

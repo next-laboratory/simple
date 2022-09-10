@@ -44,7 +44,7 @@ class ServerRequest extends PsrServerRequest
 
     public function isPjax(bool $pjax = false, string $headerName = 'X-Pjax', string $pjaxVar = '_pjax'): bool
     {
-        $headerExists = (bool)$this->getHeaderLine($headerName);
+        $headerExists = (bool) $this->getHeaderLine($headerName);
         if ($headerExists === $pjax) {
             return $headerExists;
         }
@@ -57,21 +57,21 @@ class ServerRequest extends PsrServerRequest
         return (($userAgent = $this->getHeaderLine('User-Agent')) && preg_match('/(blackberry|configuration\/cldc|hp |hp-|htc |htc_|htc-|iemobile|kindle|midp|mmp|motorola|mobile|nokia|opera mini|opera |Googlebot-Mobile|YahooSeeker\/M1A1-R2D2|android|iphone|ipod|mobi|palm|palmos|pocket|portalmmm|ppc;|smartphone|sonyericsson|sqh|spv|symbian|treo|up.browser|up.link|vodafone|windows ce|xda |xda_)/i', $userAgent))
             || ($via = $this->getHeaderLine('Via')) && stristr($via, 'wap')
             || (($accept = $this->getHeaderLine('Accept')) && strpos(strtoupper($accept), 'VND.WAP.WML'))
-            || (($this->getHeaderLine('X-Wap-Profile') && $this->getHeaderLine('Profile')));
+            || ($this->getHeaderLine('X-Wap-Profile') && $this->getHeaderLine('Profile'));
     }
 
     public function isSecure($httpsAgentName = ''): bool
     {
-        if ($this->getServer('HTTPS') && ('1' == $this->getServer('HTTPS') || 'on' == strtolower($this->getServer('HTTPS')))) {
+        if ($this->getServer('HTTPS') && ($this->getServer('HTTPS') == '1' || strtolower($this->getServer('HTTPS')) == 'on')) {
             return true;
         }
-        if ('https' == $this->getServer('REQUEST_SCHEME')) {
+        if ($this->getServer('REQUEST_SCHEME') == 'https') {
             return true;
         }
-        if ('443' == $this->getServer('SERVER_PORT')) {
+        if ($this->getServer('SERVER_PORT') == '443') {
             return true;
         }
-        if ('https' == $this->getHeaderLine('HTTP_X_FORWARDED_PROTO')) {
+        if ($this->getHeaderLine('HTTP_X_FORWARDED_PROTO') == 'https') {
             return true;
         }
         if ($httpsAgentName && $this->getServer($httpsAgentName)) {

@@ -36,12 +36,12 @@ class Cacheable implements AspectInterface
      */
     public function process(JoinPoint $joinPoint, Closure $next): mixed
     {
-        return make(CacheManager::class)->store()->remember($this->getKey($joinPoint), fn() => $next($joinPoint), $this->ttl);
+        return make(CacheManager::class)->store()->remember($this->getKey($joinPoint), fn () => $next($joinPoint), $this->ttl);
     }
 
     protected function getKey(JoinPoint $joinPoint): string
     {
-        $key = $this->key ?? ($joinPoint->class . ':' . $joinPoint->method . ':' . serialize(array_filter($joinPoint->parameters->getArrayCopy(), fn($item) => !is_object($item))));
+        $key = $this->key ?? ($joinPoint->class . ':' . $joinPoint->method . ':' . serialize(array_filter($joinPoint->parameters->getArrayCopy(), fn ($item) => ! is_object($item))));
         return $this->prefix ? ($this->prefix . ':' . $key) : $key;
     }
 }

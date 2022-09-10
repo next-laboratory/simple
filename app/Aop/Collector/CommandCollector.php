@@ -27,7 +27,7 @@ class CommandCollector extends AbstractCollector
 
     public static function add(string $class): void
     {
-        if (!in_array($class, self::$container)) {
+        if (! in_array($class, self::$container)) {
             self::$container[] = $class;
         }
     }

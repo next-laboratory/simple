@@ -29,8 +29,6 @@ if (function_exists('public_path') === false) {
 
 if (function_exists('config') === false) {
     /**
-     * @param mixed|null $default
-     *
      * @throws ContainerExceptionInterface
      * @throws ReflectionException
      */
