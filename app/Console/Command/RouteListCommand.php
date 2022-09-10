@@ -50,7 +50,7 @@ class RouteListCommand extends Command
     protected function configure()
     {
         $this->setName('route:list')
-            ->setDescription('List the routes');
+            ->setDescription('List all routes');
     }
 
     /**

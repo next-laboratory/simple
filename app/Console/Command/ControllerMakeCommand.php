@@ -26,7 +26,7 @@ class ControllerMakeCommand extends Command
     protected function configure()
     {
         $this->setName('make:controller')
-            ->setDescription('Making controllers.')
+            ->setDescription('Create a new controller')
             ->setDefinition([
                 new InputArgument('controller', InputArgument::REQUIRED, 'A controller name such as `user`.'),
                 new InputOption('rest', 'r', InputOption::VALUE_OPTIONAL, 'Make a restful controller.'),

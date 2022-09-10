@@ -27,7 +27,7 @@ class MiddlewareMakeCommand extends Command
     protected function configure()
     {
         $this->setName('make:middleware')
-            ->setDescription('Making middleware.')
+            ->setDescription('Create a new middleware')
             ->setDefinition([
                 new InputArgument('middleware', InputArgument::REQUIRED, 'A middleware name such as `auth`.'),
                 new InputOption('suffix', 's', InputOption::VALUE_OPTIONAL, 'File is suffixed when this option is available.'),
