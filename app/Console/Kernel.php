@@ -11,9 +11,9 @@ declare(strict_types=1);
 
 namespace App\Console;
 
+use App\Aop\Collector\CommandCollector;
 use Exception;
 use Max\Aop\Scanner;
-use Max\Console\CommandCollector;
 use Symfony\Component\Console\Application;
 
 class Kernel

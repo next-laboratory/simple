@@ -11,8 +11,8 @@ declare(strict_types=1);
 
 namespace App\Http\Middleware;
 
+use App\Exception\WhoopsExceptionHandler;
 use App\Http\Response;
-use Max\Exception\Handler\WhoopsExceptionHandler;
 use Max\Http\Message\Exception\HttpException;
 use Max\Http\Server\Middleware\ExceptionHandleMiddleware as Middleware;
 use Max\VarDumper\Abort;
