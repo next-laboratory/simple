@@ -22,6 +22,7 @@ class Kernel extends HttpKernel
      */
     protected array $middlewares = [
         \App\Http\Middleware\ExceptionHandleMiddleware::class,
+        \App\Http\Middleware\AllowCrossDomain::class,
         \Max\Http\Server\Middleware\RoutingMiddleware::class,
     ];
 
@@ -29,7 +30,7 @@ class Kernel extends HttpKernel
      * Web middlewares.
      */
     protected array $webMiddlewares = [
-        //        \Max\Http\Server\Middleware\SessionMiddleware::class,
+        \Max\Http\Server\Middleware\SessionMiddleware::class,
         \App\Http\Middleware\VerifyCSRFToken::class,
     ];
 
@@ -37,8 +38,7 @@ class Kernel extends HttpKernel
      * Api middlewares.
      */
     protected array $apiMiddlewares = [
-        //        \App\Http\Middleware\AllowCrossDomain::class,
-        //        \App\Http\Middleware\ParseBodyMiddleware::class,
+        \App\Http\Middleware\ParseBodyMiddleware::class,
     ];
 
     /**
@@ -47,20 +47,20 @@ class Kernel extends HttpKernel
     protected function map(Router $router): void
     {
         $router->middleware(...$this->webMiddlewares)
-               ->group(function(Router $router) {
-                   $router->request('/', [\App\Http\Controller\IndexController::class, 'index']);
-               });
+            ->group(function (Router $router) {
+                $router->request('/', [\App\Http\Controller\IndexController::class, 'index']);
+            });
         $router->middleware(...$this->apiMiddlewares)
-               ->prefix('api')
-               ->group(function(Router $router) {
-                   $router->get('/', function(ServerRequestInterface $request) {
-                       return Response::JSON([
-                           'statue'  => true,
-                           'code'    => 0,
-                           'message' => sprintf('Hello, %s.', $request->query('name', 'world')),
-                           'data'    => [],
-                       ]);
-                   });
-               });
+            ->prefix('api')
+            ->group(function (Router $router) {
+                $router->get('/', function (ServerRequestInterface $request) {
+                    return Response::JSON([
+                        'statue'  => true,
+                        'code'    => 0,
+                        'message' => sprintf('Hello, %s.', $request->query('name', 'world')),
+                        'data'    => [],
+                    ]);
+                });
+            });
     }
 }

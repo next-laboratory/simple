@@ -11,28 +11,34 @@ declare(strict_types=1);
 
 namespace App\Console;
 
+use App\Aop\Collector\CommandCollector;
 use Exception;
-use Max\Aop\Scanner;
-use Max\Console\CommandCollector;
+use Psr\Container\ContainerExceptionInterface;
 use Symfony\Component\Console\Application;
 
 class Kernel
 {
     /**
      * 注册命令.
+     *
+     * @var array<int, string> $commands
      */
-    protected array $commands = [];
+    protected array $commands = [
+        \App\Console\Command\ControllerMakeCommand::class,
+        \App\Console\Command\MiddlewareMakeCommand::class,
+        \App\Console\Command\RouteListCommand::class,
+    ];
 
     /**
      * @throws Exception
+     * @throws ContainerExceptionInterface
      */
     public function run(): void
     {
-        $config      = Scanner::scanConfig(base_path('vendor/composer/installed.json'));
         $application = new Application('MaxPHP', 'dev');
-        $commands    = array_merge($this->commands, $config['commands'], CommandCollector::all());
+        $commands    = array_merge($this->commands, CommandCollector::all());
         foreach ($commands as $command) {
-            $application->add(new $command());
+            $application->add(make($command));
         }
         $application->run();
     }

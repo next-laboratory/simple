@@ -42,9 +42,11 @@
         "max/redis": "^1.0",
         "max/cache": "^1.0",
         "max/database": "^1.0",
-        "max/framework": "^1.0",
         "max/var-dumper": "^1.0",
-        "monolog/monolog": "^2.7"
+        "symfony/console": "*",
+        "monolog/monolog": "^2.7",
+        "spatie/ignition": "^1.3",
+        "nunomaduro/collision": "^6.3"
     },
     "require-dev": {
         "swoole/ide-helper": "*",
@@ -54,7 +56,8 @@
     },
     "config": {
         "optimize-autoloader": true,
-        "preferred-install": "dist"
+        "preferred-install": "dist",
+        "sort-packages": true
     },
     "scripts": {
         "post-autoload-dump": [
