@@ -12,6 +12,8 @@ declare(strict_types=1);
 use Max\Database\Connector\BaseConnector;
 use Max\Database\DBConfig;
 
+use function App\env;
+
 return [
     'default'     => env('DB_DEFAULT', 'mysql'),
     'connections' => [

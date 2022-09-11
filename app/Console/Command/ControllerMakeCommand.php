@@ -18,6 +18,7 @@ use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
+use function App\base_path;
 
 class ControllerMakeCommand extends Command
 {
@@ -56,9 +57,6 @@ class ControllerMakeCommand extends Command
         return 1;
     }
 
-    /**
-     * @param $input
-     */
     protected function parse($input): array
     {
         $array     = explode('/', $input);
