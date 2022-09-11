@@ -17,9 +17,14 @@ use Max\Http\Message\Exception\HttpException;
 use Max\Http\Server\Middleware\ExceptionHandleMiddleware as Middleware;
 use Max\VarDumper\Abort;
 use Max\VarDumper\AbortHandler;
+use NunoMaduro\Collision\Adapters\Laravel\Inspector;
+use NunoMaduro\Collision\Provider;
+use Psr\Container\ContainerExceptionInterface;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use Psr\Log\LoggerInterface;
+use ReflectionException;
+use Symfony\Component\Console\Output\ConsoleOutput;
 use Throwable;
 
 class ExceptionHandleMiddleware extends Middleware
@@ -156,6 +161,10 @@ ETO
         );
     }
 
+    /**
+     * @throws ContainerExceptionInterface
+     * @throws ReflectionException
+     */
     protected function report(Throwable $throwable, ServerRequestInterface $request): void
     {
         $this->logger->error($throwable->getMessage(), [
@@ -164,5 +173,22 @@ ETO
             'request' => $request,
             'trace'   => $throwable->getTrace(),
         ]);
+        if (class_exists('NunoMaduro\Collision\Provider') && PHP_SAPI === 'cli') {
+            $this->dump($throwable);
+        }
+    }
+
+    /**
+     * @throws ContainerExceptionInterface
+     * @throws ReflectionException
+     */
+    protected function dump(Throwable $throwable)
+    {
+        $provider = make(Provider::class);
+        $handler  = $provider->register()
+                             ->getHandler()
+                             ->setOutput(new ConsoleOutput());
+        $handler->setInspector((new Inspector($throwable)));
+        $handler->handle();
     }
 }
