@@ -66,7 +66,7 @@ class ExceptionHandleMiddleware extends Middleware
             'request' => $request,
             'trace'   => $throwable->getTrace(),
         ]);
-        if (class_exists('NunoMaduro\Collision\Provider') && PHP_SAPI === 'cli') {
+        if (PHP_SAPI === 'cli' && class_exists('NunoMaduro\Collision\Provider')) {
             $this->dump($throwable);
         }
     }
