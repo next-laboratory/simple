@@ -12,6 +12,7 @@ declare(strict_types=1);
 namespace App\Http\Middleware;
 
 use App\Http\Response;
+use Max\Http\Server\Contract\Renderable;
 use Max\Http\Server\Middleware\ExceptionHandleMiddleware as Middleware;
 use Max\VarDumper\Abort;
 use Max\VarDumper\AbortHandler;
@@ -29,7 +30,8 @@ class ExceptionHandleMiddleware extends Middleware
     use AbortHandler;
 
     public function __construct(
-        protected LoggerInterface $logger
+        protected LoggerInterface $logger,
+        protected Ignition $ignition,
     ) {
     }
 
@@ -38,9 +40,11 @@ class ExceptionHandleMiddleware extends Middleware
         if ($throwable instanceof Abort) {
             return Response::HTML($this->convertToHtml($throwable));
         }
-        $ignition = new Ignition();
+        if ($throwable instanceof Renderable) {
+            return $throwable->render($request);
+        }
         ob_start();
-        $ignition->handleException($throwable);
+        $this->ignition->handleException($throwable);
         return Response::HTML(ob_get_clean(), $this->getStatusCode($throwable));
     }
 
