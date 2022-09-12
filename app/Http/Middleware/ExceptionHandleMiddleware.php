@@ -33,55 +33,52 @@ class ExceptionHandleMiddleware extends Middleware
     ) {
     }
 
-    protected function render(Throwable $throwable, ServerRequestInterface $request): ResponseInterface
+    /**
+     * @throws ContainerExceptionInterface
+     * @throws ReflectionException
+     */
+    protected function render(Throwable $e, ServerRequestInterface $request): ResponseInterface
     {
-        if ($throwable instanceof Abort) {
-            return Response::HTML($this->convertToHtml($throwable));
+        if ($this->runInConsole() && class_exists('NunoMaduro\Collision\Provider')) {
+            $provider = make('NunoMaduro\Collision\Provider');
+            $handler  = $provider->register()
+                                 ->getHandler()
+                                 ->setOutput(new ConsoleOutput());
+            $handler->setInspector((new \Whoops\Exception\Inspector($e)));
+            $handler->handle();
         }
-        if ($throwable instanceof Renderable) {
-            return $throwable->render($request);
+
+        return $this->renderHttpResponse($e, $request);
+    }
+
+    protected function renderHttpResponse(Throwable $e, ServerRequestInterface $request): ResponseInterface
+    {
+        if ($e instanceof Abort) {
+            return Response::HTML($this->convertToHtml($e));
         }
-        $statusCode = $this->getStatusCode($throwable);
+        if ($e instanceof Renderable) {
+            return $e->render($request);
+        }
+        $statusCode = $this->getStatusCode($e);
         if (\App\env('APP_DEBUG')) {
             if (class_exists('Spatie\Ignition\Ignition')) {
                 $ignition = new \Spatie\Ignition\Ignition();
                 ob_start();
-                $ignition->handleException($throwable);
+                $ignition->renderException($e);
                 return Response::HTML(ob_get_clean(), $statusCode);
             }
-            return parent::render($throwable, $request);
+            return parent::render($e, $request);
         }
-        return Response::text($throwable->getMessage(), $statusCode);
+        return Response::text($e->getMessage(), $statusCode);
     }
 
-    /**
-     * @throws ContainerExceptionInterface
-     * @throws ReflectionException
-     */
-    protected function report(Throwable $throwable, ServerRequestInterface $request): void
+    protected function report(Throwable $e, ServerRequestInterface $request): void
     {
-        $this->logger->error($throwable->getMessage(), [
-            'file'    => $throwable->getFile(),
-            'line'    => $throwable->getLine(),
+        $this->logger->error($e->getMessage(), [
+            'file'    => $e->getFile(),
+            'line'    => $e->getLine(),
             'request' => $request,
-            'trace'   => $throwable->getTrace(),
+            'trace'   => $e->getTrace(),
         ]);
-        if (PHP_SAPI === 'cli' && class_exists('NunoMaduro\Collision\Provider')) {
-            $this->dump($throwable);
-        }
-    }
-
-    /**
-     * @throws ContainerExceptionInterface
-     * @throws ReflectionException
-     */
-    protected function dump(Throwable $throwable)
-    {
-        $provider = make('NunoMaduro\Collision\Provider');
-        $handler  = $provider->register()
-                             ->getHandler()
-                             ->setOutput(new ConsoleOutput());
-        $handler->setInspector((new \NunoMaduro\Collision\Adapters\Laravel\Inspector($throwable)));
-        $handler->handle();
     }
 }
