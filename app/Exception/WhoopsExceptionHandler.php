@@ -34,7 +34,7 @@ class WhoopsExceptionHandler
         'application/xml'  => XmlResponseHandler::class,
     ];
 
-    public function handle(Throwable $throwable, ServerRequestInterface $request): ?ResponseInterface
+    public function handle(Throwable $e, ServerRequestInterface $request): ?ResponseInterface
     {
         $whoops                  = new Run();
         [$handler, $contentType] = $this->negotiateHandler($request);
@@ -42,7 +42,7 @@ class WhoopsExceptionHandler
         $whoops->pushHandler($handler);
         $whoops->allowQuit(false);
         ob_start();
-        $whoops->{RunInterface::EXCEPTION_HANDLER}($throwable);
+        $whoops->{RunInterface::EXCEPTION_HANDLER}($e);
         $content = ob_get_clean();
 
         return new Response(StatusCodeInterface::STATUS_INTERNAL_SERVER_ERROR, [HeaderInterface::HEADER_CONTENT_TYPE => $contentType], StandardStream::create((string) $content));
