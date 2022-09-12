@@ -21,7 +21,6 @@ use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use Psr\Log\LoggerInterface;
 use ReflectionException;
-use Spatie\Ignition\Ignition;
 use Symfony\Component\Console\Output\ConsoleOutput;
 use Throwable;
 
@@ -31,7 +30,6 @@ class ExceptionHandleMiddleware extends Middleware
 
     public function __construct(
         protected LoggerInterface $logger,
-        protected Ignition $ignition,
     ) {
     }
 
@@ -43,9 +41,17 @@ class ExceptionHandleMiddleware extends Middleware
         if ($throwable instanceof Renderable) {
             return $throwable->render($request);
         }
-        ob_start();
-        $this->ignition->handleException($throwable);
-        return Response::HTML(ob_get_clean(), $this->getStatusCode($throwable));
+        $statusCode = $this->getStatusCode($throwable);
+        if (\App\env('APP_DEBUG')) {
+            if (class_exists('Spatie\Ignition\Ignition')) {
+                $ignition = new \Spatie\Ignition\Ignition();
+                ob_start();
+                $ignition->handleException($throwable);
+                return Response::HTML(ob_get_clean(), $statusCode);
+            }
+            return parent::render($throwable, $request);
+        }
+        return Response::text($throwable->getMessage(), $statusCode);
     }
 
     /**
