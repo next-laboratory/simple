@@ -12,10 +12,12 @@ declare(strict_types=1);
 return [
     'aop'      => [
         'cache'      => false,
-        'paths'      => [
+        'scanDirs'   => [
             './app',
         ],
         'collectors' => [
+            \Max\Aop\Collector\AspectCollector::class,
+            \Max\Aop\Collector\PropertyAnnotationCollector::class,
             \App\Aop\Collector\RouteCollector::class,
             \App\Aop\Collector\ListenerCollector::class,
             \App\Aop\Collector\CommandCollector::class,
