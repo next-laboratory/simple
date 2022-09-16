@@ -12,10 +12,12 @@ declare(strict_types=1);
 return [
     'aop'      => [
         'cache'      => false,
-        'paths'      => [
+        'scanDirs'   => [
             './app',
         ],
         'collectors' => [
+            \Max\Aop\Collector\AspectCollector::class,
+            \Max\Aop\Collector\PropertyAnnotationCollector::class,
             \App\Aop\Collector\RouteCollector::class,
             \App\Aop\Collector\ListenerCollector::class,
             \App\Aop\Collector\CommandCollector::class,
@@ -24,9 +26,8 @@ return [
     ],
     'bindings' => [
         \Psr\EventDispatcher\EventDispatcherInterface::class      => \Max\Event\EventDispatcher::class,
-        \Max\Event\Contract\EventDispatcherInterface::class       => \Max\Event\EventDispatcher::class,
-        \Max\Http\Server\Contract\RouteDispatcherInterface::class => \Max\Http\Server\RouteDispatcher::class,
         \Psr\EventDispatcher\ListenerProviderInterface::class     => \Max\Event\ListenerProvider::class,
+        \Max\Http\Server\Contract\RouteDispatcherInterface::class => \Max\Http\Server\RouteDispatcher::class,
         \Max\Config\Contract\ConfigInterface::class               => \Max\Config\Repository::class,
         \Psr\Log\LoggerInterface::class                           => \App\Logger::class,
     ],

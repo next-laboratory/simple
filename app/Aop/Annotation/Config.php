@@ -39,8 +39,8 @@ class Config implements PropertyAnnotation
             $reflectionProperty = Reflection::property($object::class, $property);
             $reflectionProperty->setAccessible(true); // 兼容PHP8.0
             $reflectionProperty->setValue($object, $this->getConfigValue());
-        } catch (Throwable $throwable) {
-            throw new PropertyHandleException('Property assign failed. ' . $throwable->getMessage());
+        } catch (Throwable $e) {
+            throw new PropertyHandleException('Property assign failed. ' . $e->getMessage());
         }
     }
 

@@ -14,7 +14,7 @@ RUN set -ex \
     # show php version and extensions
     && php -v \
     && php -m \
-    && pecl install swoole \
+    && pecl install -D 'enable-sockets="yes" enable-openssl="yes" enable-http2="yes" enable-mysqlnd="yes" enable-swoole-json="no" enable-swoole-curl="yes" enable-cares="no"' swoole \
     && echo -e "\033[42;37m Build Completed :).\033[0m\n"
 
 WORKDIR /www

@@ -11,6 +11,7 @@ declare(strict_types=1);
 
 namespace App;
 
+use InvalidArgumentException;
 use Monolog\Handler\RotatingFileHandler;
 use Monolog\Logger as MonoLogger;
 use Psr\Log\LoggerInterface;
@@ -25,10 +26,10 @@ class Logger implements LoggerInterface
 
     public function __construct()
     {
-        $this->logger['app'] = new MonoLogger('app', [
-            new RotatingFileHandler(base_path('runtime/logs/app.log'), 180, MonoLogger::DEBUG),
+        $this->logger[$this->default] = new MonoLogger($this->default, [
+            new RotatingFileHandler(base_path('runtime/logs/' . $this->default . '.log'), 180, MonoLogger::DEBUG),
         ]);
-        $this->logger['sql'] = new MonoLogger('sql', [
+        $this->logger['sql']          = new MonoLogger('sql', [
             new RotatingFileHandler(base_path('runtime/logs/database/sql.log'), 180, MonoLogger::DEBUG),
         ]);
     }
@@ -40,7 +41,7 @@ class Logger implements LoggerInterface
      */
     public function get(string $name = ''): MonoLogger
     {
-        return $this->logger[$name ?: $this->default] ?? throw new \InvalidArgumentException('Logger not exist');
+        return $this->logger[$name ?: $this->default] ?? throw new InvalidArgumentException('Logger ' . $name . ' does not exist');
     }
 
     /**
