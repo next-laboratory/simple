@@ -17,11 +17,12 @@ return [
         'gcProbability' => 1,
         'gcMaxLifetime' => 1440,
     ],
-    //    'handler' => \Max\Session\Handler\RedisHandler::class,
-    //    'config'  => [
-    //        'connector' => \Max\Redis\Connector\BaseConnector::class,
-    //        'host'      => '127.0.0.1',
-    //        'port'      => 6379,
-    //        'expire'    => 3600,
-    //    ],
+//    'handler' => \Max\Session\Handler\RedisHandler::class,
+//    'config'  => [
+//        'connector' => \Max\Redis\Connector\BaseConnector::class,
+//        'prefix'    => 'PHP_SESS:',
+//        'host'      => '127.0.0.1',
+//        'port'      => 6379,
+//        'expire'    => 3600,
+//    ],
 ];
