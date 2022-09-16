@@ -39,7 +39,7 @@ class ExceptionHandleMiddleware extends Middleware
      */
     protected function render(Throwable $e, ServerRequestInterface $request): ResponseInterface
     {
-        if ($this->runInConsole() && class_exists('NunoMaduro\Collision\Provider')) {
+        if ($this->runningInConsole() && class_exists('NunoMaduro\Collision\Provider')) {
             $provider = make('NunoMaduro\Collision\Provider');
             $handler  = $provider->register()
                                  ->getHandler()
