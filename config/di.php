@@ -22,13 +22,9 @@ return [
             \App\Aop\Collector\ListenerCollector::class,
             \App\Aop\Collector\CommandCollector::class,
         ],
-        'runtimeDir' => './runtime',
+        'runtimeDir' => './runtime/aop',
     ],
     'bindings' => [
-        \Psr\EventDispatcher\EventDispatcherInterface::class      => \Max\Event\EventDispatcher::class,
-        \Psr\EventDispatcher\ListenerProviderInterface::class     => \Max\Event\ListenerProvider::class,
-        \Max\Http\Server\Contract\RouteDispatcherInterface::class => \Max\Http\Server\RouteDispatcher::class,
-        \Max\Config\Contract\ConfigInterface::class               => \Max\Config\Repository::class,
-        \Psr\Log\LoggerInterface::class                           => \App\Logger::class,
+        \Psr\Log\LoggerInterface::class => \App\Logger::class,
     ],
 ];

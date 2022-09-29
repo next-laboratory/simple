@@ -33,7 +33,7 @@ class DatabaseQueryListener implements EventListenerInterface
     {
         if ($event instanceof QueryExecuted) {
             $this->logger->get('sql')->debug($event->query, [
-                'duration' => microtime(true) - $event->executedAt,
+                'time'     => $event->time,
                 'bindings' => $event->bindings,
             ]);
         }

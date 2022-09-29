@@ -14,14 +14,10 @@ namespace App;
 use Max\Aop\Scanner;
 use Max\Aop\ScannerConfig;
 use Max\Config\Repository;
-use Max\Database\DBConfig;
-use Max\Database\Manager;
 use Max\Di\Context;
-use Max\Event\EventDispatcher;
 use Max\Event\ListenerProvider;
 use Psr\Container\ContainerExceptionInterface;
 use ReflectionException;
-
 use function putenv;
 
 class Bootstrap
@@ -60,29 +56,24 @@ class Bootstrap
             Scanner::init(new ScannerConfig($repository->get('di.aop')));
         }
 
+        $bindings   = $repository->get('di.bindings', []);
+        $configFile = base_path('runtime/app/config.php');
+        if (file_exists($configFile)) {
+            $config   = require_once $configFile;
+            $bindings = array_merge($config['bindings'] ?? [], $bindings);
+        }
+
         // Initialize bindings
-        foreach ($repository->get('di.bindings') as $id => $value) {
+        foreach ($bindings as $id => $value) {
             $container->bind($id, $value);
         }
 
         // Initialize event listeners
         $listenerProvider = $container->make(ListenerProvider::class);
-        if (! empty($listeners = $repository->get('listeners', []))) {
+        if (!empty($listeners = $repository->get('listeners', []))) {
             foreach ($listeners as $listener) {
                 $listenerProvider->addListener($container->make($listener));
             }
         }
-
-        // Initialize database.
-        $database = $repository->get('database');
-        $manager  = $container->make(Manager::class);
-        $manager->setDefault($database['default']);
-        foreach ($database['connections'] as $name => $config) {
-            $connector = $config['connector'];
-            $options   = $config['options'];
-            $manager->addConnector($name, new $connector(new DBConfig($options)));
-        }
-        $manager->setEventDispatcher($container->make(EventDispatcher::class));
-        $manager->bootEloquent();
     }
 }

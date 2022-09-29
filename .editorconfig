@@ -1,5 +1,20 @@
 root = true
 
 [*]
+charset = utf-8
+end_of_line = lf
+insert_final_newline = true
+indent_style = space
+indent_size = 4
+trim_trailing_whitespace = true
 ij_formatter_enabled = true
 ij_php_align_multiline_array_initializer_expression = true
+
+[*.md]
+trim_trailing_whitespace = false
+
+[*.{yml,yaml}]
+indent_size = 2
+
+[docker-compose.yml]
+indent_size = 4
