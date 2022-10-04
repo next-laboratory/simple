@@ -11,7 +11,7 @@ declare(strict_types=1);
 
 namespace App\Listener;
 
-use Max\Event\Annotation\Listen;
+use Max\Event\Attribute\Listen;
 use Max\Event\Contract\EventListenerInterface;
 use Max\Http\Server\Event\OnRequest;
 

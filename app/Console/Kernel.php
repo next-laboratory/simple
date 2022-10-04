@@ -11,10 +11,12 @@ declare(strict_types=1);
 
 namespace App\Console;
 
-use App\Aop\Collector\CommandCollector;
 use Exception;
+use Max\Console\CommandCollector;
 use Psr\Container\ContainerExceptionInterface;
 use Symfony\Component\Console\Application;
+
+use function App\config;
 
 class Kernel
 {
@@ -23,11 +25,7 @@ class Kernel
      *
      * @var array<int, string> $commands
      */
-    protected array $commands = [
-        \App\Console\Command\ControllerMakeCommand::class,
-        \App\Console\Command\MiddlewareMakeCommand::class,
-        \App\Console\Command\RouteListCommand::class,
-    ];
+    protected array $commands = [];
 
     /**
      * @throws Exception
@@ -36,7 +34,7 @@ class Kernel
     public function run(): void
     {
         $application = new Application('MaxPHP', 'dev');
-        $commands    = array_merge($this->commands, CommandCollector::all());
+        $commands    = array_merge($this->commands, CommandCollector::all(), config('config.commands', []));
         foreach ($commands as $command) {
             $application->add(make($command));
         }

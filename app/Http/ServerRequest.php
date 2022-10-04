@@ -12,7 +12,7 @@ declare(strict_types=1);
 namespace App\Http;
 
 use Max\Http\Message\Contract\HeaderInterface;
-use Max\Http\Server\ServerRequest as PsrServerRequest;
+use Max\Http\Message\ServerRequest as PsrServerRequest;
 use Max\Session\Session;
 use RuntimeException;
 
@@ -44,7 +44,7 @@ class ServerRequest extends PsrServerRequest
 
     public function isPjax(bool $pjax = false, string $headerName = 'X-Pjax', string $pjaxVar = '_pjax'): bool
     {
-        $headerExists = (bool) $this->getHeaderLine($headerName);
+        $headerExists = (bool)$this->getHeaderLine($headerName);
         if ($headerExists === $pjax) {
             return $headerExists;
         }

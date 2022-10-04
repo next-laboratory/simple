@@ -56,14 +56,13 @@ class Bootstrap
             Scanner::init(new ScannerConfig($repository->get('di.aop')));
         }
 
-        $bindings   = $repository->get('di.bindings', []);
-        $configFile = base_path('runtime/app/config.php');
-        if (file_exists($configFile)) {
-            $config   = require_once $configFile;
-            $bindings = array_merge($config['bindings'] ?? [], $bindings);
+        $config = [];
+        if (file_exists($configFile = base_path('runtime/app/config.php'))) {
+            $config = require $configFile;
         }
-
+        $repository->set('config', $config);
         // Initialize bindings
+        $bindings = array_merge($repository->get('di.bindings', []), config('config.bindings', []));
         foreach ($bindings as $id => $value) {
             $container->bind($id, $value);
         }
