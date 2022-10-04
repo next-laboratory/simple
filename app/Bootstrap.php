@@ -30,7 +30,7 @@ class Bootstrap
     {
         $container = Context::getContainer();
 
-        register_shutdown_function(function () use ($container) {
+        register_shutdown_function(function() use ($container) {
             if ($error = error_get_last()) {
                 $container->make(Logger::class)->error($error['message'], [
                     'type' => $error['type'],
@@ -62,7 +62,7 @@ class Bootstrap
         }
         $repository->set('config', $config);
         // Initialize bindings
-        $bindings = array_merge($repository->get('di.bindings', []), config('config.bindings', []));
+        $bindings = array_merge(config('config.bindings', []), $repository->get('di.bindings', []));
         foreach ($bindings as $id => $value) {
             $container->bind($id, $value);
         }
