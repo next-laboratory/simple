@@ -34,6 +34,7 @@
         "php": "^8.0",
         "max/aop": "^1.0",
         "max/di": "^1.0",
+        "max/console": "^1.0",
         "max/http-server": "^1.0",
         "max/config": "^1.0",
         "max/event": "^1.0",
@@ -61,7 +62,8 @@
     },
     "scripts": {
         "post-autoload-dump": [
-            "rm -rf runtime/aop"
+            "rm -rf runtime/aop",
+            "Max\\Console\\VendorPublish::publish"
         ],
         "post-root-package-install": [
             "@php -r \"file_exists('.env') || copy('.example.env', '.env');\""
