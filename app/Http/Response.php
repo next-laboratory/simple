@@ -11,6 +11,7 @@ declare(strict_types=1);
 
 namespace App\Http;
 
+use JsonSerializable;
 use Max\Http\Message\Contract\HeaderInterface;
 use Max\Http\Message\Cookie;
 use Max\Http\Message\Stream\FileStream;
@@ -62,7 +63,7 @@ class Response extends PsrResponse
     /**
      * Create a JSON response.
      *
-     * @param array|Arrayable|string $data
+     * @param array|Arrayable|string|JsonSerializable $data
      */
     public static function JSON($data, int $status = 200): ResponseInterface
     {
