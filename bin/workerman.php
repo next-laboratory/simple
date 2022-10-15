@@ -13,6 +13,7 @@ use App\Bootstrap;
 use App\Http\Kernel;
 use App\Http\ServerRequest;
 use Max\Di\Context;
+use Max\Http\Server\Event\OnRequest;
 use Max\Http\Server\ResponseEmitter\WorkerManResponseEmitter;
 use Workerman\Connection\TcpConnection;
 use Workerman\Protocols\Http\Request;
@@ -21,7 +22,7 @@ use Workerman\Worker;
 require_once __DIR__ . '/base.php';
 
 (function () {
-    if (! class_exists('Workerman\Worker')) {
+    if (!class_exists('Workerman\Worker')) {
         throw new Exception('You should install the workerman using `composer require workerman/workerman` before starting.');
     }
     Bootstrap::boot(true);
@@ -36,22 +37,23 @@ require_once __DIR__ . '/base.php';
      * Start server.
      */
     $worker            = new Worker($protocol);
-    $kernel            = Context::getContainer()->make(Kernel::class);
-    $worker->onMessage = function (TcpConnection $connection, Request $request) use ($kernel) {
-        $psrResponse = $kernel->through(ServerRequest::createFromWorkerManRequest($request, [
-            'TcpConnection' => $connection,
-            'request'       => $request,
-        ]));
+    $container         = Context::getContainer();
+    $kernel            = $container->make(Kernel::class);
+    $eventDispatcher   = $container->make(\Max\Event\EventDispatcher::class);
+    $worker->onMessage = function (TcpConnection $connection, Request $request) use ($kernel, $eventDispatcher) {
+        $psrRequest  = ServerRequest::createFromWorkerManRequest($request, ['TcpConnection' => $connection, 'request' => $request]);
+        $psrResponse = $kernel->through($psrRequest);
         (new WorkerManResponseEmitter())->emit($psrResponse, $connection);
+        $eventDispatcher->dispatch(new OnRequest($psrRequest, $psrResponse));
     };
     $worker->count     = $workerNum;
 
     echo <<<'EOT'
-,--.   ,--.                  ,------. ,--.  ,--.,------.  
-|   `.'   | ,--,--.,--.  ,--.|  .--. '|  '--'  ||  .--. ' 
-|  |'.'|  |' ,-.  | \  `'  / |  '--' ||  .--.  ||  '--' | 
-|  |   |  |\ '-'  | /  /.  \ |  | --' |  |  |  ||  | --'  
-`--'   `--' `--`--''--'  '--'`--'     `--'  `--'`--' 
+,--.   ,--.                  ,------. ,--.  ,--.,------.
+|   `.'   | ,--,--.,--.  ,--.|  .--. '|  '--'  ||  .--. '
+|  |'.'|  |' ,-.  | \  `'  / |  '--' ||  .--.  ||  '--' |
+|  |   |  |\ '-'  | /  /.  \ |  | --' |  |  |  ||  | --'
+`--'   `--' `--`--''--'  '--'`--'     `--'  `--'`--'
 
 EOT;
 
