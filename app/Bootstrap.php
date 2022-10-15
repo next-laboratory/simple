@@ -14,14 +14,10 @@ namespace App;
 use Max\Aop\Scanner;
 use Max\Aop\ScannerConfig;
 use Max\Config\Repository;
-use Max\Database\DBConfig;
-use Max\Database\Manager;
 use Max\Di\Context;
-use Max\Event\EventDispatcher;
 use Max\Event\ListenerProvider;
 use Psr\Container\ContainerExceptionInterface;
 use ReflectionException;
-
 use function putenv;
 
 class Bootstrap
@@ -34,7 +30,7 @@ class Bootstrap
     {
         $container = Context::getContainer();
 
-        register_shutdown_function(function () use ($container) {
+        register_shutdown_function(function() use ($container) {
             if ($error = error_get_last()) {
                 $container->make(Logger::class)->error($error['message'], [
                     'type' => $error['type'],
@@ -60,29 +56,23 @@ class Bootstrap
             Scanner::init(new ScannerConfig($repository->get('di.aop')));
         }
 
+        $config = [];
+        if (file_exists($configFile = base_path('runtime/app/config.php'))) {
+            $config = require $configFile;
+        }
+        $repository->set('config', $config);
         // Initialize bindings
-        foreach ($repository->get('di.bindings') as $id => $value) {
+        $bindings = array_merge(config('config.bindings', []), $repository->get('di.bindings', []));
+        foreach ($bindings as $id => $value) {
             $container->bind($id, $value);
         }
 
         // Initialize event listeners
         $listenerProvider = $container->make(ListenerProvider::class);
-        if (! empty($listeners = $repository->get('listeners', []))) {
+        if (!empty($listeners = $repository->get('listeners', []))) {
             foreach ($listeners as $listener) {
                 $listenerProvider->addListener($container->make($listener));
             }
         }
-
-        // Initialize database.
-        $database = $repository->get('database');
-        $manager  = $container->make(Manager::class);
-        $manager->setDefault($database['default']);
-        foreach ($database['connections'] as $name => $config) {
-            $connector = $config['connector'];
-            $options   = $config['options'];
-            $manager->addConnector($name, new $connector(new DBConfig($options)));
-        }
-        $manager->setEventDispatcher($container->make(EventDispatcher::class));
-        $manager->bootEloquent();
     }
 }

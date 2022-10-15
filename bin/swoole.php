@@ -13,6 +13,7 @@ use App\Bootstrap;
 use App\Http\Kernel;
 use App\Http\ServerRequest;
 use Max\Di\Context;
+use Max\Http\Server\Event\OnRequest;
 use Max\Http\Server\ResponseEmitter\SwooleResponseEmitter;
 use Swoole\Constant;
 use Swoole\Http\Request;
@@ -36,24 +37,27 @@ require_once __DIR__ . '/base.php';
     ];
 
     // Start server
-    $server    = new Server($host, $port);
-    $container = Context::getContainer();
-    $kernel    = $container->make(Kernel::class);
-    $server->on('request', function(Request $request, Response $response) use ($kernel) {
-        $psrResponse = $kernel->through(ServerRequest::createFromSwooleRequest($request, [
+    $server          = new Server($host, $port);
+    $container       = Context::getContainer();
+    $kernel          = $container->make(Kernel::class);
+    $eventDispatcher = $container->make(\Max\Event\EventDispatcher::class);
+    $server->on('request', function(Request $request, Response $response) use ($kernel, $eventDispatcher) {
+        $psrRequest  = ServerRequest::createFromSwooleRequest($request, [
             'request'  => $request,
             'response' => $response,
-        ]));
+        ]);
+        $psrResponse = $kernel->through($psrRequest);
         (new SwooleResponseEmitter())->emit($psrResponse, $response);
+        $eventDispatcher->dispatch(new OnRequest($psrRequest, $psrResponse));
     });
     $server->set($settings);
 
     echo <<<'EOT'
-,--.   ,--.                  ,------. ,--.  ,--.,------.  
-|   `.'   | ,--,--.,--.  ,--.|  .--. '|  '--'  ||  .--. ' 
-|  |'.'|  |' ,-.  | \  `'  / |  '--' ||  .--.  ||  '--' | 
-|  |   |  |\ '-'  | /  /.  \ |  | --' |  |  |  ||  | --'  
-`--'   `--' `--`--''--'  '--'`--'     `--'  `--'`--' 
+,--.   ,--.                  ,------. ,--.  ,--.,------.
+|   `.'   | ,--,--.,--.  ,--.|  .--. '|  '--'  ||  .--. '
+|  |'.'|  |' ,-.  | \  `'  / |  '--' ||  .--.  ||  '--' |
+|  |   |  |\ '-'  | /  /.  \ |  | --' |  |  |  ||  | --'
+`--'   `--' `--`--''--'  '--'`--'     `--'  `--'`--'
 
 EOT;
     printf("System       Name:       %s\n", strtolower(PHP_OS));

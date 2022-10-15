@@ -11,35 +11,14 @@ declare(strict_types=1);
 
 namespace App\Console;
 
-use App\Aop\Collector\CommandCollector;
-use Exception;
-use Psr\Container\ContainerExceptionInterface;
-use Symfony\Component\Console\Application;
+use Max\Console\Kernel as ConsoleKernel;
 
-class Kernel
+class Kernel extends ConsoleKernel
 {
     /**
      * 注册命令.
      *
      * @var array<int, string> $commands
      */
-    protected array $commands = [
-        \App\Console\Command\ControllerMakeCommand::class,
-        \App\Console\Command\MiddlewareMakeCommand::class,
-        \App\Console\Command\RouteListCommand::class,
-    ];
-
-    /**
-     * @throws Exception
-     * @throws ContainerExceptionInterface
-     */
-    public function run(): void
-    {
-        $application = new Application('MaxPHP', 'dev');
-        $commands    = array_merge($this->commands, CommandCollector::all());
-        foreach ($commands as $command) {
-            $application->add(make($command));
-        }
-        $application->run();
-    }
+    protected array $commands = [];
 }
