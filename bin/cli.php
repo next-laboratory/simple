@@ -14,7 +14,5 @@ use App\Console\Kernel;
 
 require_once __DIR__ . '/base.php';
 
-(function () {
-    Bootstrap::boot(true);
-    (new Kernel())->run();
-})();
+Bootstrap::boot(true);
+(new Kernel())->run();
