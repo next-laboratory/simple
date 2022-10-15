@@ -42,7 +42,7 @@
         "max/http-server": "~1.2.0",
         "max/redis": "~1.2.0",
         "max/session": "~1.2.0",
-        "max/validation": "*",
+        "max/validation": "~1.2.0",
         "max/var-dumper": "~1.2.0",
         "max/view": "~1.2.0",
         "monolog/monolog": "^2.8"
