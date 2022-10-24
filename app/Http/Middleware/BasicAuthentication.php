@@ -14,11 +14,14 @@ use Psr\Http\Server\RequestHandlerInterface;
 
 class BasicAuthentication implements MiddlewareInterface
 {
-    protected array $need = ['*'];
+    protected array $need      = ['*'];
+    protected array $passwords = [
+        'user' => 'password',
+    ];
 
     public function process(ServerRequestInterface $request, RequestHandlerInterface $handler): ResponseInterface
     {
-        if (Collection::make($this->need)->first(function($pattern) use ($request) {
+        if (Collection::make($this->need)->first(function ($pattern) use ($request) {
             return $request->is($pattern);
         })) {
             if ($header = $request->getHeaderLine(HeaderInterface::HEADER_AUTHORIZATION)) {
@@ -42,6 +45,9 @@ class BasicAuthentication implements MiddlewareInterface
 
     public function shouldPass(string $user, string $password): bool
     {
-        return $user === 'user' && $password === 'password';
+        if (isset($this->passwords[$user])) {
+            return $this->passwords[$user] === $password;
+        }
+        return false;
     }
 }
