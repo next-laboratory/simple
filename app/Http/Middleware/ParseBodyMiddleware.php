@@ -27,6 +27,7 @@ class ParseBodyMiddleware implements MiddlewareInterface
      * 下面方法的请求体需要被解析.
      */
     protected array $shouldParseMethods = [
+        RequestMethodInterface::METHOD_GET,
         RequestMethodInterface::METHOD_POST,
         RequestMethodInterface::METHOD_PUT,
         RequestMethodInterface::METHOD_PATCH,
