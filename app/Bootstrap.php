@@ -54,6 +54,8 @@ class Bootstrap
         // Initialize scanner if it is enabled
         if ($enable) {
             Scanner::init(new ScannerConfig($repository->get('di.aop')));
+            // 写主进程号
+            file_put_contents(base_path('runtime/master.pid'), getmypid());
         }
 
         $config = [];
