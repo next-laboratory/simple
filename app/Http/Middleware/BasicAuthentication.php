@@ -12,16 +12,27 @@ use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Server\MiddlewareInterface;
 use Psr\Http\Server\RequestHandlerInterface;
 
+/**
+ * Basic认证类
+ * Apache下需要添加如下配置： RewriteRule .* - [E=HTTP_AUTHORIZATION:%{HTTP:Authorization}]
+ */
 class BasicAuthentication implements MiddlewareInterface
 {
-    protected array $need      = ['*'];
+    /**
+     * 需要进行验证的路径规则
+     */
+    protected array $needAuth = ['*'];
+
+    /**
+     * 用户名密码对
+     */
     protected array $passwords = [
         'user' => 'password',
     ];
 
     public function process(ServerRequestInterface $request, RequestHandlerInterface $handler): ResponseInterface
     {
-        if (Collection::make($this->need)->first(function ($pattern) use ($request) {
+        if (Collection::make($this->needAuth)->first(function ($pattern) use ($request) {
             return $request->is($pattern);
         })) {
             if ($header = $request->getHeaderLine(HeaderInterface::HEADER_AUTHORIZATION)) {
