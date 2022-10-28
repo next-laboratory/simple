@@ -26,6 +26,6 @@ define('BASE_PATH', dirname(__DIR__) . '/');
     require_once __DIR__ . '/../vendor/autoload.php';
     Bootstrap::boot();
     $kernel   = Context::getContainer()->make(Kernel::class);
-    $response = $kernel->through(ServerRequest::createFromGlobals());
+    $response = $kernel->handle(ServerRequest::createFromGlobals());
     (new FPMResponseEmitter())->emit($response);
 })();

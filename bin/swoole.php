@@ -46,7 +46,7 @@ require_once __DIR__ . '/base.php';
             'request'  => $request,
             'response' => $response,
         ]);
-        $psrResponse = $kernel->through($psrRequest);
+        $psrResponse = $kernel->handle($psrRequest);
         (new SwooleResponseEmitter())->emit($psrResponse, $response);
         $eventDispatcher->dispatch(new OnRequest($psrRequest, $psrResponse));
     });

@@ -27,7 +27,7 @@ require_once __DIR__ . '/base.php';
     $kernel = make(Kernel::class);
     $http   = new HttpServer(function (ServerRequestInterface $request) use ($kernel) {
         try {
-            return $kernel->through(ServerRequest::createFromPsrRequest($request));
+            return $kernel->handle(ServerRequest::createFromPsrRequest($request));
         } catch (Throwable $throwable) {
             dump($throwable);
         }
@@ -37,11 +37,11 @@ require_once __DIR__ . '/base.php';
     $socket = new SocketServer($listen);
 
     echo <<<'EOT'
-,--.   ,--.                  ,------. ,--.  ,--.,------.  
-|   `.'   | ,--,--.,--.  ,--.|  .--. '|  '--'  ||  .--. ' 
-|  |'.'|  |' ,-.  | \  `'  / |  '--' ||  .--.  ||  '--' | 
-|  |   |  |\ '-'  | /  /.  \ |  | --' |  |  |  ||  | --'  
-`--'   `--' `--`--''--'  '--'`--'     `--'  `--'`--' 
+,--.   ,--.                  ,------. ,--.  ,--.,------.
+|   `.'   | ,--,--.,--.  ,--.|  .--. '|  '--'  ||  .--. '
+|  |'.'|  |' ,-.  | \  `'  / |  '--' ||  .--.  ||  '--' |
+|  |   |  |\ '-'  | /  /.  \ |  | --' |  |  |  ||  | --'
+`--'   `--' `--`--''--'  '--'`--'     `--'  `--'`--'
 
 EOT;
     printf("System       Name:       %s\n", strtolower(PHP_OS));

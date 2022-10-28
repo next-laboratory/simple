@@ -23,7 +23,7 @@ require_once __DIR__ . '/base.php';
 
 (function () {
     if (!class_exists('Workerman\Worker')) {
-        throw new Exception('You should install the workerman using `composer require workerman/workerman` before starting.');
+        throw new Exception('You should install the workerman via `composer require workerman/workerman` command before starting.');
     }
     Bootstrap::boot(true);
 
@@ -42,7 +42,7 @@ require_once __DIR__ . '/base.php';
     $eventDispatcher   = $container->make(\Max\Event\EventDispatcher::class);
     $worker->onMessage = function (TcpConnection $connection, Request $request) use ($kernel, $eventDispatcher) {
         $psrRequest  = ServerRequest::createFromWorkerManRequest($request, ['TcpConnection' => $connection, 'request' => $request]);
-        $psrResponse = $kernel->through($psrRequest);
+        $psrResponse = $kernel->handle($psrRequest);
         (new WorkerManResponseEmitter())->emit($psrResponse, $connection);
         $eventDispatcher->dispatch(new OnRequest($psrRequest, $psrResponse));
     };

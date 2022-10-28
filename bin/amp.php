@@ -40,14 +40,14 @@ require_once __DIR__ . '/base.php';
         ];
 
         $server = new HttpServer($sockets, new CallableRequestHandler(
-            fn (Request $request) => (new AmpResponseEmitter())->emit($kernel->through(ServerRequest::createFromAmp($request)))
+            fn (Request $request) => (new AmpResponseEmitter())->emit($kernel->handle(ServerRequest::createFromAmp($request)))
         ), $logger);
         echo <<<'EOT'
-,--.   ,--.                  ,------. ,--.  ,--.,------.  
-|   `.'   | ,--,--.,--.  ,--.|  .--. '|  '--'  ||  .--. ' 
-|  |'.'|  |' ,-.  | \  `'  / |  '--' ||  .--.  ||  '--' | 
-|  |   |  |\ '-'  | /  /.  \ |  | --' |  |  |  ||  | --'  
-`--'   `--' `--`--''--'  '--'`--'     `--'  `--'`--' 
+,--.   ,--.                  ,------. ,--.  ,--.,------.
+|   `.'   | ,--,--.,--.  ,--.|  .--. '|  '--'  ||  .--. '
+|  |'.'|  |' ,-.  | \  `'  / |  '--' ||  .--.  ||  '--' |
+|  |   |  |\ '-'  | /  /.  \ |  | --' |  |  |  ||  | --'
+`--'   `--' `--`--''--'  '--'`--'     `--'  `--'`--'
 
 EOT;
         printf("System       Name:       %s\n", strtolower(PHP_OS));

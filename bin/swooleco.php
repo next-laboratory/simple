@@ -40,7 +40,7 @@ require_once __DIR__ . '/base.php';
         $server = new Swoole\Coroutine\Http\Server($host, $port);
         $kernel = Context::getContainer()->make(Kernel::class);
         $server->handle('/', function (Request $request, Response $response) use ($kernel) {
-            $psrResponse = $kernel->through(ServerRequest::createFromSwooleRequest($request, [
+            $psrResponse = $kernel->handle(ServerRequest::createFromSwooleRequest($request, [
                 'request'  => $request,
                 'response' => $response,
             ]));
@@ -49,11 +49,11 @@ require_once __DIR__ . '/base.php';
 
         $server->set($settings);
         echo <<<'EOT'
-,--.   ,--.                  ,------. ,--.  ,--.,------.  
-|   `.'   | ,--,--.,--.  ,--.|  .--. '|  '--'  ||  .--. ' 
-|  |'.'|  |' ,-.  | \  `'  / |  '--' ||  .--.  ||  '--' | 
-|  |   |  |\ '-'  | /  /.  \ |  | --' |  |  |  ||  | --'  
-`--'   `--' `--`--''--'  '--'`--'     `--'  `--'`--' 
+,--.   ,--.                  ,------. ,--.  ,--.,------.
+|   `.'   | ,--,--.,--.  ,--.|  .--. '|  '--'  ||  .--. '
+|  |'.'|  |' ,-.  | \  `'  / |  '--' ||  .--.  ||  '--' |
+|  |   |  |\ '-'  | /  /.  \ |  | --' |  |  |  ||  | --'
+`--'   `--' `--`--''--'  '--'`--'     `--'  `--'`--'
 
 EOT;
         printf("System       Name:       %s\n", strtolower(PHP_OS));
