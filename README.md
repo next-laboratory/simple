@@ -68,8 +68,8 @@ php bin/cli-server.php
 namespace App\Controllers;
 
 use App\Http\Response;
-use Max\Routing\Annotation\Controller;
-use Max\Routing\Annotation\GetMapping;
+use Max\Routing\Attribute\Controller;
+use Max\Routing\Attribute\GetMapping;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 
