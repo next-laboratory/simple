@@ -33,16 +33,16 @@ class ExceptionHandleMiddleware extends Middleware
 
     protected function render(Throwable $e, ServerRequestInterface $request): ResponseInterface
     {
-        if (\App\env('APP_DEBUG')) {
-            return parent::render($e, $request);
-        }
-
         if ($e instanceof Abort) {
             return Response::HTML($this->convertToHtml($e));
         }
 
         if ($e instanceof Renderable) {
             return $e->render($request);
+        }
+
+        if (\App\env('APP_DEBUG')) {
+            return parent::render($e, $request);
         }
 
         return Response::text($e->getMessage(), $this->getStatusCode($e));
