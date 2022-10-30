@@ -41,7 +41,7 @@ class ExceptionHandleMiddleware extends Middleware
             return $e->render($request);
         }
 
-        if (\App\env('APP_DEBUG')) {
+        if (env('APP_DEBUG')) {
             return parent::render($e, $request);
         }
 

@@ -9,21 +9,24 @@ declare(strict_types=1);
  * @license  https://github.com/marxphp/max/blob/master/LICENSE
  */
 
-namespace App;
-
+use App\Http\Response;
 use Max\Config\Repository;
 use Max\Di\Context;
 use Psr\Container\ContainerExceptionInterface;
-use ReflectionException;
+use Psr\Http\Message\ResponseInterface;
 
-function base_path(string $path = ''): string
-{
-    return BASE_PATH . ltrim($path, '/');
+if (false === function_exists('base_path')) {
+    function base_path(string $path = ''): string
+    {
+        return BASE_PATH . ltrim($path, '/');
+    }
 }
 
-function public_path(string $path = ''): string
-{
-    return base_path('public/' . ltrim($path, '/'));
+if (false === function_exists('public_path')) {
+    function public_path(string $path = ''): string
+    {
+        return base_path('public/' . ltrim($path, '/'));
+    }
 }
 
 if (function_exists('config') === false) {
@@ -39,32 +42,35 @@ if (function_exists('config') === false) {
     }
 }
 
-function env(string $key, $default = null): mixed
-{
-    $value = getenv($key);
+if (false === function_exists('env')) {
+    function env(string $key, $default = null): mixed
+    {
+        $value = getenv($key);
 
-    if ($value === false) {
-        return $default;
+        if ($value === false) {
+            return $default;
+        }
+
+        switch (strtolower($value)) {
+            case 'true':
+            case '(true)':
+                return true;
+            case 'false':
+            case '(false)':
+                return false;
+            case 'empty':
+            case '(empty)':
+                return '';
+            case 'null':
+            case '(null)':
+                return null;
+        }
+
+        if (($valueLength = strlen($value)) > 1 && $value[0] === '"' && $value[$valueLength - 1] === '"') {
+            return substr($value, 1, -1);
+        }
+
+        return $value;
     }
-
-    switch (strtolower($value)) {
-        case 'true':
-        case '(true)':
-            return true;
-        case 'false':
-        case '(false)':
-            return false;
-        case 'empty':
-        case '(empty)':
-            return '';
-        case 'null':
-        case '(null)':
-            return null;
-    }
-
-    if (($valueLength = strlen($value)) > 1 && $value[0] === '"' && $value[$valueLength - 1] === '"') {
-        return substr($value, 1, -1);
-    }
-
-    return $value;
 }
+
