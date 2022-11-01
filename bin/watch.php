@@ -8,8 +8,8 @@ if (!class_exists('Max\Watcher\Watcher')) {
 
 $env = $argv[1] ?? throw new Exception('Please input the script name like \'swoole\' as the first argument in command line');
 
-$progress = function () {
-    proc_open(PHP_BINARY . ' bin/swoole.php', [], $pipes);
+$progress = function () use ($env) {
+    proc_open(PHP_BINARY . ' bin/' . $env . '.php', [], $pipes);
 };
 
 $progress();
@@ -19,7 +19,7 @@ $watchDirs = [
 ];
 
 $driver = new \Max\Watcher\Driver\FindDriver($watchDirs, function () use ($progress) {
-    posix_kill(file_get_contents(__DIR__ . '/../runtime/master.pid'), SIGKILL);
+    posix_kill(file_get_contents(__DIR__ . '/../runtime/master.pid'), SIGTERM);
 
     $progress();
 });
