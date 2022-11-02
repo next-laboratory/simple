@@ -36,8 +36,8 @@ class BasicAuthentication implements MiddlewareInterface
             return $request->is($pattern);
         })) {
             if ($header = $request->getHeaderLine(HeaderInterface::HEADER_AUTHORIZATION)) {
-                [, $authorization] = explode(' ', $header);
-                [$user, $password] = explode(':', (string)base64_decode($authorization));
+                [, $authorization] = explode(' ', $header, 2);
+                [$user, $password] = explode(':', (string)base64_decode($authorization), 2);
                 if ($this->shouldPass($user, $password)) {
                     return $handler->handle($request);
                 }
@@ -56,9 +56,6 @@ class BasicAuthentication implements MiddlewareInterface
 
     public function shouldPass(string $user, string $password): bool
     {
-        if (isset($this->passwords[$user])) {
-            return $this->passwords[$user] === $password;
-        }
-        return false;
+        return isset($this->passwords[$user]) && $this->passwords[$user] === $password;
     }
 }
