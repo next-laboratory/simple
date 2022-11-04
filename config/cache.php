@@ -33,7 +33,7 @@ return [
             ],
         ],
         'apcu'      => [
-            'driver' => \Max\Cache\Driver\ApcDriver::class,
+            'driver' => \Max\Cache\Driver\ApcuDriver::class,
             'config' => [],
         ],
     ],
