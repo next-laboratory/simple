@@ -12,7 +12,6 @@ declare(strict_types=1);
 namespace App\Http\Middleware;
 
 use App\Http\Response;
-use Max\Http\Server\Contract\Renderable;
 use Max\Http\Server\Middleware\ExceptionHandleMiddleware as Middleware;
 use Max\VarDumper\Abort;
 use Max\VarDumper\AbortHandler;
@@ -33,19 +32,11 @@ class ExceptionHandleMiddleware extends Middleware
 
     protected function render(Throwable $e, ServerRequestInterface $request): ResponseInterface
     {
-        if ($e instanceof Abort) {
-            return Response::HTML($this->convertToHtml($e));
-        }
-
-        if ($e instanceof Renderable) {
-            return $e->render($request);
-        }
-
-        if (env('APP_DEBUG')) {
-            return parent::render($e, $request);
-        }
-
-        return Response::text($e->getMessage(), $this->getStatusCode($e));
+        return match (true) {
+            env('APP_DEBUG') => parent::render($e, $request),
+            $e instanceof Abort => Response::HTML($this->convertToHtml($e)),
+            default => Response::text($e->getMessage(), $this->getStatusCode($e)),
+        };
     }
 
     protected function report(Throwable $e, ServerRequestInterface $request): void
