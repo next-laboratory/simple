@@ -22,7 +22,7 @@ return [
             \Max\Event\ListenerCollector::class,
             \Max\Console\CommandCollector::class,
         ],
-        'runtimeDir' => './runtime/aop',
+        'runtimeDir' => './runtime/framework/aop',
     ],
     'bindings' => [
         \Psr\Log\LoggerInterface::class => \App\Logger::class,

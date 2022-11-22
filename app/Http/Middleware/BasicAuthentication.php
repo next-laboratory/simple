@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace App\Http\Middleware;
 
 use App\Http\Response;
-use Max\Http\Message\Contract\HeaderInterface;
 use Max\Utils\Collection;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
@@ -35,7 +34,7 @@ class BasicAuthentication implements MiddlewareInterface
         if (Collection::make($this->needAuth)->first(function ($pattern) use ($request) {
             return $request->is($pattern);
         })) {
-            if ($header = $request->getHeaderLine(HeaderInterface::HEADER_AUTHORIZATION)) {
+            if ($header = $request->getHeaderLine('Authorization')) {
                 [, $authorization] = explode(' ', $header, 2);
                 [$user, $password] = explode(':', (string)base64_decode($authorization), 2);
                 if ($this->shouldPass($user, $password)) {
@@ -50,7 +49,7 @@ class BasicAuthentication implements MiddlewareInterface
     protected function shouldAuth(): ResponseInterface
     {
         return new Response(401, [
-            HeaderInterface::HEADER_WWW_AUTHENTICATE => 'Basic realm="Input your ID and password"'
+            'WWW-Authenticate' => 'Basic realm="Input your ID and password"'
         ]);
     }
 

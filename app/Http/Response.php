@@ -12,25 +12,23 @@ declare(strict_types=1);
 namespace App\Http;
 
 use JsonSerializable;
-use Max\Http\Message\Contract\HeaderInterface;
 use Max\Http\Message\Cookie;
-use Max\Http\Message\Stream\FileStream;
 use Max\Http\Message\Response as PsrResponse;
+use Max\Http\Message\Stream\FileStream;
 use Max\Utils\Contract\Arrayable;
 use Max\View\ViewFactory;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use Stringable;
-use function Max\Utils\data_to_xml;
 
 class Response extends PsrResponse
 {
     protected const DEFAULT_DOWNLOAD_HEADERS = [
-        HeaderInterface::HEADER_PRAGMA                    => 'public', // Public指示响应可被任何缓存区缓存
-        HeaderInterface::HEADER_EXPIRES                   => '0', // 浏览器不会响应缓存
-        HeaderInterface::HEADER_CACHE_CONTROL             => 'must-revalidate, post-check=0, pre-check=0',
-        HeaderInterface::HEADER_CONTENT_TYPE              => 'application/download',
-        HeaderInterface::HEADER_CONTENT_TRANSFER_ENCODING => 'binary',
+        'Pragma'                    => 'public', // Public指示响应可被任何缓存区缓存
+        'Expires'                   => '0', // 浏览器不会响应缓存
+        'Cache-Control'             => 'must-revalidate, post-check=0, pre-check=0',
+        'Content-Type'              => 'application/download',
+        'Content-Transfer-Encoding' => 'binary',
     ];
 
     /**
@@ -54,9 +52,9 @@ class Response extends PsrResponse
      */
     public static function download(string $file, string $name = '', int $offset = 0, int $length = 0): ResponseInterface
     {
-        $name                                                 = $name ?: pathinfo($file, PATHINFO_BASENAME);
-        $headers                                              = static::DEFAULT_DOWNLOAD_HEADERS;
-        $headers[HeaderInterface::HEADER_CONTENT_DISPOSITION] = sprintf('attachment;filename="%s"', htmlspecialchars($name, ENT_COMPAT));
+        $name                           = $name ?: pathinfo($file, PATHINFO_BASENAME);
+        $headers                        = static::DEFAULT_DOWNLOAD_HEADERS;
+        $headers['Content-Disposition'] = sprintf('attachment;filename="%s"', htmlspecialchars($name, ENT_COMPAT));
         return new static(200, $headers, new FileStream($file, $offset, $length));
     }
 
@@ -85,7 +83,7 @@ class Response extends PsrResponse
             if (!is_string($data)) {
                 $data = json_encode($data, JSON_UNESCAPED_UNICODE);
             }
-            return new static($status, [HeaderInterface::HEADER_CONTENT_TYPE => 'application/javascript; charset=utf-8'], sprintf('%s(%s)', $callback, $data));
+            return new static($status, ['Content-Type' => 'application/javascript; charset=utf-8'], sprintf('%s(%s)', $callback, $data));
         }
         return static::JSON($data, $status);
     }
@@ -97,7 +95,7 @@ class Response extends PsrResponse
      */
     public static function HTML($data, int $status = 200): ResponseInterface
     {
-        return new static($status, [HeaderInterface::HEADER_CONTENT_TYPE => 'text/html; charset=utf-8'], (string)$data);
+        return new static($status, ['Content-Type' => 'text/html; charset=utf-8'], (string)$data);
     }
 
     /**
@@ -105,19 +103,7 @@ class Response extends PsrResponse
      */
     public static function text(string $content, int $status = 200): ResponseInterface
     {
-        return new static($status, [HeaderInterface::HEADER_CONTENT_TYPE => 'text/plain; charset=utf-8'], $content);
-    }
-
-    /**
-     * Create a XML response.
-     */
-    public static function XML(iterable $data, string $root = 'root', string $encoding = 'utf-8', int $status = 200): ResponseInterface
-    {
-        $xml = '<?xml version="1.0" encoding="' . $encoding . '"?>';
-        $xml .= '<' . $root . '>';
-        $xml .= data_to_xml($data);
-        $xml .= '</' . $root . '>';
-        return new static($status, [HeaderInterface::HEADER_CONTENT_TYPE => 'application/xml; charset=utf-8'], $xml);
+        return new static($status, ['Content-Type' => 'text/plain; charset=utf-8'], $content);
     }
 
     /**
@@ -142,13 +128,14 @@ class Response extends PsrResponse
     public function withCookie(
         string $name,
         string $value,
-        int $expires = 3600,
+        int    $expires = 3600,
         string $path = '/',
         string $domain = '',
-        bool $secure = false,
-        bool $httponly = false,
+        bool   $secure = false,
+        bool   $httponly = false,
         string $sameSite = ''
-    ): static {
+    ): static
+    {
         $cookie = new Cookie(...func_get_args());
         return $this->withAddedHeader('Set-Cookie', $cookie->__toString());
     }
@@ -156,13 +143,14 @@ class Response extends PsrResponse
     public function setCookie(
         string $name,
         string $value,
-        int $expires = 3600,
+        int    $expires = 3600,
         string $path = '/',
         string $domain = '',
-        bool $secure = false,
-        bool $httponly = false,
+        bool   $secure = false,
+        bool   $httponly = false,
         string $sameSite = ''
-    ): static {
+    ): static
+    {
         $cookie = new Cookie(...func_get_args());
         return $this->setAddedHeader('Set-Cookie', $cookie->__toString());
     }

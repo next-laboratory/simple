@@ -59,7 +59,7 @@ class Bootstrap
         }
 
         $config = [];
-        if (file_exists($configFile = base_path('runtime/app/config.php'))) {
+        if (file_exists($configFile = base_path('runtime/framework/config.php'))) {
             $config = require $configFile;
         }
         $repository->set('config', $config);

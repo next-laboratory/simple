@@ -15,7 +15,7 @@ return [
         'file'      => [
             'driver' => \Max\Cache\Driver\FileDriver::class,
             'config' => [
-                'path' => __DIR__ . '/../runtime/cache/app',
+                'path' => __DIR__ . '/../runtime/framework/cache/app',
             ],
         ],
         'redis'     => [

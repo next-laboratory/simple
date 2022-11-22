@@ -11,7 +11,6 @@ declare(strict_types=1);
 
 namespace App\Http;
 
-use Max\Http\Message\Contract\HeaderInterface;
 use Max\Http\Message\ServerRequest as PsrServerRequest;
 use Max\Session\Session;
 use RuntimeException;
@@ -31,7 +30,7 @@ class ServerRequest extends PsrServerRequest
      */
     public function getRealIp(): string
     {
-        if ($xForwardedFor = $this->getHeaderLine(HeaderInterface::HEADER_X_FORWARDED_FOR)) {
+        if ($xForwardedFor = $this->getHeaderLine('X-Forwarded-For')) {
             $ips = explode(',', $xForwardedFor);
             return trim($ips[0]);
         }

@@ -11,8 +11,6 @@ declare(strict_types=1);
 
 namespace App\Http\Middleware;
 
-use Max\Http\Message\Contract\HeaderInterface;
-use Max\Http\Message\Contract\RequestMethodInterface;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Server\MiddlewareInterface;
@@ -26,12 +24,7 @@ class ParseBodyMiddleware implements MiddlewareInterface
     /**
      * 下面方法的请求体需要被解析.
      */
-    protected array $shouldParseMethods = [
-        RequestMethodInterface::METHOD_GET,
-        RequestMethodInterface::METHOD_POST,
-        RequestMethodInterface::METHOD_PUT,
-        RequestMethodInterface::METHOD_PATCH,
-    ];
+    protected array $shouldParseMethods = ['GET', 'POST', 'PUT', 'PATCH'];
 
     /**
      * 解析后替换parsedBody.
@@ -39,7 +32,7 @@ class ParseBodyMiddleware implements MiddlewareInterface
     public function process(ServerRequestInterface $request, RequestHandlerInterface $handler): ResponseInterface
     {
         if ($this->shouldParseBody($request) && $content = $request->getBody()?->getContents()) {
-            $contentType = $request->getHeaderLine(HeaderInterface::HEADER_CONTENT_TYPE);
+            $contentType = $request->getHeaderLine('Content-Type');
             if (str_contains($contentType, 'application/json')) {
                 $request = $request->withParsedBody(json_decode($content, true) ?? []);
             } elseif (str_contains($contentType, 'application/xml')) {
