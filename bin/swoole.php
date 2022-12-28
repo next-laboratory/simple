@@ -10,9 +10,10 @@ declare(strict_types=1);
  */
 
 use App\Bootstrap;
-use App\Http\Kernel;
 use App\Http\ServerRequest;
 use Max\Di\Context;
+use Max\Event\EventDispatcher;
+use Max\Http\Server\Contract\HttpKernelInterface;
 use Max\Http\Server\Event\OnRequest;
 use Max\Http\Server\ResponseEmitter\SwooleResponseEmitter;
 use Swoole\Constant;
@@ -22,7 +23,7 @@ use Swoole\Http\Server;
 
 require_once __DIR__ . '/base.php';
 
-(function() {
+(function () {
     if (!class_exists('Swoole\Server')) {
         throw new Exception('You should install the swoole extension before starting.');
     }
@@ -39,9 +40,9 @@ require_once __DIR__ . '/base.php';
     // Start server
     $server          = new Server($host, $port);
     $container       = Context::getContainer();
-    $kernel          = $container->make(Kernel::class);
-    $eventDispatcher = $container->make(\Max\Event\EventDispatcher::class);
-    $server->on('request', function(Request $request, Response $response) use ($kernel, $eventDispatcher) {
+    $kernel          = $container->make(HttpKernelInterface::class);
+    $eventDispatcher = $container->make(EventDispatcher::class);
+    $server->on('request', function (Request $request, Response $response) use ($kernel, $eventDispatcher) {
         $psrRequest  = ServerRequest::createFromSwooleRequest($request, [
             'request'  => $request,
             'response' => $response,

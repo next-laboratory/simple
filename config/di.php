@@ -25,6 +25,7 @@ return [
         'runtimeDir' => './runtime/framework/aop',
     ],
     'bindings' => [
-        \Psr\Log\LoggerInterface::class => \App\Logger::class,
+        \Psr\Log\LoggerInterface::class                      => \App\Logger::class,
+        \Max\Http\Server\Contract\HttpKernelInterface::class => \App\Http\Kernel::class,
     ],
 ];
