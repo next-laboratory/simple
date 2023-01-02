@@ -17,6 +17,7 @@ use Max\Http\Message\Response as PsrResponse;
 use Max\Http\Message\Stream\FileStream;
 use Max\Utils\Contract\Arrayable;
 use Max\View\ViewFactory;
+use Psr\Container\ContainerExceptionInterface;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use Stringable;
@@ -33,6 +34,9 @@ class Response extends PsrResponse
 
     /**
      * 渲染视图.
+     *
+     * @throws ContainerExceptionInterface
+     * @throws \ReflectionException
      */
     public static function view(string $view, array $arguments = [], ?ServerRequestInterface $request = null): ResponseInterface
     {
