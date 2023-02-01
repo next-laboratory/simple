@@ -25,10 +25,10 @@ use Stringable;
 class Response extends PsrResponse
 {
     protected const DEFAULT_DOWNLOAD_HEADERS = [
-        'Pragma'                    => 'public', // Public指示响应可被任何缓存区缓存
-        'Expires'                   => '0', // 浏览器不会响应缓存
+        'Pragma'                    => 'public',
+        'Expires'                   => '0',
         'Cache-Control'             => 'must-revalidate, post-check=0, pre-check=0',
-        'Content-Type'              => 'application/download',
+        'Content-Type'              => 'application/octet-stream',
         'Content-Transfer-Encoding' => 'binary',
     ];
 
@@ -58,7 +58,7 @@ class Response extends PsrResponse
     {
         $name                           = $name ?: pathinfo($file, PATHINFO_BASENAME);
         $headers                        = static::DEFAULT_DOWNLOAD_HEADERS;
-        $headers['Content-Disposition'] = sprintf('attachment;filename="%s"', htmlspecialchars($name, ENT_COMPAT));
+        $headers['Content-Disposition'] = sprintf('attachment;filename=%s', rawurlencode($name));
         return new static(200, $headers, new FileStream($file, $offset, $length));
     }
 
