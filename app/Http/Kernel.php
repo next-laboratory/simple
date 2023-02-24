@@ -30,7 +30,7 @@ class Kernel extends HttpKernel
      * Web middlewares.
      */
     protected array $webMiddlewares = [
-        \Max\Http\Server\Middleware\SessionMiddleware::class,
+        \App\Http\Middleware\SessionMiddleware::class,
         \App\Http\Middleware\VerifyCSRFToken::class,
     ];
 

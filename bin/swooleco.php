@@ -9,7 +9,6 @@ declare(strict_types=1);
  * @license  https://github.com/marxphp/max/blob/master/LICENSE
  */
 
-use App\Bootstrap;
 use App\Http\Kernel;
 use App\Http\ServerRequest;
 use Max\Di\Context;
@@ -19,14 +18,13 @@ use Swoole\Http\Request;
 use Swoole\Http\Response;
 use function Swoole\Coroutine\run;
 
-require_once __DIR__ . '/base.php';
+if (!class_exists('Swoole\Server')) {
+    throw new Exception('You should install the swoole extension before starting.');
+}
+
+require_once __DIR__ . '/../app/bootstrap.php';
 
 (function () {
-    if (! class_exists('Swoole\Server')) {
-        throw new Exception('You should install the swoole extension before starting.');
-    }
-    Bootstrap::boot(true);
-
     run(function () {
         // Configuration.
         $host     = '0.0.0.0';

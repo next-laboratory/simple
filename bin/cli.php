@@ -9,10 +9,8 @@ declare(strict_types=1);
  * @license  https://github.com/marxphp/max/blob/master/LICENSE
  */
 
-use App\Bootstrap;
 use App\Console\Kernel;
 
-require_once __DIR__ . '/base.php';
+require_once __DIR__ . '/../app/bootstrap.php';
 
-Bootstrap::boot(true);
 (new Kernel())->run();

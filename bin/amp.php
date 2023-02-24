@@ -13,21 +13,19 @@ use Amp\Http\Server\HttpServer;
 use Amp\Http\Server\Request;
 use Amp\Http\Server\RequestHandler\CallableRequestHandler;
 use Amp\Socket\Server;
-use App\Bootstrap;
 use App\Http\Kernel;
 use App\Http\ServerRequest;
 use App\Logger;
 use Max\Di\Context;
 use Max\Http\Server\ResponseEmitter\AmpResponseEmitter;
 
-require_once __DIR__ . '/base.php';
+if (!class_exists('Amp\Http\Server\HttpServer')) {
+    throw new Exception('You should install the amphp/http-server package before starting.');
+}
+
+require_once __DIR__ . '/../app/bootstrap.php';
 
 (function () {
-    if (! class_exists('Amp\Http\Server\HttpServer')) {
-        throw new Exception('You should install the amphp/http-server package before starting.');
-    }
-    Bootstrap::boot(true);
-
     $container = Context::getContainer();
     $kernel    = $container->make(Kernel::class);
     $logger    = $container->make(Logger::class)->get();
@@ -40,7 +38,7 @@ require_once __DIR__ . '/base.php';
         ];
 
         $server = new HttpServer($sockets, new CallableRequestHandler(
-            fn (Request $request) => (new AmpResponseEmitter())->emit($kernel->handle(ServerRequest::createFromAmp($request)))
+            fn(Request $request) => (new AmpResponseEmitter())->emit($kernel->handle(ServerRequest::createFromAmp($request)))
         ), $logger);
         echo <<<'EOT'
 ,--.   ,--.                  ,------. ,--.  ,--.,------.

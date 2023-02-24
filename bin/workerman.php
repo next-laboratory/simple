@@ -9,7 +9,6 @@ declare(strict_types=1);
  * @license  https://github.com/marxphp/max/blob/master/LICENSE
  */
 
-use App\Bootstrap;
 use App\Http\Kernel;
 use App\Http\ServerRequest;
 use Max\Di\Context;
@@ -19,14 +18,13 @@ use Workerman\Connection\TcpConnection;
 use Workerman\Protocols\Http\Request;
 use Workerman\Worker;
 
-require_once __DIR__ . '/base.php';
+if (!class_exists('Workerman\Worker')) {
+    throw new Exception('You should install the workerman via `composer require workerman/workerman` command before starting.');
+}
+
+require_once __DIR__ . '/../app/bootstrap.php';
 
 (function () {
-    if (!class_exists('Workerman\Worker')) {
-        throw new Exception('You should install the workerman via `composer require workerman/workerman` command before starting.');
-    }
-    Bootstrap::boot(true);
-
     /**
      * Configuration.
      */

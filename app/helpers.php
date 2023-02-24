@@ -9,11 +9,9 @@ declare(strict_types=1);
  * @license  https://github.com/marxphp/max/blob/master/LICENSE
  */
 
-use App\Http\Response;
 use Max\Config\Repository;
 use Max\Di\Context;
 use Psr\Container\ContainerExceptionInterface;
-use Psr\Http\Message\ResponseInterface;
 
 if (false === function_exists('base_path')) {
     function base_path(string $path = ''): string

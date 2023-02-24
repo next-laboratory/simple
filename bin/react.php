@@ -9,20 +9,19 @@ declare(strict_types=1);
  * @license  https://github.com/marxphp/max/blob/master/LICENSE
  */
 
-use App\Bootstrap;
 use App\Http\Kernel;
 use App\Http\ServerRequest;
 use Psr\Http\Message\ServerRequestInterface;
 use React\Http\HttpServer;
 use React\Socket\SocketServer;
 
-require_once __DIR__ . '/base.php';
+if (! class_exists('React\Http\HttpServer')) {
+    throw new Exception('You should install the react/react package before starting.');
+}
+
+require_once __DIR__ . '/../app/bootstrap.php';
 
 (function () {
-    if (! class_exists('React\Http\HttpServer')) {
-        throw new Exception('You should install the react/react package before starting.');
-    }
-    Bootstrap::boot(true);
 
     $kernel = make(Kernel::class);
     $http   = new HttpServer(function (ServerRequestInterface $request) use ($kernel) {
