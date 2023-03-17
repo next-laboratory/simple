@@ -16,9 +16,10 @@ use Max\Console\Kernel as ConsoleKernel;
 class Kernel extends ConsoleKernel
 {
     /**
-     * 注册命令.
-     *
-     * @var array<int, string> $commands
+     * @inheritDoc
      */
-    protected array $commands = [];
+    protected function commands(): array
+    {
+        return [];
+    }
 }

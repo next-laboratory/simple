@@ -9,7 +9,6 @@ declare(strict_types=1);
  * @license  https://github.com/marxphp/max/blob/master/LICENSE
  */
 
-use App\Bootstrap;
 use App\Http\Kernel;
 use App\Http\ServerRequest;
 use Max\Di\Context;
@@ -23,8 +22,7 @@ date_default_timezone_set('PRC');
 define('BASE_PATH', dirname(__DIR__) . '/');
 
 (function () {
-    require_once __DIR__ . '/../vendor/autoload.php';
-    Bootstrap::boot();
+    require_once __DIR__ . '/../app/bootstrap.php';
     $kernel   = Context::getContainer()->make(Kernel::class);
     $response = $kernel->handle(ServerRequest::createFromGlobals());
     (new FPMResponseEmitter())->emit($response);
