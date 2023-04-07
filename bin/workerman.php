@@ -18,11 +18,16 @@ use Workerman\Connection\TcpConnection;
 use Workerman\Protocols\Http\Request;
 use Workerman\Worker;
 
+ini_set('display_errors', 'on');
+ini_set('display_startup_errors', 'on');
+ini_set('memory_limit', '1G');
+error_reporting(E_ALL);
+date_default_timezone_set('PRC');
+define('BASE_PATH', dirname(__DIR__) . '/');
+
 if (!class_exists('Workerman\Worker')) {
     throw new Exception('You should install the workerman via `composer require workerman/workerman` command before starting.');
 }
-
-require_once __DIR__ . '/../app/bootstrap.php';
 
 (function () {
     /**
