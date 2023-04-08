@@ -19,11 +19,11 @@ use App\Logger;
 use Max\Di\Context;
 use Max\Http\Server\ResponseEmitter\AmpResponseEmitter;
 
+require_once __DIR__ . '/../app/bootstrap.php';
+
 if (!class_exists('Amp\Http\Server\HttpServer')) {
     throw new Exception('You should install the amphp/http-server package before starting.');
 }
-
-require_once __DIR__ . '/../app/bootstrap.php';
 
 (function () {
     $container = Context::getContainer();

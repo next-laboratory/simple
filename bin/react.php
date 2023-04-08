@@ -22,7 +22,9 @@ error_reporting(E_ALL);
 date_default_timezone_set('PRC');
 define('BASE_PATH', dirname(__DIR__) . '/');
 
-if (! class_exists('React\Http\HttpServer')) {
+require_once __DIR__ . '/../app/bootstrap.php';
+
+if (!class_exists('React\Http\HttpServer')) {
     throw new Exception('You should install the react/react package before starting.');
 }
 

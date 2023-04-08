@@ -25,6 +25,8 @@ error_reporting(E_ALL);
 date_default_timezone_set('PRC');
 define('BASE_PATH', dirname(__DIR__) . '/');
 
+require_once __DIR__ . '/../app/bootstrap.php';
+
 if (!class_exists('Swoole\Server')) {
     throw new Exception('You should install the swoole extension before starting.');
 }
