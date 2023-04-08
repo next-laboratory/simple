@@ -32,7 +32,6 @@
     ],
     "require": {
         "php": "^8.0",
-        "max/aop": "dev-master",
         "max/cache": "dev-master",
         "max/config": "dev-master",
         "max/database": "dev-master",
@@ -45,10 +44,12 @@
         "max/validation": "dev-master",
         "max/var-dumper": "dev-master",
         "max/view": "dev-master",
-        "monolog/monolog": "^2.8"
+        "monolog/monolog": "^2.8",
+        "vlucas/phpdotenv": "^5.5"
     },
     "require-dev": {
         "friendsofphp/php-cs-fixer": "^3.11",
+        "max/watcher": "dev-master",
         "phpstan/phpstan": "^1.8",
         "phpunit/phpunit": "^9.5",
         "swoole/ide-helper": "*"
@@ -60,8 +61,7 @@
     },
     "scripts": {
         "post-autoload-dump": [
-            "rm -rf runtime/aop",
-            "Max\\Console\\VendorPublish::publish"
+            "rm -rf runtime/aop"
         ],
         "post-root-package-install": [
             "@php -r \"file_exists('.env') || copy('.example.env', '.env');\""
