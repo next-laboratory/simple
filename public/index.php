@@ -18,7 +18,7 @@ date_default_timezone_set('PRC');
 define('BASE_PATH', dirname(__DIR__) . '/');
 
 (function () {
-    require_once __DIR__ . '/../app/bootstrap.php';
+    require_once BASE_PATH . 'app/bootstrap.php';
     $kernel   = Context::getContainer()->make(Kernel::class);
     $response = $kernel->handle(ServerRequest::createFromGlobals());
     (new FPMResponseEmitter())->emit($response);

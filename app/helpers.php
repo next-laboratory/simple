@@ -28,13 +28,8 @@ if (false === function_exists('public_path')) {
 }
 
 if (function_exists('config') === false) {
-    /**
-     * @throws ContainerExceptionInterface
-     * @throws ReflectionException
-     */
     function config(string $key, mixed $default = null): mixed
     {
-        /** @var Repository $config */
         $config = Context::getContainer()->make(Repository::class);
         return $config->get($key, $default);
     }
