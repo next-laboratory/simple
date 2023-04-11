@@ -1,10 +1,18 @@
 <?php
 
+declare(strict_types=1);
+
+/**
+ * This file is part of MaxPHP.
+ *
+ * @link     https://github.com/marxphp
+ * @license  https://github.com/marxphp/max/blob/master/LICENSE
+ */
+
 namespace App\Console\Command\Server;
 
 use App\Http\Kernel;
 use App\Http\ServerRequest;
-use Exception;
 use Max\Di\Context;
 use Max\Http\Server\Event\OnRequest;
 use Max\Http\Server\ResponseEmitter\WorkerManResponseEmitter;
@@ -21,18 +29,18 @@ class WorkermanServerCommand extends BaseServerCommand
     protected function configure()
     {
         $this->setName('serve:workerman')
-             ->setDescription('Manage workerman server')
-             ->addArgument('action')
-             ->addOption('d');
+            ->setDescription('Manage workerman server')
+            ->addArgument('action')
+            ->addOption('d');
     }
 
     /**
-     * @throws Exception
+     * @throws \Exception
      */
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
-        if (!class_exists('Workerman\Worker')) {
-            throw new Exception('You should install the workerman via `composer require workerman/workerman` command before starting.');
+        if (! class_exists('Workerman\Worker')) {
+            throw new \Exception('You should install the workerman via `composer require workerman/workerman` command before starting.');
         }
         global $argv;
         $action  = $input->getArgument('action');

@@ -1,9 +1,17 @@
 <?php
 
+declare(strict_types=1);
+
+/**
+ * This file is part of MaxPHP.
+ *
+ * @link     https://github.com/marxphp
+ * @license  https://github.com/marxphp/max/blob/master/LICENSE
+ */
+
 namespace App\Console\Command\Server;
 
 use App\Http\ServerRequest;
-use Exception;
 use Max\Di\Context;
 use Max\Event\EventDispatcher;
 use Max\Http\Server\Contract\HttpKernelInterface;
@@ -23,16 +31,16 @@ class SwooleServerCommand extends BaseServerCommand
     protected function configure()
     {
         $this->setName('serve:swoole')
-             ->setDescription('Start swoole server');
+            ->setDescription('Start swoole server');
     }
 
     /**
-     * @throws Exception
+     * @throws \Exception
      */
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
-        if (!class_exists('Swoole\Server')) {
-            throw new Exception('You should install the swoole extension before starting.');
+        if (! class_exists('Swoole\Server')) {
+            throw new \Exception('You should install the swoole extension before starting.');
         }
         (function () {
             $settings = [

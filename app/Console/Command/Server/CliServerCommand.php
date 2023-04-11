@@ -1,8 +1,16 @@
 <?php
 
+declare(strict_types=1);
+
+/**
+ * This file is part of MaxPHP.
+ *
+ * @link     https://github.com/marxphp
+ * @license  https://github.com/marxphp/max/blob/master/LICENSE
+ */
+
 namespace App\Console\Command\Server;
 
-use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
@@ -13,7 +21,7 @@ class CliServerCommand extends BaseServerCommand
     protected function configure()
     {
         $this->setName('serve:cli-server')
-             ->setDescription('Start cli-server');
+            ->setDescription('Start cli-server');
     }
 
     protected function execute(InputInterface $input, OutputInterface $output): int

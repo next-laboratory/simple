@@ -1,8 +1,16 @@
 <?php
 
+declare(strict_types=1);
+
+/**
+ * This file is part of MaxPHP.
+ *
+ * @link     https://github.com/marxphp
+ * @license  https://github.com/marxphp/max/blob/master/LICENSE
+ */
+
 namespace App\Console\Command\Server;
 
-use Exception;
 use App\Http\Kernel;
 use App\Http\ServerRequest;
 use Psr\Http\Message\ServerRequestInterface;
@@ -16,22 +24,24 @@ class ReactServerCommand extends BaseServerCommand
     protected function configure()
     {
         $this->setName('serve:react')
-             ->setDescription('Start ReactPHP server');
+            ->setDescription('Start ReactPHP server');
     }
 
+    /**
+     * @throws \Exception
+     */
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
-        if (!class_exists('React\Http\HttpServer')) {
-            throw new Exception('You should install the react/react package before starting.');
+        if (! class_exists('React\Http\HttpServer')) {
+            throw new \Exception('You should install the react/react package before starting.');
         }
 
         (function () {
-
             $kernel = make(Kernel::class);
             $http   = new HttpServer(function (ServerRequestInterface $request) use ($kernel) {
                 try {
                     return $kernel->handle(ServerRequest::createFromPsrRequest($request));
-                } catch (Throwable $throwable) {
+                } catch (\Throwable $throwable) {
                     dump($throwable);
                 }
             });
