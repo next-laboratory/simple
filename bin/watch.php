@@ -6,10 +6,8 @@ if (!class_exists('Max\Watcher\Watcher')) {
     throw new Exception('You should install the package max/watcher using command \'composer require max/watcher\'');
 }
 
-$env = $argv[1] ?? throw new Exception('Please input the script name like \'swoole\' as the first argument in command line');
-
-$progress = function () use ($env) {
-    proc_open(PHP_BINARY . ' bin/' . $env . '.php', [], $pipes);
+$progress = function () {
+    proc_open(PHP_BINARY . ' ' . __DIR__ . ' /bin/max.php serve:swoole', [], $pipes);
 };
 
 $progress();
