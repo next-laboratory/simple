@@ -26,12 +26,12 @@ use Symfony\Component\Console\Output\OutputInterface;
 
 class AmpServerCommand extends BaseServerCommand
 {
-    protected string $container = 'AmpPHP';
+    protected string $container = 'AmPHP';
 
     protected function configure()
     {
         $this->setName('serve:amp')
-            ->setDescription('Start AmpPHP server');
+            ->setDescription('Start AmPHP server');
     }
 
     /**
