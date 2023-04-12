@@ -13,6 +13,8 @@ namespace App\Http\Middleware;
 
 use App\Http\Response;
 use Max\Http\Server\Middleware\ExceptionHandleMiddleware as Middleware;
+use Max\Routing\Exception\MethodNotAllowedException;
+use Max\Routing\Exception\RouteNotFoundException;
 use Max\VarDumper\Abort;
 use Max\VarDumper\AbortHandler;
 use Psr\Http\Message\ResponseInterface;
@@ -23,6 +25,12 @@ use Throwable;
 class ExceptionHandleMiddleware extends Middleware
 {
     use AbortHandler;
+
+    protected array $dontReport = [
+        Abort::class,
+        RouteNotFoundException::class,
+        MethodNotAllowedException::class,
+    ];
 
     public function __construct(
         protected LoggerInterface $logger,
