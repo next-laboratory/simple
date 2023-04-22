@@ -39,11 +39,7 @@ class ReactServerCommand extends BaseServerCommand
         (function () {
             $kernel = make(Kernel::class);
             $http   = new HttpServer(function (ServerRequestInterface $request) use ($kernel) {
-                try {
-                    return $kernel->handle(ServerRequest::createFromPsrRequest($request));
-                } catch (\Throwable $throwable) {
-                    dump($throwable);
-                }
+                return $kernel->handle(ServerRequest::createFromPsrRequest($request));
             });
 
             $listen = $this->host . ':' . $this->port;

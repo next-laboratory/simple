@@ -11,7 +11,8 @@
 <img src="https://img.shields.io/badge/license-apache%202-blue" alt="">
 </p>
 
-一款支持swoole, workerman, FPM环境的组件化的轻量`PHP`框架，可以用作`API`开发，方便快速。框架默认安装了`session`和`view`扩展包，如果不需要可以直接移除。
+一款支持swoole, workerman, FPM环境的组件化的轻量`PHP`框架，可以用作`API`开发，方便快速。框架默认安装了`session`和`view`
+扩展包，如果不需要可以直接移除。
 
 ## 环境要求
 
@@ -31,36 +32,24 @@ composer create-project max/simple
 
 ### 启动服务
 
-> swoole服务
-
 ```php
-php bin/swoole.php   // 异步模式
-php bin/swooleco.php // 协程模式
-```
-
-> workerman服务
-
-```php
-php bin/workerman.php start
-```
-
-> 内置服务
-
-```php
-php bin/cli-server.php
+php bin/cli.php serve:swoole     // swoole异步模式
+php bin/cli.php serve:swoole-co  // swoole协程模式
+php bin/cli.php serve:workerman  // workerman服务
+php bin/cli.php serve:cli-server // 内置服务
 ```
 
 > FPM模式，将请求指向public/index.php即可
 
 ## 区别
 
-使用swoole/workerman支持注解、AOP等特性， FPM模式可以直接卸载AOP包。
+使用swoole/workerman/amp/react等服务支持注解、AOP等特性， FPM模式可以直接卸载AOP包。
 
 ## 简单入门
 
 ### 路由定义
 
-> swoole/swooleco/workerman下可以使用注解定义
+> swoole/swoole-co/workerman/amp/react下配置了AOP就可以使用注解定义
 
 ```php
 <?php
@@ -85,7 +74,8 @@ class IndexController
 
 ```
 
-如上请求`0.0.0.0:8080` 会指向`index`方法，控制器方法支持依赖注入，如需当前请求示例，则请求参数名必须是`request`，其他路由参数均会被注入，控制器方法需要返回`ResponseInterface`实例。
+如上请求`0.0.0.0:8989` 会指向`index`方法，控制器方法支持依赖注入，如需当前请求示例，则请求参数名必须是`request`
+，其他路由参数均会被注入，控制器方法需要返回`ResponseInterface`实例。
 
 > FPM或内置服务下不能使用注解
 
