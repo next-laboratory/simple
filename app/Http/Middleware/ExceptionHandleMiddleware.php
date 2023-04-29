@@ -15,8 +15,8 @@ use App\Http\Response;
 use Max\Http\Server\Middleware\ExceptionHandleMiddleware as Middleware;
 use Max\Routing\Exception\MethodNotAllowedException;
 use Max\Routing\Exception\RouteNotFoundException;
-use Max\VarDumper\Abort;
-use Max\VarDumper\AbortHandler;
+use Max\VarDumper\Dumper;
+use Max\VarDumper\DumperHandler;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use Psr\Log\LoggerInterface;
@@ -24,10 +24,10 @@ use Throwable;
 
 class ExceptionHandleMiddleware extends Middleware
 {
-    use AbortHandler;
+    use DumperHandler;
 
     protected array $dontReport = [
-        Abort::class,
+        Dumper::class,
         RouteNotFoundException::class,
         MethodNotAllowedException::class,
     ];
@@ -41,7 +41,7 @@ class ExceptionHandleMiddleware extends Middleware
     protected function render(Throwable $e, ServerRequestInterface $request): ResponseInterface
     {
         return match (true) {
-            $e instanceof Abort => Response::HTML(self::convertToHtml($e)),
+            $e instanceof Dumper => Response::HTML(self::convertToHtml($e)),
             env('APP_DEBUG') => parent::render($e, $request),
             default => Response::text($e->getMessage(), $this->getStatusCode($e)),
         };
