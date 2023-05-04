@@ -13,8 +13,6 @@ namespace App\Http\Middleware;
 
 use App\Http\Response;
 use Max\Http\Server\Middleware\ExceptionHandleMiddleware as Middleware;
-use Max\Routing\Exception\MethodNotAllowedException;
-use Max\Routing\Exception\RouteNotFoundException;
 use Max\VarDumper\Dumper;
 use Max\VarDumper\DumperHandler;
 use Psr\Http\Message\ResponseInterface;
@@ -25,12 +23,6 @@ use Throwable;
 class ExceptionHandleMiddleware extends Middleware
 {
     use DumperHandler;
-
-    protected array $dontReport = [
-        Dumper::class,
-        RouteNotFoundException::class,
-        MethodNotAllowedException::class,
-    ];
 
     public function __construct(
         protected LoggerInterface $logger,
@@ -50,10 +42,10 @@ class ExceptionHandleMiddleware extends Middleware
     protected function report(Throwable $e, ServerRequestInterface $request): void
     {
         $this->logger->error($e->getMessage(), [
-            'file'    => $e->getFile(),
-            'line'    => $e->getLine(),
+            'file' => $e->getFile(),
+            'line' => $e->getLine(),
             'request' => $request,
-            'trace'   => $e->getTrace(),
+            'trace' => $e->getTrace(),
         ]);
     }
 }
