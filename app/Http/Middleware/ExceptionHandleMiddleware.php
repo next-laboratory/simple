@@ -42,10 +42,10 @@ class ExceptionHandleMiddleware extends Middleware
     protected function report(Throwable $e, ServerRequestInterface $request): void
     {
         $this->logger->error($e->getMessage(), [
-            'file' => $e->getFile(),
-            'line' => $e->getLine(),
-            'request' => $request,
-            'trace' => $e->getTrace(),
+            'file'    => $e->getFile(),
+            'line'    => $e->getLine(),
+            'request' => $request->all(),
+            'trace'   => $e->getTrace(),
         ]);
     }
 }
