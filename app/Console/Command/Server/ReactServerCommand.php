@@ -13,6 +13,9 @@ namespace App\Console\Command\Server;
 
 use App\Http\Kernel;
 use App\Http\ServerRequest;
+use Max\Di\Context;
+use Max\Event\EventDispatcher;
+use Max\Http\Server\Event\OnRequest;
 use Psr\Http\Message\ServerRequestInterface;
 use React\Http\HttpServer;
 use React\Socket\SocketServer;
@@ -32,14 +35,18 @@ class ReactServerCommand extends BaseServerCommand
      */
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
-        if (! class_exists('React\Http\HttpServer')) {
+        if (!class_exists('React\Http\HttpServer')) {
             throw new \Exception('You should install the react/react package before starting.');
         }
 
         (function () {
-            $kernel = make(Kernel::class);
-            $http   = new HttpServer(function (ServerRequestInterface $request) use ($kernel) {
-                return $kernel->handle(ServerRequest::createFromPsrRequest($request));
+            $container = Context::getContainer();
+            $kernel = $container->make(Kernel::class);
+            $eventDispatcher = $container->make(EventDispatcher::class);
+            $http = new HttpServer(function (ServerRequestInterface $request) use ($kernel, $eventDispatcher) {
+                $response = $kernel->handle($serverRequest = ServerRequest::createFromPsrRequest($request));
+                $eventDispatcher->dispatch(new OnRequest($serverRequest, $response));
+                return $response;
             });
 
             $listen = $this->host . ':' . $this->port;

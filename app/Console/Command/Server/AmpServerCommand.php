@@ -20,6 +20,8 @@ use App\Http\Kernel;
 use App\Http\ServerRequest;
 use App\Logger;
 use Max\Di\Context;
+use Max\Event\EventDispatcher;
+use Max\Http\Server\Event\OnRequest;
 use Max\Http\Server\ResponseEmitter\AmpResponseEmitter;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
@@ -39,24 +41,27 @@ class AmpServerCommand extends BaseServerCommand
      */
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
-        if (! class_exists('Amp\Http\Server\HttpServer')) {
+        if (!class_exists('Amp\Http\Server\HttpServer')) {
             throw new \Exception('You should install the amphp/http-server package before starting.');
         }
 
         (function () {
             $container = Context::getContainer();
-            $kernel    = $container->make(Kernel::class);
-            $logger    = $container->make(Logger::class)->get();
-
-            Loop::run(function () use ($kernel, $logger) {
+            $kernel = $container->make(Kernel::class);
+            $logger = $container->make(Logger::class)->get();
+            $eventDispatcher = $container->make(EventDispatcher::class);
+            Loop::run(function () use ($kernel, $logger, $eventDispatcher) {
                 $sockets = [
                     Server::listen("{$this->host}:{$this->port}"),
                     //                    Server::listen("[::]:{$port}"),
                 ];
 
-                $server = new HttpServer($sockets, new CallableRequestHandler(
-                    fn (Request $request) => (new AmpResponseEmitter())->emit($kernel->handle(ServerRequest::createFromAmp($request)))
-                ), $logger);
+                $server = new HttpServer($sockets, new CallableRequestHandler(function (Request $request) use ($kernel, $eventDispatcher) {
+                    $serverRequest = ServerRequest::createFromAmp($request);
+                    $response = $kernel->handle($serverRequest);
+                    $eventDispatcher->dispatch(new OnRequest($serverRequest, $response));
+                    return (new AmpResponseEmitter())->emit($response);
+                }), $logger);
                 $this->showInfo();
                 yield $server->start();
 

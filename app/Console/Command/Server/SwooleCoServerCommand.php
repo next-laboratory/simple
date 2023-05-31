@@ -14,6 +14,8 @@ namespace App\Console\Command\Server;
 use App\Http\Kernel;
 use App\Http\ServerRequest;
 use Max\Di\Context;
+use Max\Event\EventDispatcher;
+use Max\Http\Server\Event\OnRequest;
 use Max\Http\Server\ResponseEmitter\SwooleResponseEmitter;
 use Swoole\Constant;
 use Swoole\Coroutine\Http\Server;
@@ -50,15 +52,20 @@ class SwooleCoServerCommand extends BaseServerCommand
                     Constant::OPTION_MAX_REQUEST => 100000,
                 ];
 
+                $container = Context::getContainer();
                 // Start server.
                 $server = new Server($this->host, $this->port);
-                $kernel = Context::getContainer()->make(Kernel::class);
-                $server->handle('/', function (Request $request, Response $response) use ($kernel) {
-                    $psrResponse = $kernel->handle(ServerRequest::createFromSwooleRequest($request, [
+
+                $kernel = $container->make(Kernel::class);
+                $eventDispatcher = $container->make(EventDispatcher::class);
+                $server->handle('/', function (Request $request, Response $response) use ($kernel, $eventDispatcher) {
+                    $psrResponse = $kernel->handle($serverRequest = ServerRequest::createFromSwooleRequest($request, [
                         'request'  => $request,
                         'response' => $response,
                     ]));
                     (new SwooleResponseEmitter())->emit($psrResponse, $response);
+
+                    $eventDispatcher->dispatch(new OnRequest($serverRequest, $psrResponse));
                 });
 
                 $server->set($settings);
