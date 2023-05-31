@@ -31,14 +31,15 @@ class ServerRequest extends PsrServerRequest
     public function getRealIp(): string
     {
         if ($xForwardedFor = $this->getHeaderLine('X-Forwarded-For')) {
-            $ips = explode(',', $xForwardedFor);
-            return trim($ips[0]);
+            if ($ips = explode(', ', $xForwardedFor)) {
+                return $ips[0];
+            }
         }
         if ($xRealIp = $this->getHeaderLine('X-Real-IP')) {
             return $xRealIp;
         }
         $serverParams = $this->getServerParams();
-        return $serverParams['remote_addr'] ?? '127.0.0.1';
+        return $serverParams['REMOTE_ADDR'] ?? '127.0.0.1';
     }
 
     public function isPjax(bool $pjax = false, string $headerName = 'X-Pjax', string $pjaxVar = '_pjax'): bool
