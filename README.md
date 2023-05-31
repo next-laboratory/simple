@@ -27,7 +27,8 @@ PHP >= 8.0
 ### 安装
 
 ```shell
-composer create-project max/simple
+composer config -g repo.packagist composer https://repo.packagist.org # 更换官方仓库
+composer create-project max/simple:dev-master
 ```
 
 ### 启动服务
