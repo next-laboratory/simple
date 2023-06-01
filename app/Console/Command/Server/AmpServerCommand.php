@@ -19,6 +19,7 @@ use Amp\Socket\Server;
 use App\Http\Kernel;
 use App\Http\ServerRequest;
 use App\Logger;
+use Max\Aop\Aop;
 use Max\Di\Context;
 use Max\Event\EventDispatcher;
 use Max\Http\Server\Event\OnRequest;
@@ -45,34 +46,35 @@ class AmpServerCommand extends BaseServerCommand
             throw new \Exception('You should install the amphp/http-server package before starting.');
         }
 
-        (function () {
-            $container = Context::getContainer();
-            $kernel = $container->make(Kernel::class);
-            $logger = $container->make(Logger::class)->get();
-            $eventDispatcher = $container->make(EventDispatcher::class);
-            Loop::run(function () use ($kernel, $logger, $eventDispatcher) {
-                $sockets = [
-                    Server::listen("{$this->host}:{$this->port}"),
-                    //                    Server::listen("[::]:{$port}"),
-                ];
+        $aopConfig = config('aop');
+        Aop::init($aopConfig['scanDirs'], $aopConfig['collectors'], $aopConfig['runtimeDir']);
 
-                $server = new HttpServer($sockets, new CallableRequestHandler(function (Request $request) use ($kernel, $eventDispatcher) {
-                    $serverRequest = ServerRequest::createFromAmp($request);
-                    $response = $kernel->handle($serverRequest);
-                    $eventDispatcher->dispatch(new OnRequest($serverRequest, $response));
-                    return (new AmpResponseEmitter())->emit($response);
-                }), $logger);
-                $this->showInfo();
-                yield $server->start();
+        $container = Context::getContainer();
+        $kernel = $container->make(Kernel::class);
+        $logger = $container->make(Logger::class)->get();
+        $eventDispatcher = $container->make(EventDispatcher::class);
+        Loop::run(function () use ($kernel, $logger, $eventDispatcher) {
+            $sockets = [
+                Server::listen("{$this->host}:{$this->port}"),
+                //                    Server::listen("[::]:{$port}"),
+            ];
 
-                // Stop the server gracefully when SIGINT is received.
-                // This is technically optional, but it is best to call Server::stop().
-                Loop::onSignal(SIGINT, function (string $watcherId) use ($server) {
-                    Loop::cancel($watcherId);
-                    yield $server->stop();
-                });
+            $server = new HttpServer($sockets, new CallableRequestHandler(function (Request $request) use ($kernel, $eventDispatcher) {
+                $serverRequest = ServerRequest::createFromAmp($request);
+                $response = $kernel->handle($serverRequest);
+                $eventDispatcher->dispatch(new OnRequest($serverRequest, $response));
+                return (new AmpResponseEmitter())->emit($response);
+            }), $logger);
+            $this->showInfo();
+            yield $server->start();
+
+            // Stop the server gracefully when SIGINT is received.
+            // This is technically optional, but it is best to call Server::stop().
+            Loop::onSignal(SIGINT, function (string $watcherId) use ($server) {
+                Loop::cancel($watcherId);
+                yield $server->stop();
             });
-        })();
+        });
 
         return 0;
     }

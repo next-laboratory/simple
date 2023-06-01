@@ -12,11 +12,15 @@ declare(strict_types=1);
 namespace App\Console\Command\Server;
 
 use App\Http\ServerRequest;
+use Exception;
+use Max\Aop\Aop;
 use Max\Di\Context;
 use Max\Event\EventDispatcher;
 use Max\Http\Server\Contract\HttpKernelInterface;
 use Max\Http\Server\Event\OnRequest;
 use Max\Http\Server\ResponseEmitter\SwooleResponseEmitter;
+use Psr\Container\ContainerExceptionInterface;
+use Psr\Container\NotFoundExceptionInterface;
 use Swoole\Constant;
 use Swoole\Http\Request;
 use Swoole\Http\Response;
@@ -35,37 +39,45 @@ class SwooleServerCommand extends BaseServerCommand
     }
 
     /**
-     * @throws \Exception
+     * @param InputInterface $input
+     * @param OutputInterface $output
+     * @return int
+     * @throws ContainerExceptionInterface
+     * @throws NotFoundExceptionInterface
+     * @throws \ReflectionException
+     * @throws Exception
      */
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
-        if (! class_exists('Swoole\Server')) {
-            throw new \Exception('You should install the swoole extension before starting.');
+        if (!class_exists('Swoole\Server')) {
+            throw new Exception('You should install the swoole extension before starting.');
         }
-        (function () {
-            $settings = [
-                Constant::OPTION_WORKER_NUM  => swoole_cpu_num(),
-                Constant::OPTION_MAX_REQUEST => 100000,
-            ];
 
-            // Start server
-            $server          = new Server($this->host, $this->port);
-            $container       = Context::getContainer();
-            $kernel          = $container->make(HttpKernelInterface::class);
-            $eventDispatcher = $container->make(EventDispatcher::class);
-            $server->on('request', function (Request $request, Response $response) use ($kernel, $eventDispatcher) {
-                $psrRequest  = ServerRequest::createFromSwooleRequest($request, [
-                    'request'  => $request,
-                    'response' => $response,
-                ]);
-                $psrResponse = $kernel->handle($psrRequest);
-                (new SwooleResponseEmitter())->emit($psrResponse, $response);
-                $eventDispatcher->dispatch(new OnRequest($psrRequest, $psrResponse));
-            });
-            $server->set($settings);
-            $this->showInfo();
-            $server->start();
-        })();
+        $aopConfig = config('aop');
+        Aop::init($aopConfig['scanDirs'], $aopConfig['collectors'], $aopConfig['runtimeDir']);
+
+        $settings = [
+            Constant::OPTION_WORKER_NUM => swoole_cpu_num(),
+            Constant::OPTION_MAX_REQUEST => 100000,
+        ];
+
+        // Start server
+        $server = new Server($this->host, $this->port);
+        $container = Context::getContainer();
+        $kernel = $container->make(HttpKernelInterface::class);
+        $eventDispatcher = $container->make(EventDispatcher::class);
+        $server->on('request', function (Request $request, Response $response) use ($kernel, $eventDispatcher) {
+            $psrRequest = ServerRequest::createFromSwooleRequest($request, [
+                'request' => $request,
+                'response' => $response,
+            ]);
+            $psrResponse = $kernel->handle($psrRequest);
+            (new SwooleResponseEmitter())->emit($psrResponse, $response);
+            $eventDispatcher->dispatch(new OnRequest($psrRequest, $psrResponse));
+        });
+        $server->set($settings);
+        $this->showInfo();
+        $server->start();
 
         return 0;
     }

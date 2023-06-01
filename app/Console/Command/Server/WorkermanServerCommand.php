@@ -30,9 +30,9 @@ class WorkermanServerCommand extends BaseServerCommand
     protected function configure()
     {
         $this->setName('serve:workerman')
-             ->setDescription('Manage workerman server')
-             ->addArgument('action')
-             ->addOption('d');
+            ->setDescription('Manage workerman server')
+            ->addArgument('action')
+            ->addOption('d');
     }
 
     /**
@@ -44,32 +44,28 @@ class WorkermanServerCommand extends BaseServerCommand
             throw new \Exception('You should install the workerman via `composer require workerman/workerman` command before starting.');
         }
         global $argv;
-        $action  = $input->getArgument('action');
+        $action = $input->getArgument('action');
         $argv[0] = 'serve:workerman';
         $argv[1] = $action;
         $argv[2] = $input->getOption('d') ? '-d' : '';
 
-        Aop::init(
-            [base_path('app')],
-            [\Max\Routing\RouteCollector::class, \Max\Aop\Collector\AspectCollector::class, \Max\Aop\Collector\PropertyAttributeCollector::class],
-            base_path('runtime/aop/'),
-        );
+        $aopConfig = config('aop');
+        Aop::init($aopConfig['scanDirs'], $aopConfig['collectors'], $aopConfig['runtimeDir']);
 
-        (function () {
-            $worker            = new Worker(sprintf('http://%s:%d', $this->host, $this->port));
-            $container         = Context::getContainer();
-            $kernel            = $container->make(Kernel::class);
-            $eventDispatcher   = $container->make(\Max\Event\EventDispatcher::class);
-            $worker->onMessage = function (TcpConnection $connection, Request $request) use ($kernel, $eventDispatcher) {
-                $psrRequest  = ServerRequest::createFromWorkerManRequest($request, ['TcpConnection' => $connection, 'request' => $request]);
-                $psrResponse = $kernel->handle($psrRequest);
-                (new WorkerManResponseEmitter())->emit($psrResponse, $connection);
-                $eventDispatcher->dispatch(new OnRequest($psrRequest, $psrResponse));
-            };
-            $worker->count     = 4;
-            $this->showInfo();
-            Worker::runAll();
-        })();
+        $container = Context::getContainer();
+
+        $kernel = $container->make(Kernel::class);
+        $worker = new Worker(sprintf('http://%s:%d', $this->host, $this->port));
+        $eventDispatcher = $container->make(\Max\Event\EventDispatcher::class);
+        $worker->onMessage = function (TcpConnection $connection, Request $request) use ($kernel, $eventDispatcher) {
+            $psrRequest = ServerRequest::createFromWorkerManRequest($request, ['TcpConnection' => $connection, 'request' => $request]);
+            $psrResponse = $kernel->handle($psrRequest);
+            (new WorkerManResponseEmitter())->emit($psrResponse, $connection);
+            $eventDispatcher->dispatch(new OnRequest($psrRequest, $psrResponse));
+        };
+        $worker->count = 4;
+        $this->showInfo();
+        Worker::runAll();
 
         return 0;
     }

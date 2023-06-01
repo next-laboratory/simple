@@ -13,6 +13,7 @@ namespace App\Console\Command\Server;
 
 use App\Http\Kernel;
 use App\Http\ServerRequest;
+use Max\Aop\Aop;
 use Max\Di\Context;
 use Max\Event\EventDispatcher;
 use Max\Http\Server\Event\OnRequest;
@@ -39,21 +40,22 @@ class ReactServerCommand extends BaseServerCommand
             throw new \Exception('You should install the react/react package before starting.');
         }
 
-        (function () {
-            $container = Context::getContainer();
-            $kernel = $container->make(Kernel::class);
-            $eventDispatcher = $container->make(EventDispatcher::class);
-            $http = new HttpServer(function (ServerRequestInterface $request) use ($kernel, $eventDispatcher) {
-                $response = $kernel->handle($serverRequest = ServerRequest::createFromPsrRequest($request));
-                $eventDispatcher->dispatch(new OnRequest($serverRequest, $response));
-                return $response;
-            });
+        $aopConfig = config('aop');
+        Aop::init($aopConfig['scanDirs'], $aopConfig['collectors'], $aopConfig['runtimeDir']);
 
-            $listen = $this->host . ':' . $this->port;
-            $socket = new SocketServer($listen);
-            $this->showInfo();
-            $http->listen($socket);
-        })();
+        $container = Context::getContainer();
+        $kernel = $container->make(Kernel::class);
+        $eventDispatcher = $container->make(EventDispatcher::class);
+        $http = new HttpServer(function (ServerRequestInterface $request) use ($kernel, $eventDispatcher) {
+            $response = $kernel->handle($serverRequest = ServerRequest::createFromPsrRequest($request));
+            $eventDispatcher->dispatch(new OnRequest($serverRequest, $response));
+            return $response;
+        });
+
+        $listen = $this->host . ':' . $this->port;
+        $socket = new SocketServer($listen);
+        $this->showInfo();
+        $http->listen($socket);
 
         return 0;
     }

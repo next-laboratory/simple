@@ -13,6 +13,7 @@ namespace App\Console\Command\Server;
 
 use App\Http\Kernel;
 use App\Http\ServerRequest;
+use Max\Aop\Aop;
 use Max\Di\Context;
 use Max\Event\EventDispatcher;
 use Max\Http\Server\Event\OnRequest;
@@ -41,38 +42,39 @@ class SwooleCoServerCommand extends BaseServerCommand
      */
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
-        if (! class_exists('Swoole\Server')) {
+        if (!class_exists('Swoole\Server')) {
             throw new \Exception('You should install the swoole extension before starting.');
         }
 
-        (function () {
-            run(function () {
-                $settings = [
-                    Constant::OPTION_WORKER_NUM  => swoole_cpu_num(),
-                    Constant::OPTION_MAX_REQUEST => 100000,
-                ];
+        $aopConfig = config('aop');
+        Aop::init($aopConfig['scanDirs'], $aopConfig['collectors'], $aopConfig['runtimeDir']);
 
-                $container = Context::getContainer();
-                // Start server.
-                $server = new Server($this->host, $this->port);
+        run(function () {
+            $settings = [
+                Constant::OPTION_WORKER_NUM => swoole_cpu_num(),
+                Constant::OPTION_MAX_REQUEST => 100000,
+            ];
 
-                $kernel = $container->make(Kernel::class);
-                $eventDispatcher = $container->make(EventDispatcher::class);
-                $server->handle('/', function (Request $request, Response $response) use ($kernel, $eventDispatcher) {
-                    $psrResponse = $kernel->handle($serverRequest = ServerRequest::createFromSwooleRequest($request, [
-                        'request'  => $request,
-                        'response' => $response,
-                    ]));
-                    (new SwooleResponseEmitter())->emit($psrResponse, $response);
+            $container = Context::getContainer();
+            // Start server.
+            $server = new Server($this->host, $this->port);
 
-                    $eventDispatcher->dispatch(new OnRequest($serverRequest, $psrResponse));
-                });
+            $kernel = $container->make(Kernel::class);
+            $eventDispatcher = $container->make(EventDispatcher::class);
+            $server->handle('/', function (Request $request, Response $response) use ($kernel, $eventDispatcher) {
+                $psrResponse = $kernel->handle($serverRequest = ServerRequest::createFromSwooleRequest($request, [
+                    'request' => $request,
+                    'response' => $response,
+                ]));
+                (new SwooleResponseEmitter())->emit($psrResponse, $response);
 
-                $server->set($settings);
-                $this->showInfo();
-                $server->start();
+                $eventDispatcher->dispatch(new OnRequest($serverRequest, $psrResponse));
             });
-        })();
+
+            $server->set($settings);
+            $this->showInfo();
+            $server->start();
+        });
         return 0;
     }
 }
