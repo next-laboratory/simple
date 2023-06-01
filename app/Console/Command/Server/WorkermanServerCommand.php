@@ -13,6 +13,7 @@ namespace App\Console\Command\Server;
 
 use App\Http\Kernel;
 use App\Http\ServerRequest;
+use Max\Aop\Aop;
 use Max\Di\Context;
 use Max\Http\Server\Event\OnRequest;
 use Max\Http\Server\ResponseEmitter\WorkerManResponseEmitter;
@@ -29,9 +30,9 @@ class WorkermanServerCommand extends BaseServerCommand
     protected function configure()
     {
         $this->setName('serve:workerman')
-            ->setDescription('Manage workerman server')
-            ->addArgument('action')
-            ->addOption('d');
+             ->setDescription('Manage workerman server')
+             ->addArgument('action')
+             ->addOption('d');
     }
 
     /**
@@ -39,7 +40,7 @@ class WorkermanServerCommand extends BaseServerCommand
      */
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
-        if (! class_exists('Workerman\Worker')) {
+        if (!class_exists('Workerman\Worker')) {
             throw new \Exception('You should install the workerman via `composer require workerman/workerman` command before starting.');
         }
         global $argv;
@@ -47,6 +48,13 @@ class WorkermanServerCommand extends BaseServerCommand
         $argv[0] = 'serve:workerman';
         $argv[1] = $action;
         $argv[2] = $input->getOption('d') ? '-d' : '';
+
+        Aop::init(
+            [base_path('app')],
+            [\Max\Routing\RouteCollector::class, \Max\Aop\Collector\AspectCollector::class, \Max\Aop\Collector\PropertyAttributeCollector::class],
+            base_path('runtime/aop/'),
+        );
+
         (function () {
             $worker            = new Worker(sprintf('http://%s:%d', $this->host, $this->port));
             $container         = Context::getContainer();
