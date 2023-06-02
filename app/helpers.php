@@ -11,7 +11,6 @@ declare(strict_types=1);
 
 use Max\Config\Repository;
 use Max\Di\Context;
-use Psr\Container\ContainerExceptionInterface;
 
 if (false === function_exists('base_path')) {
     function base_path(string $path = ''): string

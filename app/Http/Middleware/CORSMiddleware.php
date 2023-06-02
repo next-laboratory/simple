@@ -11,9 +11,9 @@ declare(strict_types=1);
 
 namespace App\Http\Middleware;
 
-use Max\Http\Server\Middleware\AllowCrossDomain as Middleware;
+use Max\Http\Server\Middleware\CORSMiddleware as Middleware;
 
-class AllowCrossDomain extends Middleware
+class CORSMiddleware extends Middleware
 {
     /** {@inheritdoc} */
     protected array $allowOrigin = ['*'];

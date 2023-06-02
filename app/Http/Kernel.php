@@ -22,7 +22,7 @@ class Kernel extends HttpKernel
      */
     protected array $middlewares = [
         \App\Http\Middleware\ExceptionHandleMiddleware::class,
-        \App\Http\Middleware\AllowCrossDomain::class,
+        \App\Http\Middleware\CORSMiddleware::class,
         \Max\Http\Server\Middleware\RoutingMiddleware::class,
     ];
 
