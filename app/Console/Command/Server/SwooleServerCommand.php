@@ -21,6 +21,8 @@ use Max\Http\Server\Event\OnRequest;
 use Max\Http\Server\ResponseEmitter\SwooleResponseEmitter;
 use Psr\Container\ContainerExceptionInterface;
 use Psr\Container\NotFoundExceptionInterface;
+use ReflectionException;
+use RuntimeException;
 use Swoole\Constant;
 use Swoole\Http\Request;
 use Swoole\Http\Response;
@@ -44,17 +46,13 @@ class SwooleServerCommand extends BaseServerCommand
      * @return int
      * @throws ContainerExceptionInterface
      * @throws NotFoundExceptionInterface
-     * @throws \ReflectionException
-     * @throws Exception
+     * @throws ReflectionException
      */
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
         if (!class_exists('Swoole\Server')) {
-            throw new Exception('You should install the swoole extension before starting.');
+            throw new RuntimeException('You should install the swoole extension before starting.');
         }
-
-        $aopConfig = config('aop');
-        Aop::init($aopConfig['scanDirs'], $aopConfig['collectors'], $aopConfig['runtimeDir']);
 
         $settings = [
             Constant::OPTION_WORKER_NUM => swoole_cpu_num(),

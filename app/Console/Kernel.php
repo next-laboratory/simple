@@ -11,6 +11,7 @@ declare(strict_types=1);
 
 namespace App\Console;
 
+use Max\Console\CommandCollector;
 use Max\Console\Kernel as ConsoleKernel;
 
 class Kernel extends ConsoleKernel

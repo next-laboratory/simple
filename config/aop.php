@@ -5,6 +5,7 @@ return [
         base_path('app'),
     ],
     'collectors' => [
+        \Max\Console\CommandCollector::class,
         \Max\Routing\RouteCollector::class,
         \Max\Aop\Collector\AspectCollector::class,
         \Max\Aop\Collector\PropertyAttributeCollector::class

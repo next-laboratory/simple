@@ -24,6 +24,10 @@ use Max\Di\Context;
 use Max\Event\EventDispatcher;
 use Max\Http\Server\Event\OnRequest;
 use Max\Http\Server\ResponseEmitter\AmpResponseEmitter;
+use Psr\Container\ContainerExceptionInterface;
+use Psr\Container\NotFoundExceptionInterface;
+use ReflectionException;
+use RuntimeException;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
@@ -38,16 +42,18 @@ class AmpServerCommand extends BaseServerCommand
     }
 
     /**
-     * @throws \Exception
+     * @param InputInterface $input
+     * @param OutputInterface $output
+     * @return int
+     * @throws ContainerExceptionInterface
+     * @throws NotFoundExceptionInterface
+     * @throws ReflectionException
      */
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
         if (!class_exists('Amp\Http\Server\HttpServer')) {
-            throw new \Exception('You should install the amphp/http-server package before starting.');
+            throw new RuntimeException('You should install the amphp/http-server package before starting.');
         }
-
-        $aopConfig = config('aop');
-        Aop::init($aopConfig['scanDirs'], $aopConfig['collectors'], $aopConfig['runtimeDir']);
 
         $container = Context::getContainer();
         $kernel = $container->make(Kernel::class);
