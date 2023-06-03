@@ -49,11 +49,7 @@ class WorkermanServerCommand extends BaseServerCommand
         $argv[1] = $action;
         $argv[2] = $input->getOption('d') ? '-d' : '';
 
-        $aopConfig = config('aop');
-        Aop::init($aopConfig['scanDirs'], $aopConfig['collectors'], $aopConfig['runtimeDir']);
-
         $container = Context::getContainer();
-
         $kernel = $container->make(Kernel::class);
         $worker = new Worker(sprintf('http://%s:%d', $this->host, $this->port));
         $eventDispatcher = $container->make(\Max\Event\EventDispatcher::class);
