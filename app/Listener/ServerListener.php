@@ -12,11 +12,11 @@ declare(strict_types=1);
 namespace App\Listener;
 
 use Max\Event\Attribute\Listen;
-use Max\Event\Contract\EventListenerInterface;
+use Max\Event\EventListener;
 use Max\Http\Server\Event\OnRequest;
 
 #[Listen]
-class ServerListener implements EventListenerInterface
+class ServerListener extends EventListener
 {
     public function listen(): iterable
     {

@@ -17,9 +17,13 @@ use Max\Aop\Aop;
 use Max\Di\Context;
 use Max\Event\EventDispatcher;
 use Max\Http\Server\Event\OnRequest;
+use Psr\Container\ContainerExceptionInterface;
+use Psr\Container\NotFoundExceptionInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use React\Http\HttpServer;
 use React\Socket\SocketServer;
+use ReflectionException;
+use RuntimeException;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
@@ -32,16 +36,18 @@ class ReactServerCommand extends BaseServerCommand
     }
 
     /**
-     * @throws \Exception
+     * @param InputInterface $input
+     * @param OutputInterface $output
+     * @return int
+     * @throws ContainerExceptionInterface
+     * @throws NotFoundExceptionInterface
+     * @throws ReflectionException
      */
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
         if (!class_exists('React\Http\HttpServer')) {
-            throw new \Exception('You should install the react/react package before starting.');
+            throw new RuntimeException('You should install the react/react package before starting.');
         }
-
-        $aopConfig = config('aop');
-        Aop::init($aopConfig['scanDirs'], $aopConfig['collectors'], $aopConfig['runtimeDir']);
 
         $container = Context::getContainer();
         $kernel = $container->make(Kernel::class);

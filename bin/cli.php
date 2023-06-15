@@ -10,6 +10,7 @@ declare(strict_types=1);
  */
 
 use App\Console\Kernel;
+use Max\Aop\Aop;
 
 ini_set('display_errors', 'on');
 ini_set('display_startup_errors', 'on');
@@ -19,5 +20,8 @@ date_default_timezone_set('PRC');
 define('BASE_PATH', dirname(__DIR__) . '/');
 
 require_once BASE_PATH . 'app/bootstrap.php';
+
+$aopConfig = config('aop');
+Aop::init($aopConfig['scanDirs'], $aopConfig['collectors'], $aopConfig['runtimeDir']);
 
 (new Kernel('MaxPHP', 'dev'))->run();

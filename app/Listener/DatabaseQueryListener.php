@@ -12,10 +12,10 @@ declare(strict_types=1);
 namespace App\Listener;
 
 use Max\Database\Event\QueryExecuted;
-use Max\Event\Contract\EventListenerInterface;
+use Max\Event\EventListener;
 use Psr\Log\LoggerInterface;
 
-class DatabaseQueryListener implements EventListenerInterface
+class DatabaseQueryListener extends EventListener
 {
     public function __construct(
         protected LoggerInterface $logger

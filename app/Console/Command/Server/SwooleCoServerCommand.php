@@ -13,18 +13,17 @@ namespace App\Console\Command\Server;
 
 use App\Http\Kernel;
 use App\Http\ServerRequest;
-use Max\Aop\Aop;
 use Max\Di\Context;
 use Max\Event\EventDispatcher;
 use Max\Http\Server\Event\OnRequest;
 use Max\Http\Server\ResponseEmitter\SwooleResponseEmitter;
+use RuntimeException;
 use Swoole\Constant;
 use Swoole\Coroutine\Http\Server;
 use Swoole\Http\Request;
 use Swoole\Http\Response;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
-
 use function Swoole\Coroutine\run;
 
 class SwooleCoServerCommand extends BaseServerCommand
@@ -37,17 +36,11 @@ class SwooleCoServerCommand extends BaseServerCommand
             ->setDescription('Start swoole-co server');
     }
 
-    /**
-     * @throws \Exception
-     */
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
         if (!class_exists('Swoole\Server')) {
-            throw new \Exception('You should install the swoole extension before starting.');
+            throw new RuntimeException('You should install the swoole extension before starting.');
         }
-
-        $aopConfig = config('aop');
-        Aop::init($aopConfig['scanDirs'], $aopConfig['collectors'], $aopConfig['runtimeDir']);
 
         run(function () {
             $settings = [
