@@ -32,6 +32,7 @@
     ],
     "require": {
         "php": "^8.0",
+        "max/aop": "dev-master",
         "max/cache": "dev-master",
         "max/config": "dev-master",
         "max/database": "dev-master",
@@ -41,7 +42,6 @@
         "max/http-server": "dev-master",
         "max/redis": "dev-master",
         "max/session": "dev-master",
-        "max/validation": "dev-master",
         "max/var-dumper": "dev-master",
         "max/view": "dev-master",
         "monolog/monolog": "^2.8",
