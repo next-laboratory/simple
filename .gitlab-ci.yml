@@ -10,7 +10,7 @@ variables:
 
 build_test_docker:
   stage: build
-  before_script:
+#  before_script:
 #    - git submodule sync --recursive
 #    - git submodule update --init --recursive
   script:
@@ -33,7 +33,7 @@ deploy_test_docker:
 
 build_docker:
   stage: build
-  before_script:
+#  before_script:
 #    - git submodule sync --recursive
 #    - git submodule update --init --recursive
   script:

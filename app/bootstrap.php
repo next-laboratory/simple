@@ -5,6 +5,7 @@ use Dotenv\Dotenv;
 use Max\Config\Repository;
 use Max\Di\Context;
 use Max\Event\ListenerProvider;
+use Max\Utils\Filesystem;
 
 require_once BASE_PATH . '/vendor/autoload.php';
 
@@ -30,7 +31,11 @@ if (file_exists($envFile = base_path('.env'))) {
 }
 
 $repository = $container->make(Repository::class);
-$repository->scan(base_path('./config'));
+$files = (new Filesystem())->files('./config', pattern: '*.php');
+foreach ($files as $file) {
+    $repository->set(pathinfo($file, PATHINFO_FILENAME), include $file);
+}
+
 // Initialize bindings
 foreach ($repository->get('app.bindings', []) as $id => $value) {
     $container->bind($id, $value);
