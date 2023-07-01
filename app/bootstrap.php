@@ -42,7 +42,7 @@ if (file_exists($envFile = base_path('.env'))) {
 $repository = $container->make(Repository::class);
 $files      = (new Filesystem())->files(base_path('./config'), pattern: '*.php');
 foreach ($files as $file) {
-    $repository->set(pathinfo($file, PATHINFO_FILENAME), include $file);
+    $repository->set(pathinfo($file->getBasename(), PATHINFO_FILENAME), include $file);
 }
 
 // Initialize bindings
