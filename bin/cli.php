@@ -21,7 +21,4 @@ define('BASE_PATH', dirname(__DIR__) . '/');
 
 require_once BASE_PATH . 'app/bootstrap.php';
 
-$aopConfig = config('aop');
-Aop::init($aopConfig['scanDirs'], $aopConfig['collectors'], $aopConfig['runtimeDir']);
-
 (new Kernel('MaxPHP', 'dev'))->run();

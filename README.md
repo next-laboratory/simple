@@ -82,6 +82,10 @@ class IndexController
 
 路由定义在`App\Http\Kernel`类的`map`方法中定义
 
+### 其他文档
+
+其他文档参考相应包的`README`
+
 ```php
 $router->middleware(TestMiddleware::class)->group(function(Router $router) {
     $router->get('/', [IndexController::class, 'index']);

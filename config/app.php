@@ -20,6 +20,5 @@ return [
     ],
     'listeners' => [
         \App\Listener\DatabaseQueryListener::class,
-        \App\Listener\ServerListener::class,
     ],
 ];
