@@ -3,7 +3,7 @@
 declare(strict_types=1);
 
 /**
- * This file is part of MaxPHP.
+ * This file is part of MarxPHP.
  *
  * @link     https://github.com/marxphp
  * @license  https://github.com/marxphp/max/blob/master/LICENSE
@@ -13,7 +13,6 @@ namespace App\Http;
 
 use Max\Http\Message\ServerRequest as PsrServerRequest;
 use Max\Session\Session;
-use RuntimeException;
 
 class ServerRequest extends PsrServerRequest
 {
@@ -22,7 +21,7 @@ class ServerRequest extends PsrServerRequest
         if ($session = $this->getAttribute('Max\Session\Session')) {
             return $session;
         }
-        throw new RuntimeException('Session is not started');
+        throw new \RuntimeException('Session is not started');
     }
 
     /**
@@ -44,7 +43,7 @@ class ServerRequest extends PsrServerRequest
 
     public function isPjax(bool $pjax = false, string $headerName = 'X-Pjax', string $pjaxVar = '_pjax'): bool
     {
-        $headerExists = (bool)$this->getHeaderLine($headerName);
+        $headerExists = (bool) $this->getHeaderLine($headerName);
         if ($headerExists === $pjax) {
             return $headerExists;
         }

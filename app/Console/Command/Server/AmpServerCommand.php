@@ -3,7 +3,7 @@
 declare(strict_types=1);
 
 /**
- * This file is part of MaxPHP.
+ * This file is part of MarxPHP.
  *
  * @link     https://github.com/marxphp
  * @license  https://github.com/marxphp/max/blob/master/LICENSE
@@ -19,15 +19,12 @@ use Amp\Socket\Server;
 use App\Http\Kernel;
 use App\Http\ServerRequest;
 use App\Logger;
-use Max\Aop\Aop;
 use Max\Di\Context;
 use Max\Event\EventDispatcher;
 use Max\Http\Server\Event\OnRequest;
 use Max\Http\Server\ResponseEmitter\AmpResponseEmitter;
 use Psr\Container\ContainerExceptionInterface;
 use Psr\Container\NotFoundExceptionInterface;
-use ReflectionException;
-use RuntimeException;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
@@ -42,22 +39,19 @@ class AmpServerCommand extends BaseServerCommand
     }
 
     /**
-     * @param InputInterface $input
-     * @param OutputInterface $output
-     * @return int
      * @throws ContainerExceptionInterface
      * @throws NotFoundExceptionInterface
-     * @throws ReflectionException
+     * @throws \ReflectionException
      */
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
-        if (!class_exists('Amp\Http\Server\HttpServer')) {
-            throw new RuntimeException('You should install the amphp/http-server package before starting.');
+        if (! class_exists('Amp\Http\Server\HttpServer')) {
+            throw new \RuntimeException('You should install the amphp/http-server package before starting.');
         }
 
-        $container = Context::getContainer();
-        $kernel = $container->make(Kernel::class);
-        $logger = $container->make(Logger::class)->get();
+        $container       = Context::getContainer();
+        $kernel          = $container->make(Kernel::class);
+        $logger          = $container->make(Logger::class)->get();
         $eventDispatcher = $container->make(EventDispatcher::class);
         Loop::run(function () use ($kernel, $logger, $eventDispatcher) {
             $sockets = [
@@ -67,7 +61,7 @@ class AmpServerCommand extends BaseServerCommand
 
             $server = new HttpServer($sockets, new CallableRequestHandler(function (Request $request) use ($kernel, $eventDispatcher) {
                 $serverRequest = ServerRequest::createFromAmp($request);
-                $response = $kernel->handle($serverRequest);
+                $response      = $kernel->handle($serverRequest);
                 $eventDispatcher->dispatch(new OnRequest($serverRequest, $response));
                 return (new AmpResponseEmitter())->emit($response);
             }), $logger);

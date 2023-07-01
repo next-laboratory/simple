@@ -3,7 +3,7 @@
 declare(strict_types=1);
 
 /**
- * This file is part of MaxPHP.
+ * This file is part of MarxPHP.
  *
  * @link     https://github.com/marxphp
  * @license  https://github.com/marxphp/max/blob/master/LICENSE
@@ -12,14 +12,14 @@ declare(strict_types=1);
 use Max\Config\Repository;
 use Max\Di\Context;
 
-if (false === function_exists('base_path')) {
+if (function_exists('base_path') === false) {
     function base_path(string $path = ''): string
     {
         return BASE_PATH . ltrim($path, '/');
     }
 }
 
-if (false === function_exists('public_path')) {
+if (function_exists('public_path') === false) {
     function public_path(string $path = ''): string
     {
         return base_path('public/' . ltrim($path, '/'));
@@ -34,7 +34,7 @@ if (function_exists('config') === false) {
     }
 }
 
-if (false === function_exists('env')) {
+if (function_exists('env') === false) {
     function env(string $key, $default = null): mixed
     {
         $value = getenv($key);
@@ -65,4 +65,3 @@ if (false === function_exists('env')) {
         return $value;
     }
 }
-

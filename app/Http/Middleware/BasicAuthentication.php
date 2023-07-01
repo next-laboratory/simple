@@ -2,6 +2,13 @@
 
 declare(strict_types=1);
 
+/**
+ * This file is part of MarxPHP.
+ *
+ * @link     https://github.com/marxphp
+ * @license  https://github.com/marxphp/max/blob/master/LICENSE
+ */
+
 namespace App\Http\Middleware;
 
 use App\Http\Response;
@@ -13,17 +20,17 @@ use Psr\Http\Server\RequestHandlerInterface;
 
 /**
  * Basic认证类
- * Apache下需要添加如下配置： RewriteRule .* - [E=HTTP_AUTHORIZATION:%{HTTP:Authorization}]
+ * Apache下需要添加如下配置： RewriteRule .* - [E=HTTP_AUTHORIZATION:%{HTTP:Authorization}].
  */
 class BasicAuthentication implements MiddlewareInterface
 {
     /**
-     * 需要进行验证的路径规则
+     * 需要进行验证的路径规则.
      */
     protected array $needAuth = ['*'];
 
     /**
-     * 用户名密码对
+     * 用户名密码对.
      */
     protected array $passwords = [
         'user' => 'password',
@@ -36,7 +43,7 @@ class BasicAuthentication implements MiddlewareInterface
         })) {
             if ($header = $request->getHeaderLine('Authorization')) {
                 [, $authorization] = explode(' ', $header, 2);
-                [$user, $password] = explode(':', (string)base64_decode($authorization), 2);
+                [$user, $password] = explode(':', (string) base64_decode($authorization), 2);
                 if ($this->shouldPass($user, $password)) {
                     return $handler->handle($request);
                 }
@@ -46,15 +53,15 @@ class BasicAuthentication implements MiddlewareInterface
         return $handler->handle($request);
     }
 
-    protected function shouldAuth(): ResponseInterface
-    {
-        return new Response(401, [
-            'WWW-Authenticate' => 'Basic realm="Input your ID and password"'
-        ]);
-    }
-
     public function shouldPass(string $user, string $password): bool
     {
         return isset($this->passwords[$user]) && $this->passwords[$user] === $password;
+    }
+
+    protected function shouldAuth(): ResponseInterface
+    {
+        return new Response(401, [
+            'WWW-Authenticate' => 'Basic realm="Input your ID and password"',
+        ]);
     }
 }

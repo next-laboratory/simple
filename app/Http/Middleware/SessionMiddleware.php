@@ -3,7 +3,7 @@
 declare(strict_types=1);
 
 /**
- * This file is part of MaxPHP.
+ * This file is part of MarxPHP.
  *
  * @link     https://github.com/marxphp
  * @license  https://github.com/marxphp/max/blob/master/LICENSE
@@ -13,7 +13,6 @@ namespace App\Http\Middleware;
 
 use Max\Http\Message\Cookie;
 use Max\Session\Handler\FileHandler;
-use Max\Session\Manager;
 use Max\Session\Session;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
@@ -77,16 +76,16 @@ class SessionMiddleware implements MiddlewareInterface
      */
     protected string $sameSite = Cookie::SAME_SITE_LAX;
 
-    protected Manager $manager;
+    protected \SessionHandlerInterface $sessionHandler;
 
     public function __construct()
     {
-        $this->manager = new Manager(new FileHandler(path: base_path('runtime/framework/session')));
+        $this->sessionHandler = new FileHandler(path: base_path('runtime/framework/session'));
     }
 
     public function process(ServerRequestInterface $request, RequestHandlerInterface $handler): ResponseInterface
     {
-        $session = $this->manager->create();
+        $session = new Session($this->sessionHandler);
         $session->start($request->getCookieParams()[strtoupper($this->name)] ?? '');
         $request  = $request->withAttribute('Max\Session\Session', $session);
         $response = $handler->handle($request);

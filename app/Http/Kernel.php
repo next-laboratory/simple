@@ -3,7 +3,7 @@
 declare(strict_types=1);
 
 /**
- * This file is part of MaxPHP.
+ * This file is part of MarxPHP.
  *
  * @link     https://github.com/marxphp
  * @license  https://github.com/marxphp/max/blob/master/LICENSE
@@ -47,20 +47,20 @@ class Kernel extends HttpKernel
     protected function map(Router $router): void
     {
         $router->middleware(...$this->webMiddlewares)
-               ->group(function (Router $router) {
-                   $router->request('/', [\App\Http\Controller\IndexController::class, 'index']);
-               });
+            ->group(function (Router $router) {
+                $router->request('/', [\App\Http\Controller\IndexController::class, 'index']);
+            });
         $router->middleware(...$this->apiMiddlewares)
-               ->prefix('api')
-               ->group(function (Router $router) {
-                   $router->get('/', function (ServerRequestInterface $request) {
-                       return Response::JSON([
-                           'status'  => true,
-                           'code'    => 0,
-                           'message' => sprintf('Hello, %s.', $request->query('name', 'world')),
-                           'data'    => [],
-                       ]);
-                   });
-               });
+            ->prefix('api')
+            ->group(function (Router $router) {
+                $router->get('/', function (ServerRequestInterface $request) {
+                    return Response::JSON([
+                        'status'  => true,
+                        'code'    => 0,
+                        'message' => sprintf('Hello, %s.', $request->query('name', 'world')),
+                        'data'    => [],
+                    ]);
+                });
+            });
     }
 }

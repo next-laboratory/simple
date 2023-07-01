@@ -1,5 +1,14 @@
 <?php
 
+declare(strict_types=1);
+
+/**
+ * This file is part of MarxPHP.
+ *
+ * @link     https://github.com/marxphp
+ * @license  https://github.com/marxphp/max/blob/master/LICENSE
+ */
+
 use App\Logger;
 use Dotenv\Dotenv;
 use Max\Config\Repository;
@@ -31,7 +40,7 @@ if (file_exists($envFile = base_path('.env'))) {
 }
 
 $repository = $container->make(Repository::class);
-$files = (new Filesystem())->files(base_path('./config'), pattern: '*.php');
+$files      = (new Filesystem())->files(base_path('./config'), pattern: '*.php');
 foreach ($files as $file) {
     $repository->set(pathinfo($file, PATHINFO_FILENAME), include $file);
 }
@@ -43,7 +52,7 @@ foreach ($repository->get('app.bindings', []) as $id => $value) {
 
 // Initialize event listeners
 $listenerProvider = $container->make(ListenerProvider::class);
-if (!empty($listeners = $repository->get('app.listeners', []))) {
+if (! empty($listeners = $repository->get('app.listeners', []))) {
     foreach ($listeners as $listener) {
         $listenerProvider->addListener($container->make($listener));
     }

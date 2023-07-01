@@ -3,7 +3,7 @@
 declare(strict_types=1);
 
 /**
- * This file is part of MaxPHP.
+ * This file is part of MarxPHP.
  *
  * @link     https://github.com/marxphp
  * @license  https://github.com/marxphp/max/blob/master/LICENSE
@@ -15,6 +15,5 @@ use Max\Http\Server\Middleware\CORSMiddleware as Middleware;
 
 class CORSMiddleware extends Middleware
 {
-    /** {@inheritdoc} */
     protected array $allowOrigin = ['*'];
 }
