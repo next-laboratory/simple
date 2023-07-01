@@ -12,8 +12,8 @@ declare(strict_types=1);
 namespace App\Http\Middleware;
 
 use Max\Http\Message\Cookie;
-use Max\Session\Handler\FileHandler;
 use Max\Session\Session;
+use Psr\Container\ContainerExceptionInterface;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Server\MiddlewareInterface;
@@ -78,9 +78,16 @@ class SessionMiddleware implements MiddlewareInterface
 
     protected \SessionHandlerInterface $sessionHandler;
 
+    /**
+     * @throws \ReflectionException
+     * @throws ContainerExceptionInterface
+     */
     public function __construct()
     {
-        $this->sessionHandler = new FileHandler(path: base_path('runtime/framework/session'));
+        $config               = config('session');
+        $handler              = $config['handler'];
+        $options              = $config['options'];
+        $this->sessionHandler = make($handler, $options);
     }
 
     public function process(ServerRequestInterface $request, RequestHandlerInterface $handler): ResponseInterface
