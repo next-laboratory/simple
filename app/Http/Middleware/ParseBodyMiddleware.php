@@ -28,6 +28,7 @@ class ParseBodyMiddleware implements MiddlewareInterface
 
     /**
      * 解析后替换parsedBody.
+     * @throws \Exception
      */
     public function process(ServerRequestInterface $request, RequestHandlerInterface $handler): ResponseInterface
     {

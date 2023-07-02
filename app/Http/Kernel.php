@@ -53,7 +53,7 @@ class Kernel extends HttpKernel
         $router->middleware(...$this->apiMiddlewares)
             ->prefix('api')
             ->group(function (Router $router) {
-                $router->get('/', function (ServerRequestInterface $request) {
+                $router->request('/', function (ServerRequestInterface $request) {
                     return Response::JSON([
                         'status'  => true,
                         'code'    => 0,
