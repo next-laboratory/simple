@@ -10,6 +10,7 @@ declare(strict_types=1);
  */
 
 return [
+    'name'      => env('APP_NAME', 'marx'),
     'bindings'  => [
         \Psr\Log\LoggerInterface::class                           => \App\Logger::class,
         \Max\Config\Contract\ConfigInterface::class               => \Max\Config\Repository::class,

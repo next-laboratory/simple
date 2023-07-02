@@ -10,7 +10,6 @@ declare(strict_types=1);
  */
 
 use App\Console\Kernel;
-use Max\Aop\Aop;
 
 ini_set('display_errors', 'on');
 ini_set('display_startup_errors', 'on');
