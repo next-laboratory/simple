@@ -13,6 +13,7 @@ namespace App\Http\Middleware;
 
 use Max\Http\Message\Cookie;
 use Max\Session\Session;
+use Max\Utils\Contract\PackerInterface;
 use Psr\Container\ContainerExceptionInterface;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
@@ -78,6 +79,8 @@ class SessionMiddleware implements MiddlewareInterface
 
     protected \SessionHandlerInterface $sessionHandler;
 
+    protected PackerInterface $packer;
+
     /**
      * @throws \ReflectionException
      * @throws ContainerExceptionInterface
@@ -85,14 +88,13 @@ class SessionMiddleware implements MiddlewareInterface
     public function __construct()
     {
         $config               = config('session');
-        $handler              = $config['handler'];
-        $options              = $config['options'];
-        $this->sessionHandler = make($handler, $options);
+        $this->sessionHandler = make($config['handler'], $config['options']);
+        $this->packer         = make(PackerInterface::class);
     }
 
     public function process(ServerRequestInterface $request, RequestHandlerInterface $handler): ResponseInterface
     {
-        $session = new Session($this->sessionHandler);
+        $session = new Session($this->sessionHandler, $this->packer);
         $session->start($request->getCookieParams()[strtoupper($this->name)] ?? '');
         $request  = $request->withAttribute('Max\Session\Session', $session);
         $response = $handler->handle($request);
