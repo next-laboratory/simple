@@ -31,7 +31,8 @@
         }
     ],
     "require": {
-        "php": "^8.0",
+        "php": "^8.0|^8.1",
+        "max/cache": "~0.1",
         "max/config": "~0.1",
         "max/di": "~0.1",
         "max/event": "~0.1",
@@ -62,19 +63,7 @@
         ],
         "test": "phpunit --prepend tests/bootstrap.php -c phpunit.xml --colors=always",
         "cs-fix": "php-cs-fixer fix $1",
-        "analyse": "phpstan analyse --memory-limit 300M -l 0 -c phpstan.neon $1",
-        "swoole-start": [
-            "Composer\\Config::disableProcessTimeout",
-            "php ./bin/swoole.php"
-        ],
-        "cli-server-start": [
-            "Composer\\Config::disableProcessTimeout",
-            "php ./bin/cli-server.php"
-        ],
-        "workerman-start": [
-            "Composer\\Config::disableProcessTimeout",
-            "php ./bin/workerman.php start"
-        ]
+        "analyse": "phpstan analyse --memory-limit 300M -l 0 -c phpstan.neon $1"
     },
     "minimum-stability": "dev",
     "prefer-stable": true
