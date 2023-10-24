@@ -20,9 +20,7 @@ class Kernel extends ConsoleKernel
         return [
             'App\Console\Command\Server\SwooleServerCommand',
             'App\Console\Command\Server\SwooleCoServerCommand',
-            'App\Console\Command\Server\AmpServerCommand',
             'App\Console\Command\Server\CliServerCommand',
-            'App\Console\Command\Server\ReactServerCommand',
             'App\Console\Command\Server\WorkermanServerCommand',
         ];
     }
