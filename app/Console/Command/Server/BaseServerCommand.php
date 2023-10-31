@@ -3,7 +3,7 @@
 declare(strict_types=1);
 
 /**
- * This file is part of MarxPHP.
+ * This file is part of nextphp.
  *
  * @link     https://github.com/next-laboratory
  * @license  https://github.com/next-laboratory/next/blob/master/LICENSE
@@ -17,7 +17,7 @@ class BaseServerCommand extends Command
 {
     protected string $host      = '0.0.0.0';
 
-    protected int    $port      = 8989;
+    protected int $port      = 8989;
 
     protected string $container = 'unknown';
 
