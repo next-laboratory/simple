@@ -5,17 +5,17 @@ declare(strict_types=1);
 /**
  * This file is part of MarxPHP.
  *
- * @link     https://github.com/marxphp
- * @license  https://github.com/marxphp/max/blob/master/LICENSE
+ * @link     https://github.com/next-laboratory
+ * @license  https://github.com/next-laboratory/next/blob/master/LICENSE
  */
 
 namespace App\Console\Command\Server;
 
 use App\Http\Kernel;
 use App\Http\ServerRequest;
-use Max\Di\Context;
-use Max\Http\Server\Event\OnRequest;
-use Max\Http\Server\ResponseEmitter\WorkerManResponseEmitter;
+use Next\Di\Context;
+use Next\Http\Server\Event\OnRequest;
+use Next\Http\Server\ResponseEmitter\WorkerManResponseEmitter;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Workerman\Connection\TcpConnection;
@@ -51,7 +51,7 @@ class WorkermanServerCommand extends BaseServerCommand
         $container         = Context::getContainer();
         $kernel            = $container->make(Kernel::class);
         $worker            = new Worker(sprintf('http://%s:%d', $this->host, $this->port));
-        $eventDispatcher   = $container->make(\Max\Event\EventDispatcher::class);
+        $eventDispatcher   = $container->make(\Next\Event\EventDispatcher::class);
         $worker->onMessage = function (TcpConnection $connection, Request $request) use ($kernel, $eventDispatcher) {
             $psrRequest  = ServerRequest::createFromWorkerManRequest($request, ['TcpConnection' => $connection, 'request' => $request]);
             $psrResponse = $kernel->handle($psrRequest);

@@ -5,14 +5,14 @@ declare(strict_types=1);
 /**
  * This file is part of MarxPHP.
  *
- * @link     https://github.com/marxphp
- * @license  https://github.com/marxphp/max/blob/master/LICENSE
+ * @link     https://github.com/next-laboratory
+ * @license  https://github.com/next-laboratory/next/blob/master/LICENSE
  */
 
 namespace App\Listener;
 
-use Max\Database\Event\QueryExecuted;
-use Max\Event\EventListener;
+use Next\Database\Event\QueryExecuted;
+use Next\Event\EventListener;
 use Psr\Log\LoggerInterface;
 
 class DatabaseQueryListener extends EventListener

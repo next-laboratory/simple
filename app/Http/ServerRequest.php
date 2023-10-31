@@ -5,20 +5,20 @@ declare(strict_types=1);
 /**
  * This file is part of MarxPHP.
  *
- * @link     https://github.com/marxphp
- * @license  https://github.com/marxphp/max/blob/master/LICENSE
+ * @link     https://github.com/next-laboratory
+ * @license  https://github.com/next-laboratory/next/blob/master/LICENSE
  */
 
 namespace App\Http;
 
-use Max\Http\Message\ServerRequest as PsrServerRequest;
-use Max\Session\Session;
+use Next\Http\Message\ServerRequest as PsrServerRequest;
+use Next\Session\Session;
 
 class ServerRequest extends PsrServerRequest
 {
     public function session(): ?Session
     {
-        if ($session = $this->getAttribute('Max\Session\Session')) {
+        if ($session = $this->getAttribute('Next\Session\Session')) {
             return $session;
         }
         throw new \RuntimeException('Session is not started');

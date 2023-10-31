@@ -5,18 +5,18 @@ declare(strict_types=1);
 /**
  * This file is part of MarxPHP.
  *
- * @link     https://github.com/marxphp
- * @license  https://github.com/marxphp/max/blob/master/LICENSE
+ * @link     https://github.com/next-laboratory
+ * @license  https://github.com/next-laboratory/next/blob/master/LICENSE
  */
 
 namespace App\Console\Command\Server;
 
 use App\Http\Kernel;
 use App\Http\ServerRequest;
-use Max\Di\Context;
-use Max\Event\EventDispatcher;
-use Max\Http\Server\Event\OnRequest;
-use Max\Http\Server\ResponseEmitter\SwooleResponseEmitter;
+use Next\Di\Context;
+use Next\Event\EventDispatcher;
+use Next\Http\Server\Event\OnRequest;
+use Next\Http\Server\ResponseEmitter\SwooleResponseEmitter;
 use Swoole\Constant;
 use Swoole\Coroutine\Http\Server;
 use Swoole\Http\Request;

@@ -5,7 +5,7 @@ stages:
   - deploy
 
 variables:
-  PROJECT_NAME: maxphp
+  PROJECT_NAME: nextphp
   REGISTRY_URL: registry-docker.org
 
 build_test_docker:

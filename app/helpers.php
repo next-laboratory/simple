@@ -5,12 +5,12 @@ declare(strict_types=1);
 /**
  * This file is part of MarxPHP.
  *
- * @link     https://github.com/marxphp
- * @license  https://github.com/marxphp/max/blob/master/LICENSE
+ * @link     https://github.com/next-laboratory
+ * @license  https://github.com/next-laboratory/next/blob/master/LICENSE
  */
 
-use Max\Config\Repository;
-use Max\Di\Context;
+use Next\Config\Repository;
+use Next\Di\Context;
 
 if (function_exists('base_path') === false) {
     function base_path(string $path = ''): string

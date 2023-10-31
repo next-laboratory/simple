@@ -5,8 +5,8 @@ declare(strict_types=1);
 /**
  * This file is part of MarxPHP.
  *
- * @link     https://github.com/marxphp
- * @license  https://github.com/marxphp/max/blob/master/LICENSE
+ * @link     https://github.com/next-laboratory
+ * @license  https://github.com/next-laboratory/next/blob/master/LICENSE
  */
 
 use App\Console\Kernel;
@@ -20,4 +20,4 @@ define('BASE_PATH', dirname(__DIR__) . '/');
 
 require_once BASE_PATH . 'app/bootstrap.php';
 
-(new Kernel('MaxPHP', 'dev'))->run();
+(new Kernel('nextphp', 'dev'))->run();

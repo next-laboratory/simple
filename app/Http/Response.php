@@ -5,17 +5,17 @@ declare(strict_types=1);
 /**
  * This file is part of MarxPHP.
  *
- * @link     https://github.com/marxphp
- * @license  https://github.com/marxphp/max/blob/master/LICENSE
+ * @link     https://github.com/next-laboratory
+ * @license  https://github.com/next-laboratory/next/blob/master/LICENSE
  */
 
 namespace App\Http;
 
-use Max\Http\Message\Cookie;
-use Max\Http\Message\Response as PsrResponse;
-use Max\Http\Message\Stream\FileStream;
-use Max\Utils\Contract\Arrayable;
-use Max\View\ViewFactory;
+use Next\Http\Message\Cookie;
+use Next\Http\Message\Response as PsrResponse;
+use Next\Http\Message\Stream\FileStream;
+use Next\Utils\Contract\Arrayable;
+use Next\View\ViewFactory;
 use Psr\Container\ContainerExceptionInterface;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;

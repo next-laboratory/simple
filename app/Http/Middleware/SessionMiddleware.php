@@ -5,15 +5,15 @@ declare(strict_types=1);
 /**
  * This file is part of MarxPHP.
  *
- * @link     https://github.com/marxphp
- * @license  https://github.com/marxphp/max/blob/master/LICENSE
+ * @link     https://github.com/next-laboratory
+ * @license  https://github.com/next-laboratory/next/blob/master/LICENSE
  */
 
 namespace App\Http\Middleware;
 
-use Max\Http\Message\Cookie;
-use Max\Session\Session;
-use Max\Utils\Contract\PackerInterface;
+use Next\Http\Message\Cookie;
+use Next\Session\Session;
+use Next\Utils\Contract\PackerInterface;
 use Psr\Container\ContainerExceptionInterface;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
@@ -96,7 +96,7 @@ class SessionMiddleware implements MiddlewareInterface
     {
         $session = new Session($this->sessionHandler, $this->packer);
         $session->start($request->getCookieParams()[strtoupper($this->name)] ?? '');
-        $request  = $request->withAttribute('Max\Session\Session', $session);
+        $request  = $request->withAttribute('Next\Session\Session', $session);
         $response = $handler->handle($request);
         $session->save();
         $session->close();

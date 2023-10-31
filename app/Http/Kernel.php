@@ -5,14 +5,14 @@ declare(strict_types=1);
 /**
  * This file is part of MarxPHP.
  *
- * @link     https://github.com/marxphp
- * @license  https://github.com/marxphp/max/blob/master/LICENSE
+ * @link     https://github.com/next-laboratory
+ * @license  https://github.com/next-laboratory/next/blob/master/LICENSE
  */
 
 namespace App\Http;
 
-use Max\Http\Server\Kernel as HttpKernel;
-use Max\Routing\Router;
+use Next\Http\Server\Kernel as HttpKernel;
+use Next\Routing\Router;
 use Psr\Http\Message\ServerRequestInterface;
 
 class Kernel extends HttpKernel
@@ -23,7 +23,7 @@ class Kernel extends HttpKernel
     protected array $middlewares = [
         \App\Http\Middleware\ExceptionHandleMiddleware::class,
         \App\Http\Middleware\CORSMiddleware::class,
-        \Max\Http\Server\Middleware\RoutingMiddleware::class,
+        \Next\Http\Server\Middleware\RoutingMiddleware::class,
     ];
 
     /**

@@ -3,10 +3,10 @@
 declare(strict_types=1);
 
 /**
- * This file is part of MaxPHP.
+ * This file is part of nextphp.
  *
- * @link     https://github.com/marxphp
- * @license  https://github.com/marxphp/max/blob/master/LICENSE
+ * @link     https://github.com/next-laboratory
+ * @license  https://github.com/next-laboratory/next/blob/master/LICENSE
  */
 
 namespace Psr\Http\Message {
@@ -29,7 +29,7 @@ namespace Psr\Http\Message {
 }
 
 namespace Psr\Container {
-    use Max\Di\Container;
+    use Next\Di\Container;
 
     /**
      * @mixin Container
@@ -40,7 +40,7 @@ namespace Psr\Container {
 }
 
 namespace Psr\SimpleCache {
-    use Max\Cache\Cache;
+    use Next\Cache\Cache;
 
     /**
      * @mixin Cache

@@ -3,8 +3,8 @@
 $header = <<<'EOF'
 This file is part of MarxPHP.
 
-@link     https://github.com/marxphp
-@license  https://github.com/marxphp/max/blob/master/LICENSE
+@link     https://github.com/next-laboratory
+@license  https://github.com/next-laboratory/next/blob/master/LICENSE
 EOF;
 
 return (new PhpCsFixer\Config())

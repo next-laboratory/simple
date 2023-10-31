@@ -1,5 +1,5 @@
 FROM php:latest
-LABEL maintainer="ChengYao" version="1.0" license="Apache-2.0" app.name="MaxPHP"
+LABEL maintainer="ChengYao" version="1.0" license="Apache-2.0" app.name="nextphp"
 
 ##
 # ---------- env settings ----------

@@ -1,12 +1,12 @@
 <p align="center">
-<img src="https://raw.githubusercontent.com/marxphp/simple/master/public/favicon.ico" width="120" alt="Max">
+<img src="https://raw.githubusercontent.com/next-laboratory/simple/master/public/favicon.ico" width="120" alt="Max">
 </p>
 
 <p align="center">轻量 • 简单 • 快速</p>
 
 <p align="center">
-<a href="https://github.com/marxphp/simple/issues"><img src="https://img.shields.io/github/issues/marxphp/simple" alt=""></a>
-<a href="https://github.com/marxphp/simple"><img src="https://img.shields.io/github/stars/marxphp/simple" alt=""></a>
+<a href="https://github.com/next-laboratory/simple/issues"><img src="https://img.shields.io/github/issues/next-laboratory/simple" alt=""></a>
+<a href="https://github.com/next-laboratory/simple"><img src="https://img.shields.io/github/stars/next-laboratory/simple" alt=""></a>
 <img src="https://img.shields.io/badge/php-%3E%3D8.0-brightgreen" alt="">
 <img src="https://img.shields.io/badge/license-apache%202-blue" alt="">
 </p>
@@ -28,7 +28,7 @@ PHP >= 8.0
 
 ```shell
 composer config -g repo.packagist composer https://repo.packagist.org # 更换官方仓库
-composer create-project max/simple
+composer create-project next/simple
 ```
 
 ### 启动服务
@@ -58,8 +58,8 @@ php bin/cli.php serve:cli-server // 内置服务
 namespace App\Controllers;
 
 use App\Http\Response;
-use Max\Routing\Attribute\Controller;
-use Max\Routing\Attribute\GetMapping;
+use Next\Routing\Attribute\Controller;
+use Next\Routing\Attribute\GetMapping;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 
@@ -69,7 +69,7 @@ class IndexController
     #[GetMapping(path: '/')]
     public function index(ServerRequestInterface $request): ResponseInterface
     {
-        return Response::HTML('Hello, ' . $request->query('name', 'MaxPHP!'));
+        return Response::HTML('Hello, ' . $request->query('name', 'nextphp!'));
     }
 }
 
@@ -101,4 +101,4 @@ $router->middleware(TestMiddleware::class)->group(function(Router $router) {
 
 ## 致谢
 
-感谢PHP最好用IDE: <a href="https://www.jetbrains.com/?from=marxphp">PHPStorm</a>
+感谢PHP最好用IDE: <a href="https://www.jetbrains.com/?from=next-laboratory">PHPStorm</a>

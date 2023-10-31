@@ -5,16 +5,16 @@ declare(strict_types=1);
 /**
  * This file is part of MarxPHP.
  *
- * @link     https://github.com/marxphp
- * @license  https://github.com/marxphp/max/blob/master/LICENSE
+ * @link     https://github.com/next-laboratory
+ * @license  https://github.com/next-laboratory/next/blob/master/LICENSE
  */
 
 use App\Logger;
 use Dotenv\Dotenv;
-use Max\Config\Repository;
-use Max\Di\Context;
-use Max\Event\ListenerProvider;
-use Max\Utils\Filesystem;
+use Next\Config\Repository;
+use Next\Di\Context;
+use Next\Event\ListenerProvider;
+use Next\Utils\Filesystem;
 
 require_once BASE_PATH . '/vendor/autoload.php';
 

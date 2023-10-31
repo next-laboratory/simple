@@ -3,16 +3,16 @@
 declare(strict_types=1);
 
 /**
- * This file is part of MaxPHP.
+ * This file is part of nextphp.
  *
- * @link     https://github.com/marxphp
- * @license  https://github.com/marxphp/max/blob/master/LICENSE
+ * @link     https://github.com/next-laboratory
+ * @license  https://github.com/next-laboratory/next/blob/master/LICENSE
  */
 
 use App\Http\Kernel;
 use App\Http\ServerRequest;
-use Max\Di\Context;
-use Max\Http\Server\ResponseEmitter\FPMResponseEmitter;
+use Next\Di\Context;
+use Next\Http\Server\ResponseEmitter\FPMResponseEmitter;
 
 date_default_timezone_set('PRC');
 define('BASE_PATH', dirname(__DIR__) . '/');
