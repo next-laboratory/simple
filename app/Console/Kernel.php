@@ -11,17 +11,30 @@ declare(strict_types=1);
 
 namespace App\Console;
 
-use Next\Console\Kernel as ConsoleKernel;
+use Next\Di\Context;
+use Symfony\Component\Console\Application;
 
-class Kernel extends ConsoleKernel
+class Kernel extends Application
 {
+    public function __construct(string $name = 'UNKNOWN', string $version = 'UNKNOWN')
+    {
+        parent::__construct($name, $version);
+        $container = Context::getContainer();
+        foreach ($this->commands() as $command) {
+            $this->add($container->make($command));
+        }
+    }
+
     protected function commands(): array
     {
         return [
-            'App\Console\Command\Server\SwooleServerCommand',
-            'App\Console\Command\Server\SwooleCoServerCommand',
-            'App\Console\Command\Server\CliServerCommand',
-            'App\Console\Command\Server\WorkermanServerCommand',
+            'App\Console\Command\Internal\SwooleServerCommand',
+            'App\Console\Command\Internal\SwooleCoServerCommand',
+            'App\Console\Command\Internal\CliServerCommand',
+            'App\Console\Command\Internal\WorkermanServerCommand',
+            'App\Console\Command\Internal\ControllerMakeCommand',
+            'App\Console\Command\Internal\MiddlewareMakeCommand',
+            'App\Console\Command\Internal\MiddlewareMakeCommand',
         ];
     }
 }

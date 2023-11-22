@@ -9,7 +9,7 @@ declare(strict_types=1);
  * @license  https://github.com/next-laboratory/next/blob/master/LICENSE
  */
 
-namespace App\Console\Command\Server;
+namespace App\Console\Command\Internal;
 
 use App\Http\Kernel;
 use App\Http\ServerRequest;
@@ -23,7 +23,6 @@ use Swoole\Http\Request;
 use Swoole\Http\Response;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
-
 use function Swoole\Coroutine\run;
 
 class SwooleCoServerCommand extends BaseServerCommand

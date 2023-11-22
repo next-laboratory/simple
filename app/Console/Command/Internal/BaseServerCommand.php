@@ -9,7 +9,7 @@ declare(strict_types=1);
  * @license  https://github.com/next-laboratory/next/blob/master/LICENSE
  */
 
-namespace App\Console\Command\Server;
+namespace App\Console\Command\Internal;
 
 use Symfony\Component\Console\Command\Command;
 
@@ -24,11 +24,11 @@ class BaseServerCommand extends Command
     protected function showInfo()
     {
         echo <<<'EOT'
-,--.   ,--.                  ,------. ,--.  ,--.,------.
-|   `.'   | ,--,--.,--.  ,--.|  .--. '|  '--'  ||  .--. '
-|  |'.'|  |' ,-.  | \  `'  / |  '--' ||  .--.  ||  '--' |
-|  |   |  |\ '-'  | /  /.  \ |  | --' |  |  |  ||  | --'
-`--'   `--' `--`--''--'  '--'`--'     `--'  `--'`--'
+,--.  ,--.                   ,--.  ,------. ,--.  ,--.,------.
+|  ,'.|  | ,---. ,--.  ,--.,-'  '-.|  .--. '|  '--'  ||  .--. '
+|  |' '  || .-. : \  `'  / '-.  .-'|  '--' ||  .--.  ||  '--' |
+|  | `   |\   --. /  /.  \   |  |  |  | --' |  |  |  ||  | --'
+`--'  `--' `----''--'  '--'  `--'  `--'     `--'  `--'`--'
 
 EOT;
         printf("System       Name:       %s\n", strtolower(PHP_OS));

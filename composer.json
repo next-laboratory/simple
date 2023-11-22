@@ -32,15 +32,14 @@
     ],
     "require": {
         "php": "^8.0|^8.1",
+        "monolog/monolog": "^2.9",
         "next/cache": "~0.1",
         "next/config": "~0.1",
         "next/di": "~0.1",
         "next/event": "~0.1",
-        "next/framework": "~0.1",
         "next/http-server": "~0.1",
         "next/session": "~0.1",
         "next/var-dumper": "~0.1",
-        "monolog/monolog": "^2.8",
         "vlucas/phpdotenv": "^5.5"
     },
     "require-dev": {
@@ -63,7 +62,10 @@
         ],
         "test": "phpunit --prepend tests/bootstrap.php -c phpunit.xml --colors=always",
         "cs-fix": "php-cs-fixer fix $1",
-        "analyse": "phpstan analyse --memory-limit 300M -l 0 -c phpstan.neon $1"
+        "analyse": "phpstan analyse --memory-limit 300M -l 0 -c phpstan.neon $1",
+        "swagger": [
+            "@php ./vendor/bin/openapi -o ./public/openapi.json ./app/Http/Controller"
+        ]
     },
     "minimum-stability": "dev",
     "prefer-stable": true
