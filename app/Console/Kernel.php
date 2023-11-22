@@ -11,17 +11,31 @@ declare(strict_types=1);
 
 namespace App\Console;
 
+use App\Aop\Collector\CommandCollector;
 use Next\Di\Context;
+use Psr\Container\ContainerExceptionInterface;
+use Psr\Container\NotFoundExceptionInterface;
+use ReflectionException;
 use Symfony\Component\Console\Application;
 
 class Kernel extends Application
 {
-    public function __construct(string $name = 'UNKNOWN', string $version = 'UNKNOWN')
+    /**
+     * @throws NotFoundExceptionInterface
+     * @throws ContainerExceptionInterface
+     * @throws ReflectionException
+     */
+    public function __construct(string $name = 'nextphp', string $version = '0.1')
     {
         parent::__construct($name, $version);
         $container = Context::getContainer();
         foreach ($this->commands() as $command) {
             $this->add($container->make($command));
+        }
+        if (class_exists('App\Aop\Collector\CommandCollector')) {
+            foreach (CommandCollector::all() as $command) {
+                $this->add($container->make($command));
+            }
         }
     }
 

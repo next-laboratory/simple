@@ -29,8 +29,9 @@ class Config implements PropertyAttribute
      */
     public function __construct(
         protected string $key,
-        protected mixed $default = null
-    ) {
+        protected mixed  $default = null
+    )
+    {
     }
 
     public function handle(object $object, string $property): void

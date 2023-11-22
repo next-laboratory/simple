@@ -13,6 +13,7 @@ namespace App\Aop\Collector;
 
 use App\Aop\Attribute\Listen;
 use Next\Aop\Collector\AbstractCollector;
+use Next\Event\ListenerProvider;
 use Psr\Container\ContainerExceptionInterface;
 use ReflectionException;
 
