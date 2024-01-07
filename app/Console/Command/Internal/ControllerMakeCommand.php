@@ -34,10 +34,9 @@ class ControllerMakeCommand extends Command
     }
 
     /**
-     * @return int
      * @throws FileNotFoundException
      */
-    protected function execute(InputInterface $input, OutputInterface $output)
+    protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $filesystem = new Filesystem();
         $controller = $input->getArgument('controller');

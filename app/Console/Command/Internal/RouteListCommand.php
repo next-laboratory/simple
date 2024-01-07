@@ -27,11 +27,10 @@ use Symfony\Component\Console\Output\OutputInterface;
 class RouteListCommand extends Command
 {
     /**
-     * @return int
      * @throws ContainerExceptionInterface
      * @throws ReflectionException
      */
-    public function execute(InputInterface $input, OutputInterface $output)
+    public function execute(InputInterface $input, OutputInterface $output): int
     {
         $table = new Table(new ConsoleOutput());
         $table->setHeaders(['Methods', 'URI', 'Action', 'Middlewares']);

@@ -31,8 +31,9 @@
         }
     ],
     "require": {
-        "php": "^8.0|^8.1",
+        "php": "^8.0|^8.1|^8.2",
         "monolog/monolog": "^2.9",
+        "next/aop": "dev-master",
         "next/cache": "~0.1",
         "next/config": "~0.1",
         "next/di": "~0.1",
@@ -67,6 +68,6 @@
             "@php ./vendor/bin/openapi -o ./public/openapi.json ./app/Http/Controller"
         ]
     },
-    "minimum-stability": "dev",
+    "minimum-stability": "stable",
     "prefer-stable": true
 }
