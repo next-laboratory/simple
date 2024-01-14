@@ -52,7 +52,7 @@ foreach ($repository->get('app.bindings', []) as $id => $value) {
 
 // Initialize event listeners
 $listenerProvider = $container->make(ListenerProvider::class);
-if (! empty($listeners = $repository->get('app.listeners', []))) {
+if (!empty($listeners = $repository->get('app.listeners', []))) {
     foreach ($listeners as $listener) {
         $listenerProvider->addListener($container->make($listener));
     }

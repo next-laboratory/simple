@@ -29,9 +29,9 @@ class WorkermanServerCommand extends BaseServerCommand
     protected function configure()
     {
         $this->setName('serve:workerman')
-            ->setDescription('Manage workerman server')
-            ->addArgument('action')
-            ->addOption('d');
+             ->setDescription('Manage workerman server')
+             ->addArgument('action')
+             ->addOption('d');
     }
 
     /**
@@ -39,7 +39,7 @@ class WorkermanServerCommand extends BaseServerCommand
      */
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
-        if (! class_exists('Workerman\Worker')) {
+        if (!class_exists('Workerman\Worker')) {
             throw new \Exception('You should install the workerman via `composer require workerman/workerman` command before starting.');
         }
         global $argv;
@@ -58,7 +58,7 @@ class WorkermanServerCommand extends BaseServerCommand
             (new WorkerManResponseEmitter())->emit($psrResponse, $connection);
             $eventDispatcher->dispatch(new OnRequest($psrRequest, $psrResponse));
         };
-        $worker->count = 4;
+        $worker->count     = 4;
         $this->showInfo();
         Worker::runAll();
 

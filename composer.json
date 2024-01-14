@@ -31,7 +31,7 @@
         }
     ],
     "require": {
-        "php": "^8.0|^8.1|^8.2",
+        "php": "^8.2|^8.3",
         "monolog/monolog": "^2.9",
         "next/aop": "dev-master",
         "next/cache": "~0.1",
@@ -41,13 +41,13 @@
         "next/http-server": "~0.1",
         "next/session": "~0.1",
         "next/var-dumper": "~0.1",
-        "vlucas/phpdotenv": "^5.5"
+        "vlucas/phpdotenv": "^5.5",
+        "workerman/workerman": "^4.1"
     },
     "require-dev": {
         "friendsofphp/php-cs-fixer": "^3.11",
         "phpstan/phpstan": "^1.8",
-        "phpunit/phpunit": "^9.5",
-        "swoole/ide-helper": "*"
+        "phpunit/phpunit": "^9.5"
     },
     "config": {
         "optimize-autoloader": true,

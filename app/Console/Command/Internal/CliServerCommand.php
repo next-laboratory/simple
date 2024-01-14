@@ -16,12 +16,12 @@ use Symfony\Component\Console\Output\OutputInterface;
 
 class CliServerCommand extends BaseServerCommand
 {
-    protected string $container = 'cli-server';
+    protected string $container = 'cli';
 
     protected function configure()
     {
-        $this->setName('serve:cli-server')
-            ->setDescription('Start cli-server');
+        $this->setName('serve:cli')
+             ->setDescription('Start CLI server');
     }
 
     protected function execute(InputInterface $input, OutputInterface $output): int

@@ -27,7 +27,8 @@ class Inject implements PropertyAttribute
      */
     public function __construct(
         protected string $id = ''
-    ) {
+    )
+    {
     }
 
     public function handle(object $object, string $property): void
@@ -35,7 +36,6 @@ class Inject implements PropertyAttribute
         try {
             $reflectionProperty = Reflection::property($object::class, $property);
             if ((!is_null($type = $reflectionProperty->getType()) && $type = $type->getName()) || $type = $this->id) {
-                $reflectionProperty->setAccessible(true); // 兼容PHP8.0
                 $reflectionProperty->setValue($object, $this->getBinding($type));
             }
         } catch (Throwable $e) {
