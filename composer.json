@@ -32,7 +32,7 @@
     ],
     "require": {
         "php": "^8.2",
-        "monolog/monolog": "^3.9",
+        "monolog/monolog": "^3.6",
         "next/aop": "^0.1",
         "next/cache": "^0.1",
         "next/config": "^0.1",
