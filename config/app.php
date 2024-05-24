@@ -21,6 +21,6 @@ return [
         \Psr\EventDispatcher\EventDispatcherInterface::class       => \Next\Event\EventDispatcher::class,
     ],
     'listeners' => [
-        \App\Listener\DatabaseQueryListener::class,
+//        \App\Listener\DatabaseQueryListener::class,
     ],
 ];

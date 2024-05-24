@@ -11,6 +11,7 @@ declare(strict_types=1);
 
 namespace App\Http;
 
+use App\Http\Controller\IndexController;
 use Next\Http\Server\Kernel as HttpKernel;
 use Next\Routing\Router;
 use Psr\Http\Message\ServerRequestInterface;
@@ -47,20 +48,19 @@ class Kernel extends HttpKernel
     protected function map(Router $router): void
     {
         $router->middleware(...$this->webMiddlewares)
-            ->group(function (Router $router) {
-                $router->request('/', [\App\Http\Controller\IndexController::class, 'index']);
-            });
+               ->group(function (Router $router) {
+                   $router->request('/', [\App\Http\Controller\IndexController::class, 'index']);
+               });
         $router->middleware(...$this->apiMiddlewares)
-            ->prefix('api')
-            ->group(function (Router $router) {
-                $router->request('/', function (ServerRequestInterface $request) {
-                    return Response::JSON([
-                        'status'  => true,
-                        'code'    => 0,
-                        'message' => sprintf('Hello, %s.', $request->query('name', 'world')),
-                        'data'    => [],
-                    ]);
-                });
-            });
+               ->prefix('api')
+               ->group(function (Router $router) {
+                   $router->request('/', function (ServerRequestInterface $request) {
+                       return Response::JSON([
+                           'code'    => 0,
+                           'message' => sprintf('Hello, %s.', $request->query('name', 'world')),
+                           'data'    => [],
+                       ]);
+                   });
+               });
     }
 }

@@ -31,28 +31,31 @@
         }
     ],
     "require": {
-        "php": "^8.2|^8.3",
-        "monolog/monolog": "^2.9",
+        "php": "^8.2",
+        "monolog/monolog": "^3.9",
         "next/aop": "dev-master",
-        "next/cache": "~0.1",
-        "next/config": "~0.1",
-        "next/di": "~0.1",
-        "next/event": "~0.1",
-        "next/http-server": "~0.1",
-        "next/session": "~0.1",
-        "next/var-dumper": "~0.1",
-        "vlucas/phpdotenv": "^5.5",
-        "workerman/workerman": "^4.1"
+        "next/cache": "dev-master",
+        "next/config": "dev-master",
+        "next/di": "dev-master",
+        "next/event": "dev-master",
+        "next/http-server": "dev-master",
+        "next/session": "dev-master",
+        "next/var-dumper": "dev-master",
+        "vlucas/phpdotenv": "^5.6"
     },
     "require-dev": {
         "friendsofphp/php-cs-fixer": "^3.11",
-        "phpstan/phpstan": "^1.8",
-        "phpunit/phpunit": "^9.5"
+        "pestphp/pest": "^2.34",
+        "phpstan/phpstan": "^1.11",
+        "zircote/swagger-php": "^4.9"
     },
     "config": {
         "optimize-autoloader": true,
         "preferred-install": "dist",
-        "sort-packages": true
+        "sort-packages": true,
+        "allow-plugins": {
+            "pestphp/pest-plugin": true
+        }
     },
     "scripts": {
         "post-autoload-dump": [
@@ -61,13 +64,59 @@
         "post-root-package-install": [
             "@php -r \"file_exists('.env') || copy('.example.env', '.env');\""
         ],
-        "test": "phpunit --prepend tests/bootstrap.php -c phpunit.xml --colors=always",
-        "cs-fix": "php-cs-fixer fix $1",
-        "analyse": "phpstan analyse --memory-limit 300M -l 0 -c phpstan.neon $1",
+        "test": "@php ./vendor/bin/phpunit --prepend tests/bootstrap.php -c phpunit.xml --colors=always",
+        "cs-fix": "@php ./vendor/bin/php-cs-fixer fix $1",
+        "analyse": "@php ./vendor/bin/phpstan analyse --memory-limit 300M -l 0 -c phpstan.neon $1",
         "swagger": [
             "@php ./vendor/bin/openapi -o ./public/openapi.json ./app/Http/Controller"
         ]
     },
     "minimum-stability": "stable",
-    "prefer-stable": true
+    "prefer-stable": true,
+    "repositories": [
+        {
+            "type": "path",
+            "url": "/mnt/d/Workspace/Self/php/next/next/src/cache"
+        },
+        {
+            "type": "path",
+            "url": "/mnt/d/Workspace/Self/php/next/next/src/config"
+        },
+        {
+            "type": "path",
+            "url": "/mnt/d/Workspace/Self/php/next/next/src/di"
+        },
+        {
+            "type": "path",
+            "url": "/mnt/d/Workspace/Self/php/next/next/src/event"
+        },
+        {
+            "type": "path",
+            "url": "/mnt/d/Workspace/Self/php/next/next/src/http-server"
+        },
+        {
+            "type": "path",
+            "url": "/mnt/d/Workspace/Self/php/next/next/src/session"
+        },
+        {
+            "type": "path",
+            "url": "/mnt/d/Workspace/Self/php/next/next/src/http-message"
+        },
+        {
+            "type": "path",
+            "url": "/mnt/d/Workspace/Self/php/next/next/src/routing"
+        },
+        {
+            "type": "path",
+            "url": "/mnt/d/Workspace/Self/php/next/next/src/utils"
+        },
+        {
+            "type": "path",
+            "url": "/mnt/d/Workspace/Self/php/next/next/src/var-dumper"
+        },
+        {
+            "type": "path",
+            "url": "/mnt/d/Workspace/Self/php/next/next/src/aop"
+        }
+    ]
 }

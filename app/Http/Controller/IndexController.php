@@ -11,12 +11,17 @@ declare(strict_types=1);
 
 namespace App\Http\Controller;
 
+use App\Aop\Attribute\Inject;
 use App\Http\Response;
+use Psr\Container\ContainerInterface;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 
-class IndexController
+class IndexController extends Controller
 {
+    #[Inject]
+    protected ContainerInterface $container;
+
     /**
      * 注意： 如果需要使用请求变量，切记变量名为$request，否则不能注入.
      */

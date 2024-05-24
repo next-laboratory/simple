@@ -38,7 +38,10 @@ class Response extends PsrResponse
      */
     public static function view(string $view, array $arguments = [], ?ServerRequestInterface $request = null): ResponseInterface
     {
-        $renderer = make(ViewFactory::class)->getRenderer();
+        if (!class_exists('Next\View\ViewFactory')) {
+            throw new \BadMethodCallException('View is not supported. Please install package next/view.');
+        }
+        $renderer = make('Next\View\ViewFactory')->getRenderer();
         if (isset($request)) {
             $renderer->assign('request', $request);
         }
@@ -67,7 +70,7 @@ class Response extends PsrResponse
      */
     public static function JSON($data, int $status = 200): ResponseInterface
     {
-        if (! is_string($data)) {
+        if (!is_string($data)) {
             $data = json_encode($data, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES);
         }
 
@@ -82,7 +85,7 @@ class Response extends PsrResponse
     public static function JSONP(ServerRequestInterface $request, $data, int $status = 200): ResponseInterface
     {
         if ($callback = $request->query('callback')) {
-            if (! is_string($data)) {
+            if (!is_string($data)) {
                 $data = json_encode($data, JSON_UNESCAPED_UNICODE);
             }
             return new static($status, ['Content-Type' => 'application/javascript; charset=utf-8'], sprintf('%s(%s)', $callback, $data));
@@ -97,7 +100,7 @@ class Response extends PsrResponse
      */
     public static function HTML($data, int $status = 200): ResponseInterface
     {
-        return new static($status, ['Content-Type' => 'text/html; charset=utf-8'], (string) $data);
+        return new static($status, ['Content-Type' => 'text/html; charset=utf-8'], (string)$data);
     }
 
     /**
@@ -130,13 +133,14 @@ class Response extends PsrResponse
     public function withCookie(
         string $name,
         string $value,
-        int $expires = 3600,
+        int    $expires = 3600,
         string $path = '/',
         string $domain = '',
-        bool $secure = false,
-        bool $httponly = false,
+        bool   $secure = false,
+        bool   $httponly = false,
         string $sameSite = ''
-    ): static {
+    ): static
+    {
         $cookie = new Cookie(...func_get_args());
         return $this->withAddedHeader('Set-Cookie', $cookie->__toString());
     }
@@ -144,13 +148,14 @@ class Response extends PsrResponse
     public function setCookie(
         string $name,
         string $value,
-        int $expires = 3600,
+        int    $expires = 3600,
         string $path = '/',
         string $domain = '',
-        bool $secure = false,
-        bool $httponly = false,
+        bool   $secure = false,
+        bool   $httponly = false,
         string $sameSite = ''
-    ): static {
+    ): static
+    {
         $cookie = new Cookie(...func_get_args());
         return $this->setAddedHeader('Set-Cookie', $cookie->__toString());
     }

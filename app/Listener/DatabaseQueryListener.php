@@ -19,7 +19,9 @@ class DatabaseQueryListener extends EventListener
 {
     public function __construct(
         protected LoggerInterface $logger
-    ) {}
+    )
+    {
+    }
 
     public function listen(): iterable
     {
