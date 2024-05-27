@@ -11,8 +11,8 @@ declare(strict_types=1);
 
 namespace App\Console;
 
-use App\Aop\Collector\CommandCollector;
 use Next\Di\Context;
+use Next\Foundation\Console\Collector\CommandCollector;
 use Psr\Container\ContainerExceptionInterface;
 use Psr\Container\NotFoundExceptionInterface;
 use ReflectionException;
@@ -40,7 +40,7 @@ class Kernel extends Application
             }
         }
 
-        if (class_exists('App\Aop\Collector\CommandCollector')) {
+        if (class_exists('Next\Foundation\Console\Collector\CommandCollector')) {
             foreach (CommandCollector::all() as $command) {
                 $this->add($container->make($command));
             }

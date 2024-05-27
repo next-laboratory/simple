@@ -38,6 +38,7 @@
         "next/config": "^0.1",
         "next/di": "^0.1",
         "next/event": "^0.1",
+        "next/foundation": "^0.1.0",
         "next/http-server": "^0.1",
         "next/session": "^0.1",
         "next/var-dumper": "^0.1",
