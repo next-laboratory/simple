@@ -13,8 +13,10 @@ namespace App\Listener;
 
 use Next\Database\Event\QueryExecuted;
 use Next\Event\EventListener;
+use Next\Foundation\Event\Attribute\Listen;
 use Psr\Log\LoggerInterface;
 
+#[Listen]
 class DatabaseQueryListener extends EventListener
 {
     public function __construct(

@@ -12,7 +12,7 @@ declare(strict_types=1);
 namespace App\Http\Controller;
 
 use App\Http\Response;
-use Next\Foundation\Aop\Attribute\Inject;
+use Next\Foundation\Di\Attribute\Inject;
 use Psr\Container\ContainerInterface;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
