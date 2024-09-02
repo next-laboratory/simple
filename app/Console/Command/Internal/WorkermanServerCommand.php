@@ -42,11 +42,6 @@ class WorkermanServerCommand extends BaseServerCommand
         if (!class_exists('Workerman\Worker')) {
             throw new \Exception('You should install the workerman via `composer require workerman/workerman` command before starting.');
         }
-        global $argv;
-        $action  = $input->getArgument('action');
-        $argv[0] = 'serve:workerman';
-        $argv[1] = $action;
-        $argv[2] = $input->getOption('d') ? '-d' : '';
 
         $container         = Context::getContainer();
         $kernel            = $container->make(Kernel::class);
@@ -58,7 +53,6 @@ class WorkermanServerCommand extends BaseServerCommand
             (new WorkerManResponseEmitter())->emit($psrResponse, $connection);
             $eventDispatcher->dispatch(new OnRequest($psrRequest, $psrResponse));
         };
-        $worker->count     = 4;
         $this->showInfo();
         Worker::runAll();
 
