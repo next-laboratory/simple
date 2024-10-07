@@ -50,11 +50,11 @@ class Kernel extends Application
     protected function commands(): array
     {
         return [
-            'App\Console\Command\Internal\SwooleServerCommand',
-            'App\Console\Command\Internal\SwooleCoServerCommand',
-            'App\Console\Command\Internal\CliServerCommand',
-            'App\Console\Command\Internal\RouteListCommand',
-            'App\Console\Command\Internal\WorkermanServerCommand',
+            'App\Command\Internal\SwooleServerCommand',
+            'App\Command\Internal\SwooleCoServerCommand',
+            'App\Command\Internal\CliServerCommand',
+            'App\Command\Internal\RouteListCommand',
+            'App\Command\Internal\WorkermanServerCommand',
         ];
     }
 }

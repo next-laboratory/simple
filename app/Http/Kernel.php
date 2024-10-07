@@ -1,66 +1,47 @@
 <?php
 
-declare(strict_types=1);
-
-/**
- * This file is part of nextphp.
- *
- * @link     https://github.com/next-laboratory
- * @license  https://github.com/next-laboratory/next/blob/master/LICENSE
- */
-
 namespace App\Http;
 
-use App\Http\Controller\IndexController;
-use Next\Http\Server\Kernel as HttpKernel;
+use App\Http;
+use App\Http\Controllers\IndexController;
+use App\Http\Middlewares\ExceptionHandleMiddleware;
+use App\Http\Middlewares\RouteDispatcher;
+use Next\Http\Server\FPMResponseEmitter;
+use Next\Http\Server\RequestHandler;
 use Next\Routing\Router;
 use Psr\Http\Message\ServerRequestInterface;
 
-class Kernel extends HttpKernel
+class Kernel
 {
-    /**
-     * Global middleware.
-     */
-    protected array $middlewares = [
-        \App\Http\Middleware\ExceptionHandleMiddleware::class,
-        \App\Http\Middleware\CORSMiddleware::class,
-        \Next\Http\Server\Middleware\RoutingMiddleware::class,
-    ];
+    protected Router $router;
 
-    /**
-     * Web middlewares.
-     */
-    protected array $webMiddlewares = [
-        \App\Http\Middleware\SessionMiddleware::class,
-        \App\Http\Middleware\VerifyCSRFToken::class,
-    ];
+    public function __construct()
+    {
+        $this->map($this->router = new Router());
+    }
 
-    /**
-     * Api middlewares.
-     */
-    protected array $apiMiddlewares = [
-        \App\Http\Middleware\ParseBodyMiddleware::class,
-    ];
-
-    /**
-     * Register routes.
-     */
     protected function map(Router $router): void
     {
-        $router->middleware(...$this->webMiddlewares)
+        $router->middleware(new Http\Middlewares\SessionMiddleware(), new Http\Middlewares\VerifyCSRFToken())
                ->group(function (Router $router) {
-                   $router->request('/', [\App\Http\Controller\IndexController::class, 'index']);
+                   $router->get('/', [new IndexController(), 'index']);
+                   $router->get('openapi', [new IndexController(), 'opanapi']);
                });
-        $router->middleware(...$this->apiMiddlewares)
-               ->prefix('api')
+        $router->prefix('api')
+               ->middleware(new Http\Middlewares\ParseBodyMiddleware())
                ->group(function (Router $router) {
-                   $router->request('/', function (ServerRequestInterface $request) {
-                       return Response::JSON([
-                           'code'    => 0,
-                           'message' => sprintf('Hello, %s.', $request->query('name', 'world')),
-                           'data'    => [],
-                       ]);
+                   $router->get('/', function () {
+                       return Http\Response::JSON(['version' => '0.1.1']);
                    });
                });
+    }
+
+    public function handle(ServerRequestInterface $request)
+    {
+        $response = (new RequestHandler())
+            ->withMiddleware(new ExceptionHandleMiddleware(), new RouteDispatcher($this->router))
+            ->handle($request);
+
+        (new FPMResponseEmitter())->emit($response);
     }
 }

@@ -9,7 +9,7 @@ declare(strict_types=1);
  * @license  https://github.com/next-laboratory/next/blob/master/LICENSE
  */
 
-namespace App\Http\Middleware;
+namespace App\Http\Middlewares;
 
 use App\Http\Response;
 use Next\Utils\Collection;

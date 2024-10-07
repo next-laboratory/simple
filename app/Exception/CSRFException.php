@@ -9,11 +9,8 @@ declare(strict_types=1);
  * @license  https://github.com/next-laboratory/next/blob/master/LICENSE
  */
 
-namespace App\Http\Middleware;
+namespace App\Exception;
 
-use Next\Http\Server\Middleware\CORSMiddleware as Middleware;
+use Next\Http\Message\Exception\HttpException;
 
-class CORSMiddleware extends Middleware
-{
-    protected array $allowOrigin = ['*'];
-}
+class CSRFException extends HttpException {}

@@ -33,22 +33,27 @@
     "require": {
         "php": "^8.2",
         "monolog/monolog": "^3.6",
-        "next/aop": "^0.1",
+        "next/aop": "dev-master",
         "next/cache": "^0.1",
         "next/config": "^0.1",
         "next/di": "^0.1",
         "next/event": "^0.1",
         "next/foundation": "^0.1.0",
-        "next/http-server": "^0.1",
+        "next/http-server": "dev-master",
+        "next/routing": "dev-master",
         "next/session": "^0.1",
         "next/var-dumper": "^0.1",
-        "vlucas/phpdotenv": "^5.6"
+        "nikic/fast-route": "^1.3",
+        "symfony/http-foundation": "^7.1",
+        "vlucas/phpdotenv": "^5.6",
+        "workerman/workerman": "^4.1"
     },
     "require-dev": {
         "friendsofphp/php-cs-fixer": "^3.11",
         "pestphp/pest": "^2.34",
         "phpstan/phpstan": "^1.11",
-        "zircote/swagger-php": "^4.9"
+        "swoole/ide-helper": "^5.1",
+        "zircote/swagger-php": "^4.10"
     },
     "config": {
         "optimize-autoloader": true,
@@ -72,6 +77,24 @@
             "@php ./vendor/bin/openapi -o ./public/openapi.json ./app/Http/Controller"
         ]
     },
-    "minimum-stability": "stable",
-    "prefer-stable": true
+    "minimum-stability": "dev",
+    "prefer-stable": true,
+    "repositories": [
+        {
+            "type": "path",
+            "url": "../next/src/aop"
+        },
+        {
+            "type": "path",
+            "url": "../next/src/http-server"
+        },
+        {
+            "type": "path",
+            "url": "../next/src/http-message"
+        },
+        {
+            "type": "path",
+            "url": "../next/src/routing"
+        }
+    ]
 }

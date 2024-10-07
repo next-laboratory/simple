@@ -9,13 +9,13 @@ declare(strict_types=1);
  * @license  https://github.com/next-laboratory/next/blob/master/LICENSE
  */
 
-namespace App\Console\Command\Internal;
+namespace App\Command\Internal;
 
 use App\Http\Kernel;
 use App\Http\ServerRequest;
 use Next\Di\Context;
 use Next\Http\Server\Event\OnRequest;
-use Next\Http\Server\ResponseEmitter\WorkerManResponseEmitter;
+use Next\Http\Server\WorkerManResponseEmitter;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Workerman\Connection\TcpConnection;

@@ -9,7 +9,7 @@ declare(strict_types=1);
  * @license  https://github.com/next-laboratory/next/blob/master/LICENSE
  */
 
-namespace App\Console\Command\Internal;
+namespace App\Command\Internal;
 
 use Closure;
 use Next\Di\Exception\NotFoundException;

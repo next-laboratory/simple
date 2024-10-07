@@ -9,14 +9,14 @@ declare(strict_types=1);
  * @license  https://github.com/next-laboratory/next/blob/master/LICENSE
  */
 
-namespace App\Console\Command\Internal;
+namespace App\Command\Internal;
 
 use App\Http\ServerRequest;
 use Next\Di\Context;
 use Next\Event\EventDispatcher;
 use Next\Http\Server\Contract\HttpKernelInterface;
 use Next\Http\Server\Event\OnRequest;
-use Next\Http\Server\ResponseEmitter\SwooleResponseEmitter;
+use Next\Http\Server\SwooleResponseEmitter;
 use Psr\Container\ContainerExceptionInterface;
 use Psr\Container\NotFoundExceptionInterface;
 use Swoole\Constant;

@@ -56,11 +56,7 @@ php bin/cli.php serve:cli-server // 内置服务
 
 namespace App\Controllers;
 
-use App\Http\Response;
-use Next\Routing\Attribute\Controller;
-use Next\Routing\Attribute\GetMapping;
-use Psr\Http\Message\ResponseInterface;
-use Psr\Http\Message\ServerRequestInterface;
+use App\Http\Response;use Next\Routing\Attribute\Controller;use Next\Routing\Attribute\GetMapping;use Psr\Http\Message\ResponseInterface;use Psr\Http\Message\ServerRequestInterface;
 
 #[Controller(prefix: '/')]
 class IndexController

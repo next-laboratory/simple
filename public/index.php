@@ -11,15 +11,9 @@ declare(strict_types=1);
 
 use App\Http\Kernel;
 use App\Http\ServerRequest;
-use Next\Di\Context;
-use Next\Http\Server\ResponseEmitter\FPMResponseEmitter;
 
 date_default_timezone_set('PRC');
 define('BASE_PATH', dirname(__DIR__) . '/');
+require_once BASE_PATH . 'vendor/autoload.php';
 
-(function () {
-    require_once BASE_PATH . 'app/bootstrap.php';
-    $kernel   = Context::getContainer()->make(Kernel::class);
-    $response = $kernel->handle(ServerRequest::createFromGlobals());
-    (new FPMResponseEmitter())->emit($response);
-})();
+(new Kernel())->handle(ServerRequest::createFromGlobals());

@@ -9,12 +9,13 @@ declare(strict_types=1);
  * @license  https://github.com/next-laboratory/next/blob/master/LICENSE
  */
 
-namespace App\Http\Middleware;
+namespace App\Http\Middlewares;
 
 use Next\Http\Message\Cookie;
+use Next\Session\Handler\FileHandler;
 use Next\Session\Session;
 use Next\Utils\Contract\PackerInterface;
-use Psr\Container\ContainerExceptionInterface;
+use Next\Utils\Packer\PhpSerializePacker;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Server\MiddlewareInterface;
@@ -81,15 +82,10 @@ class SessionMiddleware implements MiddlewareInterface
 
     protected PackerInterface $packer;
 
-    /**
-     * @throws \ReflectionException
-     * @throws ContainerExceptionInterface
-     */
     public function __construct()
     {
-        $config               = config('session');
-        $this->sessionHandler = make($config['handler'], $config['options']);
-        $this->packer         = make(PackerInterface::class);
+        $this->sessionHandler = new FileHandler();
+        $this->packer         = new PhpSerializePacker();
     }
 
     public function process(ServerRequestInterface $request, RequestHandlerInterface $handler): ResponseInterface

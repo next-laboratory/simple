@@ -15,7 +15,6 @@ use Next\Http\Message\Cookie;
 use Next\Http\Message\Response as PsrResponse;
 use Next\Http\Message\Stream\FileStream;
 use Next\Utils\Contract\Arrayable;
-use Next\View\ViewFactory;
 use Psr\Container\ContainerExceptionInterface;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
