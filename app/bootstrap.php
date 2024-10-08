@@ -39,21 +39,21 @@ if (file_exists($envFile = base_path('.env'))) {
     }
 }
 
-$repository = $container->make(Repository::class);
-$files      = (new Filesystem())->files(base_path('./config'), pattern: '*.php');
-foreach ($files as $file) {
-    $repository->set(pathinfo($file->getBasename(), PATHINFO_FILENAME), include $file);
-}
+//$repository = $container->make(Repository::class);
+//$files      = (new Filesystem())->files(base_path('./config'), pattern: '*.php');
+//foreach ($files as $file) {
+//    $repository->set(pathinfo($file->getBasename(), PATHINFO_FILENAME), include $file);
+//}
 
 // Initialize bindings
-foreach ($repository->get('app.bindings', []) as $id => $value) {
-    $container->bind($id, $value);
-}
+//foreach ($repository->get('app.bindings', []) as $id => $value) {
+//    $container->bind($id, $value);
+//}
 
 // Initialize event listeners
-$listenerProvider = $container->make(ListenerProvider::class);
-if (!empty($listeners = $repository->get('app.listeners', []))) {
-    foreach ($listeners as $listener) {
-        $listenerProvider->addListener($container->make($listener));
-    }
-}
+//$listenerProvider = $container->make(ListenerProvider::class);
+//if (!empty($listeners = $repository->get('app.listeners', []))) {
+//    foreach ($listeners as $listener) {
+//        $listenerProvider->addListener($container->make($listener));
+//    }
+//}

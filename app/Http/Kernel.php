@@ -6,9 +6,9 @@ use App\Http;
 use App\Http\Controllers\IndexController;
 use App\Http\Middlewares\ExceptionHandleMiddleware;
 use App\Http\Middlewares\RouteDispatcher;
-use Next\Http\Server\FPMResponseEmitter;
 use Next\Http\Server\RequestHandler;
 use Next\Routing\Router;
+use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 
 class Kernel
@@ -36,12 +36,10 @@ class Kernel
                });
     }
 
-    public function handle(ServerRequestInterface $request)
+    public function handle(ServerRequestInterface $request): ResponseInterface
     {
-        $response = (new RequestHandler())
+        return (new RequestHandler())
             ->withMiddleware(new ExceptionHandleMiddleware(), new RouteDispatcher($this->router))
             ->handle($request);
-
-        (new FPMResponseEmitter())->emit($response);
     }
 }

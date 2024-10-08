@@ -11,9 +11,10 @@ declare(strict_types=1);
 
 use App\Http\Kernel;
 use App\Http\ServerRequest;
+use Next\Http\Server\FPMResponseEmitter;
 
 date_default_timezone_set('PRC');
 define('BASE_PATH', dirname(__DIR__) . '/');
 require_once BASE_PATH . 'vendor/autoload.php';
 
-(new Kernel())->handle(ServerRequest::createFromGlobals());
+(new FPMResponseEmitter())->emit((new Kernel())->handle(ServerRequest::createFromGlobals()));
