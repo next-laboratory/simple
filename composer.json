@@ -1,0 +1,44 @@
+{
+  "name": "next/nano",
+  "type": "project",
+  "autoload": {
+    "psr-4": {
+      "App\\": "src"
+    },
+    "files": [
+      "src/helpers.php"
+    ]
+  },
+  "authors": [
+    {
+      "name": "chengyao"
+    }
+  ],
+  "require": {
+    "next/http-server": "0.1.x-dev",
+    "next/routing": "0.1.x-dev",
+    "next/session": "^0.1.1",
+    "next/utils": "^0.1.1",
+    "monolog/monolog": "^3.7"
+  },
+  "minimum-stability": "dev",
+  "prefer-stable": true,
+  "repositories": [
+    {
+      "type": "path",
+      "url": "../next/src/aop"
+    },
+    {
+      "type": "path",
+      "url": "../next/src/http-server"
+    },
+    {
+      "type": "path",
+      "url": "../next/src/http-message"
+    },
+    {
+      "type": "path",
+      "url": "../next/src/routing"
+    }
+  ]
+}
