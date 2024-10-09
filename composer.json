@@ -1,6 +1,16 @@
 {
   "name": "next/nano",
+  "license": "Apache-2.0",
+  "description": "一款支持swoole/workerman/cli-server/FPM环境的PHP框架。",
   "type": "project",
+  "keywords": [
+    "nextphp",
+    "swoole",
+    "workerman",
+    "FPM",
+    "flexible",
+    "php framework"
+  ],
   "autoload": {
     "psr-4": {
       "App\\": "src"
@@ -11,15 +21,45 @@
   },
   "authors": [
     {
-      "name": "chengyao"
+      "name": "chengyao",
+      "email": "987861463@qq.com"
     }
   ],
   "require": {
+    "php": "^8.2",
     "next/http-server": "0.1.x-dev",
     "next/routing": "0.1.x-dev",
     "next/session": "^0.1.1",
     "next/utils": "^0.1.1",
     "monolog/monolog": "^3.7"
+  },
+  "require-dev": {
+    "friendsofphp/php-cs-fixer": "^3.11",
+    "pestphp/pest": "^2.34",
+    "phpstan/phpstan": "^1.11",
+    "zircote/swagger-php": "^4.10"
+  },
+  "config": {
+    "optimize-autoloader": true,
+    "preferred-install": "dist",
+    "sort-packages": true,
+    "allow-plugins": {
+      "pestphp/pest-plugin": true
+    }
+  },
+  "scripts": {
+    "post-autoload-dump": [
+      "rm -rf runtime/aop"
+    ],
+    "post-root-package-install": [
+      "@php -r \"file_exists('.env') || copy('.example.env', '.env');\""
+    ],
+    "test": "@php ./vendor/bin/phpunit -c phpunit.xml --colors=always",
+    "cs-fix": "@php ./vendor/bin/php-cs-fixer fix $1",
+    "analyse": "@php ./vendor/bin/phpstan analyse --memory-limit 300M -l 0 -c phpstan.neon $1",
+    "swagger": [
+      "@php ./vendor/bin/openapi -o ./public/openapi.json ./app/Http/Controller"
+    ]
   },
   "minimum-stability": "dev",
   "prefer-stable": true,
