@@ -9,8 +9,9 @@ declare(strict_types=1);
  * @license  https://github.com/next-laboratory/next/blob/master/LICENSE
  */
 
-use App\Kernel;
+use App\Middlewares\ExceptionHandleMiddleware;
 use App\ServerRequest;
+use Next\Http\Server\RequestHandler;
 use Next\Http\Server\SwooleResponseEmitter;
 use Swoole\Http\Request;
 use Swoole\Http\Response;
@@ -20,11 +21,18 @@ date_default_timezone_set('PRC');
 define('BASE_PATH', dirname(__DIR__) . '/');
 require_once BASE_PATH . 'vendor/autoload.php';
 
-$server = new Server('0.0.0.0', 8989);
-$kernel = new Kernel();
+$server            = new Server('0.0.0.0', 8989);
+$globalMiddlewares = [
+    new ExceptionHandleMiddleware(),
+    require_once base_path('src/router.php'),
+];
 
-$server->on('request', function (Request $request, Response $response) use ($kernel) {
-    (new SwooleResponseEmitter())->emit($kernel->handle(ServerRequest::createFromSwooleRequest($request)), $response);
+$server->on('request', function (Request $request, Response $response) use ($globalMiddlewares) {
+    $psrResponse = (new RequestHandler())
+        ->withMiddleware(...$globalMiddlewares)
+        ->handle(ServerRequest::createFromSwooleRequest($request));
+
+    (new SwooleResponseEmitter())->emit($psrResponse, $response);
 });
 
 $server->start();
