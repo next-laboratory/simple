@@ -11,8 +11,7 @@ class RequestHandler implements RequestHandlerInterface
 {
     public function __construct(
         protected Route $route,
-    )
-    {
+    ) {
     }
 
     public function handle(ServerRequestInterface $request): ResponseInterface

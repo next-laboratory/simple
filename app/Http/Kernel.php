@@ -2,10 +2,13 @@
 
 namespace App\Http;
 
-use App\Http;
 use App\Http\Controllers\IndexController;
+use App\Http\Middlewares\CORSMiddleware;
 use App\Http\Middlewares\ExceptionHandleMiddleware;
+use App\Http\Middlewares\ParseBodyMiddleware;
 use App\Http\Middlewares\RouteDispatcher;
+use App\Http\Middlewares\SessionMiddleware;
+use App\Http\Middlewares\VerifyCSRFToken;
 use Next\Http\Server\RequestHandler;
 use Next\Routing\Router;
 use Psr\Http\Message\ResponseInterface;
@@ -22,16 +25,16 @@ class Kernel
 
     protected function map(Router $router): void
     {
-        $router->middleware(new Http\Middlewares\SessionMiddleware(), new Http\Middlewares\VerifyCSRFToken())
+        $router->middleware(new SessionMiddleware(), new VerifyCSRFToken())
                ->group(function (Router $router) {
                    $router->get('/', [new IndexController(), 'index']);
-                   $router->get('openapi', [new IndexController(), 'opanapi']);
+                   $router->get('openapi', [new IndexController(), 'opanapi'])->middleware(new CORSMiddleware());
                });
         $router->prefix('api')
-               ->middleware(new Http\Middlewares\ParseBodyMiddleware())
+               ->middleware(new ParseBodyMiddleware())
                ->group(function (Router $router) {
                    $router->get('/', function () {
-                       return Http\Response::JSON(['version' => '0.1.1']);
+                       return Response::JSON(['version' => '0.1.1']);
                    });
                });
     }
