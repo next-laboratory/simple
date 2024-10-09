@@ -3,8 +3,8 @@
 namespace App\Middlewares;
 
 use App\RequestHandler;
+use Closure;
 use Next\Routing\Router;
-use Next\Routing\UrlMatcher;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Server\MiddlewareInterface;
@@ -12,13 +12,18 @@ use Psr\Http\Server\RequestHandlerInterface;
 
 class RouteDispatcher implements MiddlewareInterface
 {
-    protected UrlMatcher $urlMatcher;
+    protected Router $router;
 
-    public function __construct(
-        protected Router $router,
-    )
+    public function __construct()
     {
-        $this->urlMatcher = new UrlMatcher($this->router->getRouteCollection());
+        $this->router = new Router();
+    }
+
+    public function withRoutes(Closure $callback): static
+    {
+        $callback($this->router);
+
+        return $this;
     }
 
     /**
@@ -29,7 +34,7 @@ class RouteDispatcher implements MiddlewareInterface
      */
     public function process(ServerRequestInterface $request, RequestHandlerInterface $handler): ResponseInterface
     {
-        $route = $this->urlMatcher->matchRequest($request);
+        $route = $this->router->matchRequest($request);
         return $handler->withHandler(new RequestHandler($route))
                        ->withMiddleware(...$route->getMiddlewares())
                        ->handle($request);

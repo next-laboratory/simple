@@ -9,9 +9,6 @@ declare(strict_types=1);
  * @license  https://github.com/next-laboratory/next/blob/master/LICENSE
  */
 
-use Next\Config\Repository;
-use Next\Di\Context;
-
 if (function_exists('base_path') === false) {
     function base_path(string $path = ''): string
     {
@@ -23,14 +20,6 @@ if (function_exists('public_path') === false) {
     function public_path(string $path = ''): string
     {
         return base_path('public/' . ltrim($path, '/'));
-    }
-}
-
-if (function_exists('config') === false) {
-    function config(string $key, mixed $default = null): mixed
-    {
-        $config = Context::getContainer()->make(Repository::class);
-        return $config->get($key, $default);
     }
 }
 
