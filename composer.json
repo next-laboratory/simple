@@ -27,11 +27,12 @@
   ],
   "require": {
     "php": "^8.2",
+    "monolog/monolog": "^3.7",
     "next/http-server": "0.1.x-dev",
     "next/routing": "0.1.x-dev",
     "next/session": "^0.1.1",
     "next/utils": "^0.1.1",
-    "monolog/monolog": "^3.7"
+    "workerman/workerman": "^4.1"
   },
   "require-dev": {
     "friendsofphp/php-cs-fixer": "^3.11",

@@ -21,18 +21,17 @@ date_default_timezone_set('PRC');
 define('BASE_PATH', dirname(__DIR__) . '/');
 require_once BASE_PATH . 'vendor/autoload.php';
 
-$server            = new Server('0.0.0.0', 8989);
-$globalMiddlewares = [
-    new ExceptionHandleMiddleware(),
-    require_once base_path('src/router.php'),
-];
+$server          = new Server('0.0.0.0', 8989);
+$routeDispatcher = require_once base_path('src/router.php');
 
-$server->on('request', function (Request $request, Response $response) use ($globalMiddlewares) {
-    $psrResponse = (new RequestHandler())
-        ->withMiddleware(...$globalMiddlewares)
+$server->on('request', function (Request $request, Response $response) use ($routeDispatcher) {
+    (new RequestHandler())
+        ->withMiddleware(
+            new ExceptionHandleMiddleware(),
+            new \App\Middlewares\SwooleResponseEmitter($response),
+            $routeDispatcher
+        )
         ->handle(ServerRequest::createFromSwooleRequest($request));
-
-    (new SwooleResponseEmitter())->emit($psrResponse, $response);
 });
 
 $server->start();
