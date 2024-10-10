@@ -21,14 +21,6 @@ use Psr\Http\Message\ServerRequestInterface;
 
 class Response extends PsrResponse
 {
-    protected const DEFAULT_DOWNLOAD_HEADERS = [
-        'Pragma'                    => 'public',
-        'Expires'                   => '0',
-        'Cache-Control'             => 'must-revalidate, post-check=0, pre-check=0',
-        'Content-Type'              => 'application/octet-stream',
-        'Content-Transfer-Encoding' => 'binary',
-    ];
-
     /**
      * 渲染视图.
      *
@@ -56,10 +48,14 @@ class Response extends PsrResponse
      */
     public static function download(string $file, string $name = '', int $offset = 0, int $length = 0): ResponseInterface
     {
-        $name                           = $name ?: pathinfo($file, PATHINFO_BASENAME);
-        $headers                        = static::DEFAULT_DOWNLOAD_HEADERS;
-        $headers['Content-Disposition'] = sprintf('attachment;filename=%s', rawurlencode($name));
-        return new static(200, $headers, new FileStream($file, $offset, $length));
+        return new static(200, [
+            'Pragma'                    => 'public',
+            'Expires'                   => '0',
+            'Cache-Control'             => 'must-revalidate, post-check=0, pre-check=0',
+            'Content-Type'              => 'application/octet-stream',
+            'Content-Transfer-Encoding' => 'binary',
+            'Content-Disposition'       => sprintf('attachment;filename=%s', rawurlencode($name ?: pathinfo($file, PATHINFO_BASENAME))),
+        ], new FileStream($file, $offset, $length));
     }
 
     /**
@@ -138,7 +134,7 @@ class Response extends PsrResponse
         bool   $secure = false,
         bool   $httponly = false,
         string $sameSite = ''
-    ): static
+    )
     {
         $cookie = new Cookie(...func_get_args());
         return $this->withAddedHeader('Set-Cookie', $cookie->__toString());
