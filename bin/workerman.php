@@ -24,13 +24,17 @@ require_once BASE_PATH . 'vendor/autoload.php';
 $worker            = new Worker('http://0.0.0.0:8989');
 $routeDispatcher   = require_once base_path('src/router.php');
 $worker->onMessage = function (TcpConnection $connection, Request $request) use ($routeDispatcher) {
-    (new RequestHandler())
-        ->withMiddleware(
-            new ExceptionHandleMiddleware(),
-            new WorkermanResponseEmitter($connection),
-            $routeDispatcher
-        )
-        ->handle(ServerRequest::createFromWorkerManRequest($request));
+    try {
+        (new RequestHandler())
+            ->withMiddleware(
+                new WorkermanResponseEmitter($connection),
+                new ExceptionHandleMiddleware(),
+                $routeDispatcher
+            )
+            ->handle(ServerRequest::createFromWorkerManRequest($request));
+    } catch (Exception $e) {
+        $connection->send('Internal Server Error');
+    }
 };
 
 Worker::runAll();

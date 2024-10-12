@@ -12,7 +12,6 @@ declare(strict_types=1);
 use App\Middlewares\ExceptionHandleMiddleware;
 use App\ServerRequest;
 use Next\Http\Server\RequestHandler;
-use Next\Http\Server\SwooleResponseEmitter;
 use Swoole\Http\Request;
 use Swoole\Http\Response;
 use Swoole\Http\Server;
@@ -25,13 +24,17 @@ $server          = new Server('0.0.0.0', 8989);
 $routeDispatcher = require_once base_path('src/router.php');
 
 $server->on('request', function (Request $request, Response $response) use ($routeDispatcher) {
-    (new RequestHandler())
-        ->withMiddleware(
-            new ExceptionHandleMiddleware(),
-            new \App\Middlewares\SwooleResponseEmitter($response),
-            $routeDispatcher
-        )
-        ->handle(ServerRequest::createFromSwooleRequest($request));
+    try {
+        (new RequestHandler())
+            ->withMiddleware(
+                new ExceptionHandleMiddleware(),
+                new \App\Middlewares\SwooleResponseEmitter($response),
+                $routeDispatcher
+            )
+            ->handle(ServerRequest::createFromSwooleRequest($request));
+    } catch (\Throwable $e) {
+        $response->end('Internal Server Error');
+    }
 });
 
 $server->start();

@@ -2,6 +2,7 @@
 
 namespace App\Middlewares;
 
+use InvalidArgumentException;
 use Next\Http\Message\Cookie;
 use Next\Http\Message\Stream\FileStream;
 use Psr\Http\Message\ResponseInterface;

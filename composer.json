@@ -32,6 +32,7 @@
     "next/routing": "0.1.x-dev",
     "next/session": "^0.1.1",
     "next/utils": "^0.1.1",
+    "vlucas/phpdotenv": "^5.6",
     "workerman/workerman": "^4.1"
   },
   "require-dev": {
