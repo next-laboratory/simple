@@ -10,6 +10,7 @@ declare(strict_types=1);
  */
 
 use App\Middlewares\ExceptionHandleMiddleware;
+use App\Middlewares\SwooleResponseEmitter;
 use App\ServerRequest;
 use Next\Http\Server\RequestHandler;
 use Swoole\Http\Request;
@@ -27,8 +28,8 @@ $server->on('request', function (Request $request, Response $response) use ($rou
     try {
         (new RequestHandler())
             ->withMiddleware(
+                new SwooleResponseEmitter($response),
                 new ExceptionHandleMiddleware(),
-                new \App\Middlewares\SwooleResponseEmitter($response),
                 $routeDispatcher
             )
             ->handle(ServerRequest::createFromSwooleRequest($request));
