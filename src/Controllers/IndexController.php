@@ -12,12 +12,17 @@ declare(strict_types=1);
 namespace App\Controllers;
 
 use App\Response;
+use Next\Di\Container;
+use Next\Foundation\Di\Attribute\Inject;
 use OpenApi\Attributes as OA;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 
 class IndexController extends Controller
 {
+    #[Inject]
+    protected Container $container;
+
     /**
      * 注意： 如果需要使用请求变量，切记变量名为$request，否则不能注入.
      */
@@ -32,7 +37,7 @@ class IndexController extends Controller
         summary: '获取接口文档',
         tags: ['Index'],
         responses: [
-            new OA\Response(response: 200, description: '接口文档')
+            new OA\Response(response: 200, description: '接口文档'),
         ]
     )]
     public function opanapi(): ResponseInterface

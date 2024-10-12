@@ -28,6 +28,8 @@
   "require": {
     "php": "^8.2",
     "monolog/monolog": "^3.7",
+    "next/aop": "0.1.x-dev",
+    "next/foundation": "^0.1.2",
     "next/http-server": "0.1.x-dev",
     "next/routing": "0.1.x-dev",
     "next/session": "^0.1.1",
@@ -37,6 +39,7 @@
   },
   "require-dev": {
     "friendsofphp/php-cs-fixer": "^3.11",
+    "next/var-dumper": "0.1.x-dev",
     "pestphp/pest": "^2.34",
     "phpstan/phpstan": "^1.11",
     "zircote/swagger-php": "^4.10"
@@ -81,6 +84,14 @@
     {
       "type": "path",
       "url": "../next/src/routing"
+    },
+    {
+      "type": "path",
+      "url": "../next/src/foundation"
+    },
+    {
+      "type": "path",
+      "url": "../next/src/var-dumper"
     }
   ]
 }

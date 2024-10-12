@@ -16,6 +16,8 @@ use App\Response;
 use Next\Http\Message\Contract\StatusCodeInterface;
 use Next\Http\Message\Exception\HttpException;
 use Next\Utils\Arr;
+use Next\VarDumper\Dumper;
+use Next\VarDumper\DumperHandler;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Server\MiddlewareInterface;
@@ -23,6 +25,8 @@ use Psr\Http\Server\RequestHandlerInterface;
 
 class ExceptionHandleMiddleware implements MiddlewareInterface
 {
+    use DumperHandler;
+
     /**
      * A list of the exception types that are not reported.
      *
@@ -75,44 +79,24 @@ class ExceptionHandleMiddleware implements MiddlewareInterface
     protected function render(\Throwable $e, ServerRequestInterface $request): ResponseInterface
     {
         return match (true) {
-            env('APP_DEBUG') => $this->defaultRender($e, $request),
-            default => Response::text($e->getMessage(), $this->getStatusCode($e)),
+            $e instanceof Dumper => Response::HTML(self::convertToHtml($e)),
+            env('APP_DEBUG')     => $this->defaultRender($e, $request),
+            default              => Response::text($e->getMessage(), $this->getStatusCode($e)),
         };
     }
 
     protected function defaultRender(\Throwable $e, ServerRequestInterface $request): ResponseInterface
     {
-        $message    = $e->getMessage();
-        $statusCode = $this->getStatusCode($e);
         if (str_contains($request->getHeaderLine('Accept'), 'json')
             || strcasecmp('XMLHttpRequest', $request->getHeaderLine('X-REQUESTED-WITH')) === 0) {
-            $body = json_encode([
-                'status'  => false,
-                'code'    => $statusCode,
+            return new Response($this->getStatusCode($e), ['Content-Type' => 'application/json; charset=utf-8'], json_encode([
+                'code'    => 0,
                 'data'    => $e->getTrace(),
-                'message' => $message,
-            ], JSON_UNESCAPED_UNICODE);
-
-            return new Response($statusCode, ['Content-Type' => 'application/json; charset=utf-8'], $body);
+                'message' => $e->getMessage(),
+            ], JSON_UNESCAPED_UNICODE));
         }
-        $html = <<<'HTML'
-<html lang="zh">
-    <head>
-        <title>%s</title>
-        </head>
-        <body>
-<pre style="white-space: break-spaces">
-<b style="color: red">%s %s in %s:%d</b>
-<b>Stack Trace</b>
-%s
-</pre>
-        </body>
-</html>
-HTML;
 
-        $body = sprintf($html, $message, $e::class, $message, $e->getFile(), $e->getLine(), $e->getTraceAsString());
-
-        return new Response($statusCode, ['Content-Type' => 'text/html; charset=utf-8'], $body);
+        return new Response($this->getStatusCode($e), ['Content-Type' => 'text/plain; charset=utf-8'], $e->getMessage());
     }
 
     protected function getStatusCode(\Throwable $e)
