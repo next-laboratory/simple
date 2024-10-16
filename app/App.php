@@ -21,7 +21,7 @@ class App extends \Next\Http\Server\RequestHandler
             }
         }
 
-        $this->routeDispatcher = require_once base_path('src/router.php');
+        $this->routeDispatcher = require_once base_path('app/router.php');
     }
 
     public function withGlobalMiddlewares(): array

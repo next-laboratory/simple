@@ -13,6 +13,6 @@ require_once BASE_PATH . 'vendor/autoload.php';
     ->withMiddleware(
         new FPMResponseEmitter(),
         new ExceptionHandleMiddleware(),
-        require_once base_path('src/router.php'),
+        require_once base_path('app/router.php'),
     )
     ->handle(ServerRequest::createFromGlobals());

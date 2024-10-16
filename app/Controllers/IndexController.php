@@ -42,7 +42,7 @@ class IndexController extends Controller
     )]
     public function opanapi(): ResponseInterface
     {
-        $openapi = \OpenApi\Generator::scan([base_path('app/Http/Controllers')]);
+        $openapi = \OpenApi\Generator::scan([base_path('app/Controllers')]);
 
         return Response::JSON($openapi->toJson());
     }
