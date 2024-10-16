@@ -38,11 +38,4 @@ class Kernel
                    });
                });
     }
-
-    public function handle(ServerRequestInterface $request): ResponseInterface
-    {
-        return (new RequestHandler())
-            ->withMiddleware(new ExceptionHandleMiddleware(), new RouteDispatcher($this->router))
-            ->handle($request);
-    }
 }
