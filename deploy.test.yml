@@ -1,0 +1,30 @@
+version: '3.7'
+services:
+  nextphp:
+    image: $REGISTRY_URL/$PROJECT_NAME:test
+    environment:
+      - "APP_PROJECT=nextphp"
+      - "APP_ENV=test"
+    ports:
+      - 8989:8989
+    deploy:
+      replicas: 1
+      restart_policy:
+        condition: on-failure
+        delay: 5s
+        max_attempts: 5
+      update_config:
+        parallelism: 2
+        delay: 5s
+        order: start-first
+    networks:
+      - nextphp_net
+    configs:
+      - source: nextphp_1.0
+        target: /www/.env
+configs:
+  nextphp_1.0:
+    external: true
+networks:
+  nextphp_net:
+    external: true
