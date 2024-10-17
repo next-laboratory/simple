@@ -5,7 +5,8 @@ use App\Middlewares\FPMResponseEmitter;
 use App\ServerRequest;
 use Next\Http\Server\RequestHandler;
 
-require_once '../app/bootstrap.php';
+define('BASE_PATH', dirname(__DIR__) . '/');
+require_once BASE_PATH . 'vendor/autoload.php';
 
 (new RequestHandler())
     ->withMiddleware(

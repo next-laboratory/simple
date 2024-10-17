@@ -9,10 +9,22 @@ declare(strict_types=1);
  * @license  https://github.com/next-laboratory/next/blob/master/LICENSE
  */
 
+use Dotenv\Dotenv;
+
+date_default_timezone_set('PRC');
+
 if (function_exists('base_path') === false) {
     function base_path(string $path = ''): string
     {
         return BASE_PATH . ltrim($path, '/');
+    }
+}
+
+if (file_exists($envFile = base_path('.env'))) {
+    if (method_exists('Dotenv\Dotenv', 'createUnsafeImmutable')) {
+        Dotenv::createUnsafeImmutable(base_path())->load();
+    } else {
+        Dotenv::createMutable(base_path())->load();
     }
 }
 
