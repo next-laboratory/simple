@@ -103,8 +103,7 @@ class CORSMiddleware implements MiddlewareInterface
         if (empty($origin)) {
             return false;
         }
-        return collect($this->allowOrigin)->first(function ($allowOrigin) use ($origin) {
-            return Str::is($allowOrigin, $origin);
-        });
+
+        return collect($this->allowOrigin)->first(fn($allowOrigin) => Str::is($allowOrigin, $origin));
     }
 }

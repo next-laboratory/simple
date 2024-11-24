@@ -7,7 +7,7 @@
 <p align="center">
 <a href="https://github.com/next-laboratory/simple/issues"><img src="https://img.shields.io/github/issues/next-laboratory/simple" alt=""></a>
 <a href="https://github.com/next-laboratory/simple"><img src="https://img.shields.io/github/stars/next-laboratory/simple" alt=""></a>
-<img src="https://img.shields.io/badge/php-%3E%3D8.0-brightgreen" alt="">
+<img src="https://img.shields.io/badge/php-%3E%3D8.2-brightgreen" alt="">
 <img src="https://img.shields.io/badge/license-apache%202-blue" alt="">
 </p>
 
