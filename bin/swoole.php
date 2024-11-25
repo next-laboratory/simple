@@ -22,7 +22,7 @@ define('BASE_PATH', dirname(__DIR__) . '/');
 require_once BASE_PATH . 'vendor/autoload.php';
 
 $server          = new Server('0.0.0.0', 8989);
-$routeDispatcher = require_once base_path('src/router.php');
+$routeDispatcher = require_once base_path('app/router.php');
 
 $server->on('request', function (Request $request, Response $response) use ($routeDispatcher) {
     try {
