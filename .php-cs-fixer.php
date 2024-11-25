@@ -1,7 +1,7 @@
 <?php
 
 $header = <<<'EOF'
-This file is part of nextphp.
+This file is part of NextPHP.
 
 @link     https://github.com/next-laboratory
 @license  https://github.com/next-laboratory/next/blob/master/LICENSE
@@ -21,13 +21,13 @@ return (new PhpCsFixer\Config())
             'location'     => 'after_declare_strict',
         ],
         'array_syntax'                           => [
-            'syntax' => 'short'
+            'syntax' => 'short',
         ],
         'list_syntax'                            => [
-            'syntax' => 'short'
+            'syntax' => 'short',
         ],
         'concat_space'                           => [
-            'spacing' => 'one'
+            'spacing' => 'one',
         ],
         'blank_line_before_statement'            => [
             'statements' => [
@@ -36,7 +36,7 @@ return (new PhpCsFixer\Config())
         ],
         'general_phpdoc_annotation_remove'       => [
             'annotations' => [
-                'author'
+                'author',
             ],
         ],
         'ordered_imports'                        => [
@@ -64,7 +64,7 @@ return (new PhpCsFixer\Config())
             'case' => 'lower',
         ],
         'binary_operator_spaces'                 => [
-            'default' => 'align'
+            'default' => 'align',
         ],
         'class_attributes_separation'            => true,
         'combine_consecutive_unsets'             => true,
