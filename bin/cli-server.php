@@ -9,6 +9,10 @@ declare(strict_types=1);
  * @license  https://github.com/next-laboratory/next/blob/master/LICENSE
  */
 
+date_default_timezone_set('PRC');
+define('BASE_PATH', dirname(__DIR__) . '/');
+require_once BASE_PATH . 'app/bootstrap.php';
+
 echo <<<EOT
 ,--.  ,--.                   ,--.  ,------. ,--.  ,--.,------.
 |  ,'.|  | ,---. ,--.  ,--.,-'  '-.|  .--. '|  '--'  ||  .--. '
@@ -18,8 +22,8 @@ echo <<<EOT
 
 EOT;
 
-$host = '0.0.0.0';
-$port = '8989';
+$host = env('SERVER_HOST', '0.0.0.0');
+$port = (int)env('SERVER_PORT', 8989);
 printf("System       Name:       %s\n", strtolower(PHP_OS));
 printf("PHP          Version:    %s\n", PHP_VERSION);
 printf("Listen       Addr:       %s\n", $host . ':' . $port);
