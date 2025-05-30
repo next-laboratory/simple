@@ -17,7 +17,7 @@ use Swoole\Http\Request;
 use Swoole\Http\Response;
 use Swoole\Http\Server;
 
-date_default_timezone_set('PRC');
+date_default_timezone_set('Asia/Shanghai');
 define('BASE_PATH', dirname(__DIR__) . '/');
 require_once BASE_PATH . 'app/bootstrap.php';
 

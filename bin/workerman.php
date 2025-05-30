@@ -17,7 +17,7 @@ use Workerman\Connection\TcpConnection;
 use Workerman\Protocols\Http\Request;
 use Workerman\Worker;
 
-date_default_timezone_set('PRC');
+date_default_timezone_set('Asia/Shanghai');
 define('BASE_PATH', dirname(__DIR__) . '/');
 require_once BASE_PATH . 'vendor/autoload.php';
 

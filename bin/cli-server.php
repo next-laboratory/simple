@@ -9,7 +9,7 @@ declare(strict_types=1);
  * @license  https://github.com/next-laboratory/next/blob/master/LICENSE
  */
 
-date_default_timezone_set('PRC');
+date_default_timezone_set('Asia/Shanghai');
 define('BASE_PATH', dirname(__DIR__) . '/');
 require_once BASE_PATH . 'app/bootstrap.php';
 

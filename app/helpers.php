@@ -11,7 +11,7 @@ declare(strict_types=1);
 
 use Dotenv\Dotenv;
 
-date_default_timezone_set('PRC');
+date_default_timezone_set('Asia/Shanghai');
 
 if (function_exists('base_path') === false) {
     function base_path(string $path = ''): string
