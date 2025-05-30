@@ -1,5 +1,5 @@
 {
-  "name": "next/nano",
+  "name": "next/simple",
   "license": "Apache-2.0",
   "description": "一款支持swoole/workerman/cli-server/FPM环境的PHP框架。",
   "type": "project",
@@ -22,7 +22,7 @@
   "authors": [
     {
       "name": "chengyao",
-      "email": "chengyao320@outlook.com"
+      "email": "chengyao0320@foxmail.com"
     }
   ],
   "require": {
@@ -42,6 +42,7 @@
     "next/var-dumper": "0.1.x-dev",
     "pestphp/pest": "^2.34",
     "phpstan/phpstan": "^1.11",
+    "swoole/ide-helper": "^6.0",
     "zircote/swagger-php": "^4.10"
   },
   "config": {
@@ -67,31 +68,5 @@
     ]
   },
   "minimum-stability": "dev",
-  "prefer-stable": true,
-  "repositories": [
-    {
-      "type": "path",
-      "url": "../next/src/aop"
-    },
-    {
-      "type": "path",
-      "url": "../next/src/http-server"
-    },
-    {
-      "type": "path",
-      "url": "../next/src/http-message"
-    },
-    {
-      "type": "path",
-      "url": "../next/src/routing"
-    },
-    {
-      "type": "path",
-      "url": "../next/src/foundation"
-    },
-    {
-      "type": "path",
-      "url": "../next/src/var-dumper"
-    }
-  ]
+  "prefer-stable": true
 }
