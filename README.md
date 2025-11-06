@@ -11,7 +11,7 @@
 <img src="https://img.shields.io/badge/license-apache%202-blue" alt="">
 </p>
 
-一款支持swoole, workerman, FPM环境的组件化的轻量`PHP`框架，可以用作`API`开发，方便快速。框架默认安装了`next/session`扩展包，如果不需要可以直接移除。
+一款支持swoole, workerman, FPM环境的组件化的轻量`PHP`框架
 
 ## 环境要求
 
@@ -33,10 +33,9 @@ composer create-project next/simple
 ### 启动服务
 
 ```php
-php bin/cli.php serve:swoole     // swoole异步模式
-php bin/cli.php serve:swoole-co  // swoole协程模式
-php bin/cli.php serve:workerman  // workerman服务
-php bin/cli.php serve:cli-server // 内置服务
+php bin/cli-server.php           // 内置服务
+php bin/swoole.php               // swoole
+php bin/workerman.php            // workerman
 ```
 
 > FPM模式，将请求指向public/index.php即可
@@ -49,7 +48,19 @@ php bin/cli.php serve:cli-server // 内置服务
 
 ### 路由定义
 
-> swoole/swoole-co/workerman/amp/react下配置了AOP就可以使用注解定义
+> 路由定义在 `app/router.php` 文件中，也可以使用注解定义（需要安装AOP包，且不支持FPM/内置服务）
+
+下面是在`app/router.php`中定义的路由
+
+```php
+$router->middleware(new SessionMiddleware(), new VerifyCSRFToken())
+   ->group(function (Router $router) {
+       $router->get('/', [new IndexController(), 'index']);
+       $router->get('openapi', [new IndexController(), 'opanapi']);
+   });
+```
+
+当你使用swoole/swoole/workerman/amp/reactphp并且使用了AOP就可以使用注解定义
 
 ```php
 <?php
@@ -73,19 +84,6 @@ class IndexController
 如上请求`0.0.0.0:8989` 会指向`index`方法，控制器方法支持依赖注入，如需当前请求示例，则请求参数名必须是`request`
 ，其他路由参数均会被注入，控制器方法需要返回`ResponseInterface`实例。
 
-> FPM或内置服务下不能使用注解
-
-路由定义在`App\Http\Kernel`类的`map`方法中定义
-
-```php
-$router->middleware(TestMiddleware::class)->group(function(Router $router) {
-    $router->get('/', [IndexController::class, 'index']);
-    $router->get('/test', function(\Psr\Http\Message\ServerRequestInterface $request) {
-        return \App\Http\Response::HTML('new');
-    });
-});
-```
-
 ### 其他文档
 
 其他文档参考相应包的`README`
@@ -93,7 +91,3 @@ $router->middleware(TestMiddleware::class)->group(function(Router $router) {
 ## 参与开发
 
 欢迎有兴趣的朋友参与开发
-
-## 致谢
-
-感谢PHP最好用IDE: <a href="https://www.jetbrains.com/?from=next-laboratory">PHPStorm</a>
